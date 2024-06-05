@@ -9,3 +9,252 @@ format:
     link-external-newwindow: true
 ---
 
+## Subsetting in R
+
+### Preliminary concepts
+
+Subsetting allows you to pull out the pieces of an object you are interested in.
+
+**6 ways** of subsetting atomic vectors
+
+-   Positive integers\*
+-   Negative integers
+-   Logical vectors
+-   Nothing
+-   Zero
+-   Character vectors
+
+(\*Factors are *not* treated specially -subsetting uses the underlying integer vector)
+
+**3 operators:**
+
+1.  \[
+2.  \[\[
+3.  \$
+
+**Subsetting** can be combined **with** **assignment**
+
+⏩ OVERVIEW:
+
+-   Subsetting **multiple elements**
+
+-   Subsetting **single elements**
+
+-   Subsetting **with assignment**
+
+-   Further **applications**
+
+### Selecting multiple elements
+
+#### Atomic Vectors
+
+```{r}
+x <- c(2.1, 4.2, 3.3, 5.4)
+```
+
+1.  With **positive integers**
+
+```{r}
+
+# Return element at specified position
+x[c(3, 1)]
+
+# Duplicate indices will duplicate values
+x[c(1, 1)]
+
+# Real numbers are silently truncated to integers
+x[c(2.1, 2.9)]
+
+```
+
+2.  With **negative integers**
+
+```{r}
+
+# To exclude elements at specified positions 
+x[-c(3, 1)]
+
+```
+
+Note that they cannot be mixed with positive integers
+
+3.  With **logical vectors**
+
+```{r}
+
+# Return element where the corresponding logical value is TRUE
+x[c(TRUE, TRUE, FALSE, FALSE)]
+
+```
+
+When the logical vector contains a missing value (NA):
+
+```{r}
+
+# Missing value in the index returns a missing value also in the output 
+x[c(TRUE, TRUE, NA, FALSE)]
+```
+
+::: callout-note
+**Recycling rules**: when you subset a vector using a vector of a different length, R recycles the shorter of the two to the length of the longer
+:::
+
+```{r}
+x[c(TRUE, FALSE)]
+
+#Equivalent to 
+x[c(TRUE, FALSE, TRUE, FALSE)]
+```
+
+4.  With **nothing**
+
+More useful for 2D objects (e.g., data frames) than for 1D vectors
+
+```{r}
+# Return the original vector 
+x[]
+```
+
+5.  With **character vectors**
+
+To be used with named vectors
+
+```{r}
+
+#Return element with matching names 
+(y <- setNames(x, letters[1:4]))
+y[c("a")]
+
+# Like integer indices, you can repeat indices
+y[c("a", "a", "a")]
+
+```
+
+When subsetting with \[, names are always matched exactly..if no match, return NA
+
+6.  With **zero**
+
+```{r}
+#Returns a zero-length vector
+x[0]
+```
+
+#### Lists
+
+same way as subsetting an atomic vector.
+
+-   \[ always returns a list
+-   \[\[ and \$ pull out elements of a list
+
+##### Higher dimensional objects
+
+**3 ways of subsetting**: 1. With multiple vectors 2. With single vector 3. With a matrix
+
+**Matrices (2D) and arrays (\>2D)**
+
+Supply an index for each dimension separated by comma
+
+```{r}
+a <- matrix(1:9, nrow = 3) 
+colnames(a) <- c("A", "B", "C")
+
+a[1:2, ]
+
+a[c(TRUE, FALSE, TRUE), c("B", "A")]
+a[0, -2]
+```
+
+In R, subsetting a matrix (or array) using a single vector of indices treats the matrix as if it were a one-dimensional vector in column-major order (i.e., column-wise order). This means it traverses the matrix column by column, rather than row by row.
+
+```{r}
+vals <- outer(1:5, 1:5, FUN = "paste", sep = ",")  
+vals
+
+vals[c(4, 15)]
+```
+
+You can also subset higher-dimensional data structures with an integer matrix
+
+```{r}
+
+select <- matrix(ncol = 2, byrow = TRUE, c(1, 1, 3, 1,2, 4 ))
+
+vals[select]
+
+```
+
+**Data frames and tibbles**
+
+-   When subsetting with a single index, they behave like lists and index the columns
+-   When subsetting with two indices, they behave like matrices
+
+```{r}
+df <- data.frame(x = 1:3, y = 3:1, z = letters[1:3]) 
+df[df$x == 2, ]
+
+df[c(1, 3), ]
+
+# There are two ways to select columns from a data frame # Like a list
+df[c("x", "z")]
+
+# Like a matrix df[, c("x", "z")]
+df[, c("x", "z")]
+
+# There's an important difference if you select a single
+# column: matrix subsetting simplifies by default, list
+# subsetting does not.
+
+str(df["x"])
+
+str(df[, "x"])
+
+```
+
+**Dimensionality**
+
+::: callout-note
+**Dimensionality reduction**: when you subset with \[, \[ simplifies the results to the lowest possible dimensionality.
+:::
+
+```{r}
+
+#Both return a 1D vector
+a[1, ]
+a[1, 1]
+```
+
+To preserve the original dimensionality, you must use drop = FALSE
+
+```{r}
+
+#Example with data frames
+df <- data.frame(a = 1:2, b = 1:2)
+str(df[, "a"])
+
+str(df[, "a", drop = FALSE])
+
+```
+
+✳️ Why can 'drop = TRUE' by default be a problem?
+
+-   When you subset a 2D matrix or dataframe and the result has only one row or column, R simplifies the result to the lowest possible dimensionality \--\> from 2D df to 1D integer vector. This is a problem when e.g., you write a function that works on df (of 2D), but after subsetting it doesn't work anymore -because the df became a 1D vector.
+
+Factor subsetting also has a drop argument, but it controls whether or not levels are preserved, default is drop = FALSE
+
+```{r}
+
+z <- factor(c("a", "b"))
+z[1]
+
+z[1, drop = TRUE]
+```
+
+				
+
+			
+
+		
+
+	
+
+
