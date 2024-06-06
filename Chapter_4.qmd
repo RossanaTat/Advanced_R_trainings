@@ -146,9 +146,15 @@ same way as subsetting an atomic vector.
 -   \[ always returns a list
 -   \[\[ and \$ pull out elements of a list
 
-##### Higher dimensional objects
+#### Higher dimensional objects
 
-**3 ways of subsetting**: 1. With multiple vectors 2. With single vector 3. With a matrix
+**3 ways of subsetting**:
+
+1\. With multiple vectors
+
+2\. With single vector
+
+3\. With a matrix
 
 **Matrices (2D) and arrays (\>2D)**
 
@@ -324,15 +330,16 @@ Examples:
 -   Out-of-bounds values (OOB): Indices that exceed the length of the vector or list
 -   Missing values: Such as NA_integer\_
 
-#### @ and slot()
+#### \@ and slot()
 
-@: equivalent to \$ for S4 objects
+\@: equivalent to \$ for S4 objects
 
 slot(): equivalent to \[\[ for S4 objects
 
 ### Subsetting and assignment -Subassignment
 
 Example of modifying elements of a vector
+
 ```{r}
 x <- 1:5
 x[c(1, 2)] <- c(101, 102)
@@ -366,4 +373,3 @@ mtcars <- lapply(mtcars, as.integer)
 is.data.frame(mtcars)
 
 ```
-
