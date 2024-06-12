@@ -28,9 +28,9 @@ Subsetting allows you to pull out the pieces of an object you are interested in.
 
 **3 operators:**
 
-1. [
-2. [[
-3. $
+1.  \[
+2.  \[\[
+3.  \$
 
 **Subsetting** can be combined **with** **assignment**
 
@@ -130,7 +130,7 @@ y[c("a", "a", "a")]
 
 ```
 
-When subsetting with [, names are always matched exactly..if no match, return NA
+When subsetting with \[, names are always matched exactly..if no match, return NA
 
 6.  With **zero**
 
@@ -143,8 +143,8 @@ x[0]
 
 same way as subsetting an atomic vector.
 
--   [ always returns a list
--   [[ and $ pull out elements of a list
+-   \[ always returns a list
+-   \[\[ and \$ pull out elements of a list
 
 #### Higher dimensional objects
 
@@ -219,7 +219,7 @@ str(df[, "x"])
 #### **Dimensionality**
 
 ::: callout-note
-**Dimensionality reduction**: when you subset with [, [ simplifies the results to the lowest possible dimensionality.
+**Dimensionality reduction**: when you subset with \[, \[ simplifies the results to the lowest possible dimensionality.
 :::
 
 ```{r}
@@ -259,11 +259,11 @@ z[1, drop = TRUE]
 
 #### **2 operators:**
 
--   [[ extracts a single item
+-   \[\[ extracts a single item
 
--   $ shortcut for x[["y"]], commonly used to access var in df
+-   \$ shortcut for x\[\["y"\]\], commonly used to access var in df
 
-**\[\[** important when working with lists. As opposed to [ -which always return a *smaller* list- it extract the element itself.
+**\[\[** important when working with lists. As opposed to \[ -which always return a *smaller* list- it extract the element itself.
 
 Recommended for atomic vectors too when getting single value
 
@@ -277,11 +277,11 @@ x <- list(1:3, "a", 4:6)
 
 **NOTE:**
 
-Because [[ can return only a single item, you must use it with either a single positive integer or a single string. If you use a vector with [[ , it will *subset recursively,* i.e. x[[c(1, 2)]] is equivalent to x[[1]][[2]] .
+Because \[\[ can return only a single item, you must use it with either a single positive integer or a single string. If you use a vector with \[\[ , it will *subset recursively,* i.e. x\[\[c(1, 2)\]\] is equivalent to x\[\[1\]\]\[\[2\]\] .
 
 #### **Useful comparisons between \$ and \[\[:**
 
-❗ It is a mistake to use it when you have the col name stored in a variable --use [[ instead
+❗ It is a mistake to use it when you have the col name stored in a variable --use \[\[ instead
 
 ```{r}
 
@@ -292,9 +292,9 @@ mtcars$var
 mtcars[[var]]
 ```
 
-❗ a difference between \$ and  [[ is that \$ does (left-to-right) ***partial matching***:
+❗ a difference between \$ and \[\[ is that \$ does (left-to-right) ***partial matching***:
 
-This is about how \$ and [[ handle element names; e.g., useful whit named lists. The **\$** operator allows for **partial matching** of element names within a list or data frame. This means that if you provide an incomplete name that matches the beginning of a longer name, \$ will still return a result. The **\[\[** operator requires an **exact match** of the element name
+This is about how \$ and \[\[ handle element names; e.g., useful whit named lists. The **\$** operator allows for **partial matching** of element names within a list or data frame. This means that if you provide an incomplete name that matches the beginning of a longer name, \$ will still return a result. The **\[\[** operator requires an **exact match** of the element name
 
 ```{r}
 x <- list(abc = 1) 
@@ -308,7 +308,7 @@ x[["a"]]
 
 #### Missing and out-of-bound indices
 
-What happens with [[ when you use an "invalid" index?
+What happens with \[\[ when you use an "invalid" index?
 
 You can get inconsistent results -it depends on the object you are subsetting and the index used
 
@@ -332,7 +332,7 @@ Examples:
 
 \@: equivalent to \$ for S4 objects
 
-slot(): equivalent to [[ for S4 objects
+slot(): equivalent to \[\[ for S4 objects
 
 ### Subsetting and assignment -Subassignment
 
@@ -370,4 +370,372 @@ is.data.frame(mtcars)
 mtcars <- lapply(mtcars, as.integer)
 is.data.frame(mtcars)
 
+```
+
+### Comparing speed and performance
+
+```{r}
+library(data.table)
+library(tibble)
+library(collapse)
+library(microbenchmark)
+library(highcharter)
+
+size <- 1e5
+
+df <- data.frame(
+  x = runif(size),
+  y = runif(size),
+  id = sample(letters, size, replace = TRUE)
+)
+dt <- as.data.table(df)
+tb <- as_tibble(df)
+lst <- list(x = runif(size), 
+            y = runif(size), 
+            id = sample(letters, size, replace = TRUE))
+
+# Benchmarking various subsetting operations
+
+bench <- microbenchmark::microbenchmark(
+  times = 100,
+  
+  # Base R subsetting for data.frame
+  df_base = {
+    df[df$x > 0.5 & df$y < 0.5, ]
+  },
+  
+  # Base R subsetting for data.table
+  dt_base = {
+    dt[dt$x > 0.5 & dt$y < 0.5]
+  },
+  
+  # Base R subsetting for tibble
+  tb_base = {
+    tb[tb$x > 0.5 & tb$y < 0.5, ]
+  },
+  
+  # Using collapse package with data.frame
+  df_clp = {
+    df |> fsubset(x > 0.5 & y < 0.5)
+  },
+  
+  # Using collapse package with data.table
+  dt_clp = {
+    dt |> fsubset(x > 0.5 & y < 0.5)
+  },
+  
+  # Using collapse package with tibble
+  tb_clp = {
+    tb |> fsubset(x > 0.5 & y < 0.5)
+  },
+  
+  # Using data.table package with data.table
+  dt_dt = {
+    dt[x > 0.5 & y < 0.5]
+  }
+  
+  # Subsetting lists using base R
+  
+)
+
+if (requireNamespace("highcharter")) {
+  hc_dt <- highcharter::data_to_boxplot(bench,
+                                        time,
+                                        expr,
+                                        add_outliers = FALSE,
+                                        name = "Time in milliseconds")
+
+  highcharter::highchart() |>
+    highcharter::hc_xAxis(type = "category") |>
+    highcharter::hc_chart(inverted = TRUE) |>
+    highcharter::hc_add_series_list(hc_dt)
+} else {
+  boxplot(bench, outline = FALSE)
+}
+
+```
+
+#### Boolean algebra vs sets (i.e., logical vs integer subsetting)
+
+::: callout-note
+Using set operations is more effective when:
+
+-   You want to find the first (or last) TRUE
+
+-   You have very few TRUE s and very many FALSE s; a set representation may be faster and require less storage.
+:::
+
+**Why**:
+
+Sets or indices allow direct access to specific positions, making it faster to locate the first or last TRUE value. Operations designed to find the first TRUE can exit early once the condition is met, avoiding unnecessary computations.
+
+*note:*: which() allows you to convert a Boolean representation to an integer representation
+
+```{r}
+(x1 <- 1:10 %% 2 == 0)
+(x2 <- which(x1))
+
+(y1 <- 1:10 %% 5 == 0)
+
+(y2 <- which(y1))
+
+x1 & y1
+
+intersect(x2, y2)
+
+x1 | y1
+
+union(x2, y2)
+
+x1 & !y1
+setdiff(x2, y2)
+
+xor(x1, y1)
+
+setdiff(union(x2, y2), intersect(x2, y2))
+```
+
+Common mistake is to use x\[which(y)\] instead of x\[y\] -result is exactly the same but 2 differences:
+
+-   When the logical vector contains NA , logical subsetting replaces these values with NA while which() drops these values
+
+-   x\[-which(y)\] is not equivalent to x\[!y\] : if y is all FALSE, which(y) will be integer(0) and -integer(0) is still integer(0) , so you'll get no values, instead of all values.
+
+In general, avoid switching from logical to integer subsetting unless you want, for example, the first or last TRUE value.
+
+**More Examples to compare performance**:
+
+```{r}
+# Large logical vector
+vec <- sample(c(TRUE, FALSE), size = 1e6, replace = TRUE)
+
+# integer subsetting to find the first TRUE
+first_true_base <- which(vec)[1]
+
+# logical subsetting
+first_true_set <- match(TRUE, vec)
+
+#match(TRUE, vec) can be faster because it stops as soon as it finds the first TRUE, whereas which(vec)[1] computes all TRUE indices first and then selects the first one.
+
+```
+
+When a dataset has very few TRUE values (sparse data) and many FALSE values, using set representations can be more efficient both in terms of speed and memory. Indices represent the positions of TRUE values, saving memory by not storing the FALSE values. Operations on sets typically faster because they involve fewer elements.
+
+```{r}
+# Sparse logical vector
+vec <- rep(FALSE, 1e6)
+vec[sample(1:1e6, 10)] <- TRUE  # Only 10 TRUE values
+
+# logical
+subset_base <- vec[vec == TRUE]
+
+# integer
+true_indices <- which(vec)
+subset_set <- vec[true_indices]
+```
+
+```{r}
+library(data.table)
+library(tibble)
+library(collapse)
+library(microbenchmark)
+library(highcharter)
+
+# Set the size for the test data
+size <- 1e5
+
+# Create a data frame and convert it to data.table and tibble
+df <- data.frame(
+  x = runif(size),
+  y = runif(size),
+  id = sample(letters, size, replace = TRUE)
+)
+dt <- as.data.table(df)
+tb <- as_tibble(df)
+
+# Logical vector with sparse TRUE values
+logical_vector <- rep(FALSE, size)
+logical_vector[sample(1:size, 100)] <- TRUE  # Only 100 TRUE values
+
+# Benchmarking logical vs integer subsetting
+bench <- microbenchmark::microbenchmark(
+  times = 100,
+  
+  # Logical subsetting for data.frame
+  df_logical = {
+    df[logical_vector, ]
+  },
+  
+  # Integer subsetting for data.frame
+  df_integer = {
+    df[which(logical_vector), ]
+  },
+  
+  # Logical subsetting for data.table
+  dt_logical = {
+    dt[logical_vector]
+  },
+  
+  # Integer subsetting for data.table
+  dt_integer = {
+    dt[which(logical_vector)]
+  },
+  
+  # Logical subsetting for tibble
+  tb_logical = {
+    tb[logical_vector, ]
+  },
+  
+  # Integer subsetting for tibble
+  tb_integer = {
+    tb[which(logical_vector), ]
+  },
+  
+  # Logical subsetting for list (base R)
+  lst_logical = {
+    lapply(lst, function(x) x[logical_vector])
+  },
+  
+  # Integer subsetting for list (base R)
+  lst_integer = {
+    lapply(lst, function(x) x[which(logical_vector)])
+  }
+)
+
+# Visualization using highcharter
+if (requireNamespace("highcharter", quietly = TRUE)) {
+  hc_dt <- highcharter::data_to_boxplot(bench,
+                                        time,
+                                        expr,
+                                        add_outliers = FALSE,
+                                        name = "Time in milliseconds")
+
+  highcharter::highchart() |>
+    highcharter::hc_xAxis(type = "category") |>
+    highcharter::hc_chart(inverted = TRUE) |>
+    highcharter::hc_add_series_list(hc_dt)
+} else {
+  boxplot(bench, outline = FALSE, main = "Logical vs Integer Subsetting Performance", ylab = "Time (milliseconds)", las = 2)
+}
+
+```
+
+### Subsetting - Some applications
+
+#### Character subsetting
+
+##### Lookup tables
+
+These are usually named vectors or lists, useful when you want to map values from one object to another. For example,
+
+```{r}
+x <- c("m", "f", "u", "f", "f", "m", "m") 
+lookup <- c(m = "Male", f = "Female", u = NA)
+lookup[x]
+
+#Can use unname() if you don't want names in the result 
+unname(lookup[x])
+```
+
+##### Removing columns from data frames
+
+There are two ways of removing columns:
+
+```{r}
+# Option 1 - Set it to NULL
+df <- data.frame(x = 1:3, y = 3:1, z = letters[1:3])
+df$z <- NULL
+
+# Option 2 - Subset the columns you want 
+df <- data.frame(x = 1:3, y = 3:1, z = letters[1:3])
+df[c("x", "y")]
+```
+
+If you only know the columns you do not want (e.g., "z"):
+
+```{r}
+df[setdiff(names(df), "z")]
+```
+
+#### Integer subsetting
+
+##### Lookup tables - matching by hand
+
+Suppose you have a more complex lookup table, i.e., with multiple columns of information.
+
+For example, suppose you have a vector of integer grades and a table that describes their property:
+
+```{r}
+grades <- c(1, 2, 2, 3, 1) 
+info <- data.frame(
+  grade = 3:1,
+  desc = c("Excellent", "Good", "Poor"),
+  fail = c(F, F, T)
+)
+```
+
+say we want to have a row for each value in grades. A way to do this is by combining match() and integer subsetting
+
+```{r}
+id <- match(grades, info$grade) 
+#return position where each grade is found in info$grade
+id
+
+info[id, ]
+```
+
+##### Random samples
+
+You can use integer indices to randomly sample a vector or data frame.
+
+```{r}
+# use sample(n) to generate a random permutation of 1:n 
+
+df <- data.frame(x = c(1, 2, 3, 1, 2), y = 5:1, z = letters[1:5])
+# Randomly reorder
+df[sample(nrow(df)), ]
+
+# Select 3 random rows
+df[sample(nrow(df), 3), ]
+
+# Select 6 bootstrap replicates
+df[sample(nrow(df), 6, replace = TRUE), ]
+```
+
+##### Ordering
+
+order() takes a vector as its input and returns an integer vector describing how to order the subsetted vector
+
+```{r}
+x <- c("b", "c", "a")
+order(x)
+
+x[order(x)]
+
+# can also change the order from ascending to descending by using decreasing = TRUE
+order(x, decreasing = TRUE)
+x[order(x, decreasing = TRUE)]
+
+x <- c("b", NA, "c", "a")
+order(x)
+x[order(x)]
+
+# missing values will be put at the end of the vector
+# you can remove them with na.last = NA
+x[order(x, na.last = NA)]
+# or you can put them at the front
+x[order(x, na.last = FALSE)]
+
+```
+
+For two or more dimensions, order() and integer subsetting makes it easy to order either the rows or columns of an object:
+
+```{r}
+df2 <- df[sample(nrow(df)), 3:1]
+df2
+
+# order rows
+df2[order(df2$x), ]
+# order cols
+df2[, order(names(df2))]
 ```
