@@ -1,5 +1,30 @@
 
-# Chapter 4: Subsetting Exercises ###################################
+# Chapter 4: Subsetting Exercises 
+
+# ------- Intro quiz --------- #
+
+# 1. What is the result of subsetting a vector with positive integers, negative integers, a logical vector, or a character vector?
+
+# 2. What’s the difference between [, [[, and $ when applied to a list?
+
+# 3. When should you use drop = FALSE?
+
+# 4. If x is a matrix, what does x[] <- 0 do? How is it different from x <- 0?
+
+# --------- Answers --------- #
+
+# 1. Positive integers select elements at specific positions, negative integers drop elements; 
+#    logical vectors keep elements at positions corresponding to TRUE; 
+#     character vectors select elements with matching names.
+
+# 2. [ selects sub-lists: it always returns a list. If you use it with a single positive integer, it returns a list of length one. 
+#    [[ selects an element within a list. $ is a convenient shorthand: x$y is equivalent to x[["y"]].
+#
+# 3. Use drop = FALSE if you are subsetting a matrix, array, or data frame and you want to preserve the original dimensions. 
+#    You should almost always use it when subsetting inside a function.
+
+# 4. If x is a matrix, x[] <- 0 will replace every element with 0, keeping the same number of rows and columns. 
+#    In contrast, x <- 0 completely replaces the matrix with the value 0.
 
 # --------------------------------------------------------------
 # Subsetting multiple elements
@@ -65,10 +90,11 @@ mtcars[3, 2]
 mtcars[[c(2, 3)]]
 
 # --------------------------------------------------------------
-# Subsetting and assignment
-# --------------------------------------------------------------
-
-
-# --------------------------------------------------------------
 # Further applications
 # --------------------------------------------------------------
+
+# How would you order the columns of a df in alphabetical order?
+# --combine order or sort with []
+
+mtcars[order(names(mtcars))]
+mtcars[sort(names(mtcars))]
