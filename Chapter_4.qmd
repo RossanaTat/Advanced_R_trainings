@@ -28,9 +28,9 @@ Subsetting allows you to pull out the pieces of an object you are interested in.
 
 **3 operators:**
 
-1.  \[
-2.  \[\[
-3.  \$
+1.  [
+2.  [[
+3.  $
 
 **Subsetting** can be combined **with** **assignment**
 
@@ -130,7 +130,7 @@ y[c("a", "a", "a")]
 
 ```
 
-When subsetting with \[, names are always matched exactly..if no match, return NA
+When subsetting with [, names are always matched exactly..if no match, return NA
 
 6.  With **zero**
 
@@ -143,8 +143,8 @@ x[0]
 
 same way as subsetting an atomic vector.
 
--   \[ always returns a list
--   \[\[ and \$ pull out elements of a list
+-   [ always returns a list
+-   [[ and $ pull out elements of a list
 
 #### Higher dimensional objects
 
@@ -219,7 +219,7 @@ str(df[, "x"])
 #### **Dimensionality**
 
 ::: callout-note
-**Dimensionality reduction**: when you subset with \[, \[ simplifies the results to the lowest possible dimensionality.
+**Dimensionality reduction**: when you subset with [, [ simplifies the results to the lowest possible dimensionality.
 :::
 
 ```{r}
@@ -259,11 +259,11 @@ z[1, drop = TRUE]
 
 #### **2 operators:**
 
--   \[\[ extracts a single item
+-   [[ extracts a single item
 
--   \$ shortcut for x\[\["y"\]\], commonly used to access var in df
+-   $ shortcut for x[["y"]], commonly used to access var in df
 
-**\[\[** important when working with lists. As opposed to \[ -which always return a *smaller* list- it extract the element itself.
+**[[** important when working with lists. As opposed to [ -which always return a *smaller* list- it extract the element itself.
 
 Recommended for atomic vectors too when getting single value
 
@@ -277,11 +277,11 @@ x <- list(1:3, "a", 4:6)
 
 **NOTE:**
 
-Because \[\[ can return only a single item, you must use it with either a single positive integer or a single string. If you use a vector with \[\[ , it will *subset recursively,* i.e. x\[\[c(1, 2)\]\] is equivalent to x\[\[1\]\]\[\[2\]\] .
+Because [[ can return only a single item, you must use it with either a single positive integer or a single string. If you use a vector with [[ , it will *subset recursively,* i.e. x[[c(1, 2)]] is equivalent to x[[1]][[2]] .
 
-#### **Useful comparisons between \$ and \[\[:**
+#### **Useful comparisons between $ and [[:**
 
-❗ It is a mistake to use it when you have the col name stored in a variable --use \[\[ instead
+❗ It is a mistake to use it when you have the col name stored in a variable 
 
 ```{r}
 
@@ -292,9 +292,9 @@ mtcars$var
 mtcars[[var]]
 ```
 
-❗ a difference between \$ and \[\[ is that \$ does (left-to-right) ***partial matching***:
+❗ *
 
-This is about how \$ and \[\[ handle element names; e.g., useful whit named lists. The **\$** operator allows for **partial matching** of element names within a list or data frame. This means that if you provide an incomplete name that matches the beginning of a longer name, \$ will still return a result. The **\[\[** operator requires an **exact match** of the element name
+This is about how $ and [[ handle element names; e.g., useful whit named lists. The **\$** operator allows for **partial matching** of element names within a list or data frame. This means that if you provide an incomplete name that matches the beginning of a longer name, \$ will still return a result. The **\[\[** operator requires an **exact match** of the element name
 
 ```{r}
 x <- list(abc = 1) 
@@ -308,7 +308,7 @@ x[["a"]]
 
 #### Missing and out-of-bound indices
 
-What happens with \[\[ when you use an "invalid" index?
+What happens with [[ when you use an "invalid" index?
 
 You can get inconsistent results -it depends on the object you are subsetting and the index used
 
@@ -332,7 +332,7 @@ Examples:
 
 \@: equivalent to \$ for S4 objects
 
-slot(): equivalent to \[\[ for S4 objects
+slot(): equivalent to [[ for S4 objects
 
 ### Subsetting and assignment -Subassignment
 
@@ -495,7 +495,7 @@ xor(x1, y1)
 setdiff(union(x2, y2), intersect(x2, y2))
 ```
 
-Common mistake is to use x\[which(y)\] instead of x\[y\] -result is exactly the same but 2 differences:
+Common mistake is to use x[which(y)] instead of x\[y\] -result is exactly the same but 2 differences:
 
 -   When the logical vector contains NA , logical subsetting replaces these values with NA while which() drops these values
 
@@ -589,16 +589,6 @@ bench <- microbenchmark::microbenchmark(
   # Integer subsetting for tibble
   tb_integer = {
     tb[which(logical_vector), ]
-  },
-  
-  # Logical subsetting for list (base R)
-  lst_logical = {
-    lapply(lst, function(x) x[logical_vector])
-  },
-  
-  # Integer subsetting for list (base R)
-  lst_integer = {
-    lapply(lst, function(x) x[which(logical_vector)])
   }
 )
 

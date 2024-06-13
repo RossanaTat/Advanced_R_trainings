@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.2.262">
+<meta name="generator" content="quarto-1.3.450">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -17,9 +17,10 @@ div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
   width: 0.8em;
-  margin: 0 0.8em 0.2em -1.6em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
@@ -46,43 +47,13 @@ pre.numberSource code > span > a:first-child::before
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
     padding: 0 4px; width: 4em;
-    color: #aaaaaa;
   }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
 div.sourceCode
   {   }
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { color: #008000; } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { color: #008000; font-weight: bold; } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
 
@@ -96,7 +67,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <script src="Chapter_4_files/libs/bootstrap/bootstrap.min.js"></script>
 <link href="Chapter_4_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="Chapter_4_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
-<link href="Chapter_4_files/libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet">
 <script src="Chapter_4_files/libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
 <script src="Chapter_4_files/libs/jquery-3.5.1/jquery.min.js"></script>
 <script src="Chapter_4_files/libs/proj4js-2.3.15/proj4.js"></script>
@@ -152,14 +122,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#subsetting-in-r" id="toc-subsetting-in-r" class="nav-link active" data-scroll-target="#subsetting-in-r"><span class="toc-section-number">1</span>  Subsetting in R</a>
+  <li><a href="#subsetting-in-r" id="toc-subsetting-in-r" class="nav-link active" data-scroll-target="#subsetting-in-r"><span class="header-section-number">1</span> Subsetting in R</a>
   <ul class="collapse">
-  <li><a href="#preliminary-concepts" id="toc-preliminary-concepts" class="nav-link" data-scroll-target="#preliminary-concepts"><span class="toc-section-number">1.1</span>  Preliminary concepts</a></li>
-  <li><a href="#selecting-multiple-elements" id="toc-selecting-multiple-elements" class="nav-link" data-scroll-target="#selecting-multiple-elements"><span class="toc-section-number">1.2</span>  Selecting multiple elements</a></li>
-  <li><a href="#selecting-single-elements" id="toc-selecting-single-elements" class="nav-link" data-scroll-target="#selecting-single-elements"><span class="toc-section-number">1.3</span>  Selecting single elements</a></li>
-  <li><a href="#subsetting-and-assignment--subassignment" id="toc-subsetting-and-assignment--subassignment" class="nav-link" data-scroll-target="#subsetting-and-assignment--subassignment"><span class="toc-section-number">1.4</span>  Subsetting and assignment -Subassignment</a></li>
-  <li><a href="#comparing-speed-and-performance" id="toc-comparing-speed-and-performance" class="nav-link" data-scroll-target="#comparing-speed-and-performance"><span class="toc-section-number">1.5</span>  Comparing speed and performance</a></li>
-  <li><a href="#subsetting---some-applications" id="toc-subsetting---some-applications" class="nav-link" data-scroll-target="#subsetting---some-applications"><span class="toc-section-number">1.6</span>  Subsetting - Some applications</a></li>
+  <li><a href="#preliminary-concepts" id="toc-preliminary-concepts" class="nav-link" data-scroll-target="#preliminary-concepts"><span class="header-section-number">1.1</span> Preliminary concepts</a></li>
+  <li><a href="#selecting-multiple-elements" id="toc-selecting-multiple-elements" class="nav-link" data-scroll-target="#selecting-multiple-elements"><span class="header-section-number">1.2</span> Selecting multiple elements</a></li>
+  <li><a href="#selecting-single-elements" id="toc-selecting-single-elements" class="nav-link" data-scroll-target="#selecting-single-elements"><span class="header-section-number">1.3</span> Selecting single elements</a></li>
+  <li><a href="#subsetting-and-assignment--subassignment" id="toc-subsetting-and-assignment--subassignment" class="nav-link" data-scroll-target="#subsetting-and-assignment--subassignment"><span class="header-section-number">1.4</span> Subsetting and assignment -Subassignment</a></li>
+  <li><a href="#comparing-speed-and-performance" id="toc-comparing-speed-and-performance" class="nav-link" data-scroll-target="#comparing-speed-and-performance"><span class="header-section-number">1.5</span> Comparing speed and performance</a></li>
+  <li><a href="#subsetting---some-applications" id="toc-subsetting---some-applications" class="nav-link" data-scroll-target="#subsetting---some-applications"><span class="header-section-number">1.6</span> Subsetting - Some applications</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -269,12 +239,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <pre><code>[1] 2.1 4.2  NA</code></pre>
 </div>
 </div>
-<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Note
 </div>
 </div>
@@ -455,12 +425,12 @@ Note
 </section>
 <section id="dimensionality" class="level4" data-number="1.2.5">
 <h4 data-number="1.2.5" class="anchored" data-anchor-id="dimensionality"><span class="header-section-number">1.2.5</span> <strong>Dimensionality</strong></h4>
-<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Note
 </div>
 </div>
@@ -536,7 +506,7 @@ Levels: a</code></pre>
 </section>
 <section id="useful-comparisons-between-and" class="level4" data-number="1.3.2">
 <h4 data-number="1.3.2" class="anchored" data-anchor-id="useful-comparisons-between-and"><span class="header-section-number">1.3.2</span> <strong>Useful comparisons between $ and [[:</strong></h4>
-<p>❗ It is a mistake to use it when you have the col name stored in a variable –use [[ instead</p>
+<p>❗ It is a mistake to use it when you have the col name stored in a variable</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a>var <span class="ot">&lt;-</span> <span class="st">"cyl"</span>  <span class="co"># Doesn't work - mtcars$var translated to mtcars[["var"]]</span></span>
 <span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a>mtcars<span class="sc">$</span>var</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -549,7 +519,7 @@ Levels: a</code></pre>
 <pre><code> [1] 6 6 4 6 8 6 8 4 4 6 6 8 8 8 8 8 8 4 4 4 4 8 8 8 8 4 4 4 8 6 8 4</code></pre>
 </div>
 </div>
-<p>❗ a difference between $ and [[ is that $ does (left-to-right) <strong><em>partial matching</em></strong>:</p>
+<p>❗ *</p>
 <p>This is about how $ and [[ handle element names; e.g., useful whit named lists. The <strong>$</strong> operator allows for <strong>partial matching</strong> of element names within a list or data frame. This means that if you provide an incomplete name that matches the beginning of a longer name, $ will still return a result. The <strong>[[</strong> operator requires an <strong>exact match</strong> of the element name</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">abc =</span> <span class="dv">1</span>) </span>
@@ -636,14 +606,14 @@ Levels: a</code></pre>
 <section id="comparing-speed-and-performance" class="level3" data-number="1.5">
 <h3 data-number="1.5" class="anchored" data-anchor-id="comparing-speed-and-performance"><span class="header-section-number">1.5</span> Comparing speed and performance</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb84"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(data.table)</span>
-<span id="cb84-2"><a href="#cb84-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tibble)</span>
-<span id="cb84-3"><a href="#cb84-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(collapse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb84"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(data.table)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'collapse' was built under R version 4.3.3</code></pre>
+<pre><code>Warning: package 'data.table' was built under R version 4.3.3</code></pre>
 </div>
+<div class="sourceCode cell-code" id="cb86"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tibble)</span>
+<span id="cb86-2"><a href="#cb86-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(collapse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>collapse 2.0.14, see ?`collapse-package` or ?`collapse-documentation`</code></pre>
+<pre><code>collapse 2.0.15, see ?`collapse-package` or ?`collapse-documentation`</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
 <pre><code>
@@ -659,98 +629,104 @@ Attaching package: 'collapse'</code></pre>
 
     D</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb90"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb90-1"><a href="#cb90-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(microbenchmark)</span>
-<span id="cb90-2"><a href="#cb90-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(highcharter)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb91"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb91-1"><a href="#cb91-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(microbenchmark)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'microbenchmark' was built under R version 4.3.3</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb93"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb93-1"><a href="#cb93-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(highcharter)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'highcharter' was built under R version 4.3.3</code></pre>
+</div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Registered S3 method overwritten by 'quantmod':
   method            from
   as.zoo.data.frame zoo </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb92"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb92-1"><a href="#cb92-1" aria-hidden="true" tabindex="-1"></a>size <span class="ot">&lt;-</span> <span class="fl">1e5</span></span>
-<span id="cb92-2"><a href="#cb92-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb92-3"><a href="#cb92-3" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb92-4"><a href="#cb92-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="fu">runif</span>(size),</span>
-<span id="cb92-5"><a href="#cb92-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> <span class="fu">runif</span>(size),</span>
-<span id="cb92-6"><a href="#cb92-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">id =</span> <span class="fu">sample</span>(letters, size, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb92-7"><a href="#cb92-7" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb92-8"><a href="#cb92-8" aria-hidden="true" tabindex="-1"></a>dt <span class="ot">&lt;-</span> <span class="fu">as.data.table</span>(df)</span>
-<span id="cb92-9"><a href="#cb92-9" aria-hidden="true" tabindex="-1"></a>tb <span class="ot">&lt;-</span> <span class="fu">as_tibble</span>(df)</span>
-<span id="cb92-10"><a href="#cb92-10" aria-hidden="true" tabindex="-1"></a>lst <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">x =</span> <span class="fu">runif</span>(size), </span>
-<span id="cb92-11"><a href="#cb92-11" aria-hidden="true" tabindex="-1"></a>            <span class="at">y =</span> <span class="fu">runif</span>(size), </span>
-<span id="cb92-12"><a href="#cb92-12" aria-hidden="true" tabindex="-1"></a>            <span class="at">id =</span> <span class="fu">sample</span>(letters, size, <span class="at">replace =</span> <span class="cn">TRUE</span>))</span>
-<span id="cb92-13"><a href="#cb92-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb92-14"><a href="#cb92-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Benchmarking various subsetting operations</span></span>
-<span id="cb92-15"><a href="#cb92-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb92-16"><a href="#cb92-16" aria-hidden="true" tabindex="-1"></a>bench <span class="ot">&lt;-</span> microbenchmark<span class="sc">::</span><span class="fu">microbenchmark</span>(</span>
-<span id="cb92-17"><a href="#cb92-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">times =</span> <span class="dv">100</span>,</span>
-<span id="cb92-18"><a href="#cb92-18" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb92-19"><a href="#cb92-19" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Base R subsetting for data.frame</span></span>
-<span id="cb92-20"><a href="#cb92-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">df_base =</span> {</span>
-<span id="cb92-21"><a href="#cb92-21" aria-hidden="true" tabindex="-1"></a>    df[df<span class="sc">$</span>x <span class="sc">&gt;</span> <span class="fl">0.5</span> <span class="sc">&amp;</span> df<span class="sc">$</span>y <span class="sc">&lt;</span> <span class="fl">0.5</span>, ]</span>
-<span id="cb92-22"><a href="#cb92-22" aria-hidden="true" tabindex="-1"></a>  },</span>
-<span id="cb92-23"><a href="#cb92-23" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb92-24"><a href="#cb92-24" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Base R subsetting for data.table</span></span>
-<span id="cb92-25"><a href="#cb92-25" aria-hidden="true" tabindex="-1"></a>  <span class="at">dt_base =</span> {</span>
-<span id="cb92-26"><a href="#cb92-26" aria-hidden="true" tabindex="-1"></a>    dt[dt<span class="sc">$</span>x <span class="sc">&gt;</span> <span class="fl">0.5</span> <span class="sc">&amp;</span> dt<span class="sc">$</span>y <span class="sc">&lt;</span> <span class="fl">0.5</span>]</span>
-<span id="cb92-27"><a href="#cb92-27" aria-hidden="true" tabindex="-1"></a>  },</span>
-<span id="cb92-28"><a href="#cb92-28" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb92-29"><a href="#cb92-29" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Base R subsetting for tibble</span></span>
-<span id="cb92-30"><a href="#cb92-30" aria-hidden="true" tabindex="-1"></a>  <span class="at">tb_base =</span> {</span>
-<span id="cb92-31"><a href="#cb92-31" aria-hidden="true" tabindex="-1"></a>    tb[tb<span class="sc">$</span>x <span class="sc">&gt;</span> <span class="fl">0.5</span> <span class="sc">&amp;</span> tb<span class="sc">$</span>y <span class="sc">&lt;</span> <span class="fl">0.5</span>, ]</span>
-<span id="cb92-32"><a href="#cb92-32" aria-hidden="true" tabindex="-1"></a>  },</span>
-<span id="cb92-33"><a href="#cb92-33" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb92-34"><a href="#cb92-34" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Using collapse package with data.frame</span></span>
-<span id="cb92-35"><a href="#cb92-35" aria-hidden="true" tabindex="-1"></a>  <span class="at">df_clp =</span> {</span>
-<span id="cb92-36"><a href="#cb92-36" aria-hidden="true" tabindex="-1"></a>    df <span class="sc">|&gt;</span> <span class="fu">fsubset</span>(x <span class="sc">&gt;</span> <span class="fl">0.5</span> <span class="sc">&amp;</span> y <span class="sc">&lt;</span> <span class="fl">0.5</span>)</span>
-<span id="cb92-37"><a href="#cb92-37" aria-hidden="true" tabindex="-1"></a>  },</span>
-<span id="cb92-38"><a href="#cb92-38" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb92-39"><a href="#cb92-39" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Using collapse package with data.table</span></span>
-<span id="cb92-40"><a href="#cb92-40" aria-hidden="true" tabindex="-1"></a>  <span class="at">dt_clp =</span> {</span>
-<span id="cb92-41"><a href="#cb92-41" aria-hidden="true" tabindex="-1"></a>    dt <span class="sc">|&gt;</span> <span class="fu">fsubset</span>(x <span class="sc">&gt;</span> <span class="fl">0.5</span> <span class="sc">&amp;</span> y <span class="sc">&lt;</span> <span class="fl">0.5</span>)</span>
-<span id="cb92-42"><a href="#cb92-42" aria-hidden="true" tabindex="-1"></a>  },</span>
-<span id="cb92-43"><a href="#cb92-43" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb92-44"><a href="#cb92-44" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Using collapse package with tibble</span></span>
-<span id="cb92-45"><a href="#cb92-45" aria-hidden="true" tabindex="-1"></a>  <span class="at">tb_clp =</span> {</span>
-<span id="cb92-46"><a href="#cb92-46" aria-hidden="true" tabindex="-1"></a>    tb <span class="sc">|&gt;</span> <span class="fu">fsubset</span>(x <span class="sc">&gt;</span> <span class="fl">0.5</span> <span class="sc">&amp;</span> y <span class="sc">&lt;</span> <span class="fl">0.5</span>)</span>
-<span id="cb92-47"><a href="#cb92-47" aria-hidden="true" tabindex="-1"></a>  },</span>
-<span id="cb92-48"><a href="#cb92-48" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb92-49"><a href="#cb92-49" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Using data.table package with data.table</span></span>
-<span id="cb92-50"><a href="#cb92-50" aria-hidden="true" tabindex="-1"></a>  <span class="at">dt_dt =</span> {</span>
-<span id="cb92-51"><a href="#cb92-51" aria-hidden="true" tabindex="-1"></a>    dt[x <span class="sc">&gt;</span> <span class="fl">0.5</span> <span class="sc">&amp;</span> y <span class="sc">&lt;</span> <span class="fl">0.5</span>]</span>
-<span id="cb92-52"><a href="#cb92-52" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb92-53"><a href="#cb92-53" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb92-54"><a href="#cb92-54" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Subsetting lists using base R</span></span>
-<span id="cb92-55"><a href="#cb92-55" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb92-56"><a href="#cb92-56" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb92-57"><a href="#cb92-57" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb92-58"><a href="#cb92-58" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">requireNamespace</span>(<span class="st">"highcharter"</span>)) {</span>
-<span id="cb92-59"><a href="#cb92-59" aria-hidden="true" tabindex="-1"></a>  hc_dt <span class="ot">&lt;-</span> highcharter<span class="sc">::</span><span class="fu">data_to_boxplot</span>(bench,</span>
-<span id="cb92-60"><a href="#cb92-60" aria-hidden="true" tabindex="-1"></a>                                        time,</span>
-<span id="cb92-61"><a href="#cb92-61" aria-hidden="true" tabindex="-1"></a>                                        expr,</span>
-<span id="cb92-62"><a href="#cb92-62" aria-hidden="true" tabindex="-1"></a>                                        <span class="at">add_outliers =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb92-63"><a href="#cb92-63" aria-hidden="true" tabindex="-1"></a>                                        <span class="at">name =</span> <span class="st">"Time in milliseconds"</span>)</span>
-<span id="cb92-64"><a href="#cb92-64" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb92-65"><a href="#cb92-65" aria-hidden="true" tabindex="-1"></a>  highcharter<span class="sc">::</span><span class="fu">highchart</span>() <span class="sc">|&gt;</span></span>
-<span id="cb92-66"><a href="#cb92-66" aria-hidden="true" tabindex="-1"></a>    highcharter<span class="sc">::</span><span class="fu">hc_xAxis</span>(<span class="at">type =</span> <span class="st">"category"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb92-67"><a href="#cb92-67" aria-hidden="true" tabindex="-1"></a>    highcharter<span class="sc">::</span><span class="fu">hc_chart</span>(<span class="at">inverted =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
-<span id="cb92-68"><a href="#cb92-68" aria-hidden="true" tabindex="-1"></a>    highcharter<span class="sc">::</span><span class="fu">hc_add_series_list</span>(hc_dt)</span>
-<span id="cb92-69"><a href="#cb92-69" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
-<span id="cb92-70"><a href="#cb92-70" aria-hidden="true" tabindex="-1"></a>  <span class="fu">boxplot</span>(bench, <span class="at">outline =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb92-71"><a href="#cb92-71" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb96"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb96-1"><a href="#cb96-1" aria-hidden="true" tabindex="-1"></a>size <span class="ot">&lt;-</span> <span class="fl">1e5</span></span>
+<span id="cb96-2"><a href="#cb96-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb96-3"><a href="#cb96-3" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb96-4"><a href="#cb96-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="fu">runif</span>(size),</span>
+<span id="cb96-5"><a href="#cb96-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> <span class="fu">runif</span>(size),</span>
+<span id="cb96-6"><a href="#cb96-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">id =</span> <span class="fu">sample</span>(letters, size, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb96-7"><a href="#cb96-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb96-8"><a href="#cb96-8" aria-hidden="true" tabindex="-1"></a>dt <span class="ot">&lt;-</span> <span class="fu">as.data.table</span>(df)</span>
+<span id="cb96-9"><a href="#cb96-9" aria-hidden="true" tabindex="-1"></a>tb <span class="ot">&lt;-</span> <span class="fu">as_tibble</span>(df)</span>
+<span id="cb96-10"><a href="#cb96-10" aria-hidden="true" tabindex="-1"></a>lst <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">x =</span> <span class="fu">runif</span>(size), </span>
+<span id="cb96-11"><a href="#cb96-11" aria-hidden="true" tabindex="-1"></a>            <span class="at">y =</span> <span class="fu">runif</span>(size), </span>
+<span id="cb96-12"><a href="#cb96-12" aria-hidden="true" tabindex="-1"></a>            <span class="at">id =</span> <span class="fu">sample</span>(letters, size, <span class="at">replace =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb96-13"><a href="#cb96-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb96-14"><a href="#cb96-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Benchmarking various subsetting operations</span></span>
+<span id="cb96-15"><a href="#cb96-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb96-16"><a href="#cb96-16" aria-hidden="true" tabindex="-1"></a>bench <span class="ot">&lt;-</span> microbenchmark<span class="sc">::</span><span class="fu">microbenchmark</span>(</span>
+<span id="cb96-17"><a href="#cb96-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">times =</span> <span class="dv">100</span>,</span>
+<span id="cb96-18"><a href="#cb96-18" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb96-19"><a href="#cb96-19" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Base R subsetting for data.frame</span></span>
+<span id="cb96-20"><a href="#cb96-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">df_base =</span> {</span>
+<span id="cb96-21"><a href="#cb96-21" aria-hidden="true" tabindex="-1"></a>    df[df<span class="sc">$</span>x <span class="sc">&gt;</span> <span class="fl">0.5</span> <span class="sc">&amp;</span> df<span class="sc">$</span>y <span class="sc">&lt;</span> <span class="fl">0.5</span>, ]</span>
+<span id="cb96-22"><a href="#cb96-22" aria-hidden="true" tabindex="-1"></a>  },</span>
+<span id="cb96-23"><a href="#cb96-23" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb96-24"><a href="#cb96-24" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Base R subsetting for data.table</span></span>
+<span id="cb96-25"><a href="#cb96-25" aria-hidden="true" tabindex="-1"></a>  <span class="at">dt_base =</span> {</span>
+<span id="cb96-26"><a href="#cb96-26" aria-hidden="true" tabindex="-1"></a>    dt[dt<span class="sc">$</span>x <span class="sc">&gt;</span> <span class="fl">0.5</span> <span class="sc">&amp;</span> dt<span class="sc">$</span>y <span class="sc">&lt;</span> <span class="fl">0.5</span>]</span>
+<span id="cb96-27"><a href="#cb96-27" aria-hidden="true" tabindex="-1"></a>  },</span>
+<span id="cb96-28"><a href="#cb96-28" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb96-29"><a href="#cb96-29" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Base R subsetting for tibble</span></span>
+<span id="cb96-30"><a href="#cb96-30" aria-hidden="true" tabindex="-1"></a>  <span class="at">tb_base =</span> {</span>
+<span id="cb96-31"><a href="#cb96-31" aria-hidden="true" tabindex="-1"></a>    tb[tb<span class="sc">$</span>x <span class="sc">&gt;</span> <span class="fl">0.5</span> <span class="sc">&amp;</span> tb<span class="sc">$</span>y <span class="sc">&lt;</span> <span class="fl">0.5</span>, ]</span>
+<span id="cb96-32"><a href="#cb96-32" aria-hidden="true" tabindex="-1"></a>  },</span>
+<span id="cb96-33"><a href="#cb96-33" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb96-34"><a href="#cb96-34" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Using collapse package with data.frame</span></span>
+<span id="cb96-35"><a href="#cb96-35" aria-hidden="true" tabindex="-1"></a>  <span class="at">df_clp =</span> {</span>
+<span id="cb96-36"><a href="#cb96-36" aria-hidden="true" tabindex="-1"></a>    df <span class="sc">|&gt;</span> <span class="fu">fsubset</span>(x <span class="sc">&gt;</span> <span class="fl">0.5</span> <span class="sc">&amp;</span> y <span class="sc">&lt;</span> <span class="fl">0.5</span>)</span>
+<span id="cb96-37"><a href="#cb96-37" aria-hidden="true" tabindex="-1"></a>  },</span>
+<span id="cb96-38"><a href="#cb96-38" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb96-39"><a href="#cb96-39" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Using collapse package with data.table</span></span>
+<span id="cb96-40"><a href="#cb96-40" aria-hidden="true" tabindex="-1"></a>  <span class="at">dt_clp =</span> {</span>
+<span id="cb96-41"><a href="#cb96-41" aria-hidden="true" tabindex="-1"></a>    dt <span class="sc">|&gt;</span> <span class="fu">fsubset</span>(x <span class="sc">&gt;</span> <span class="fl">0.5</span> <span class="sc">&amp;</span> y <span class="sc">&lt;</span> <span class="fl">0.5</span>)</span>
+<span id="cb96-42"><a href="#cb96-42" aria-hidden="true" tabindex="-1"></a>  },</span>
+<span id="cb96-43"><a href="#cb96-43" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb96-44"><a href="#cb96-44" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Using collapse package with tibble</span></span>
+<span id="cb96-45"><a href="#cb96-45" aria-hidden="true" tabindex="-1"></a>  <span class="at">tb_clp =</span> {</span>
+<span id="cb96-46"><a href="#cb96-46" aria-hidden="true" tabindex="-1"></a>    tb <span class="sc">|&gt;</span> <span class="fu">fsubset</span>(x <span class="sc">&gt;</span> <span class="fl">0.5</span> <span class="sc">&amp;</span> y <span class="sc">&lt;</span> <span class="fl">0.5</span>)</span>
+<span id="cb96-47"><a href="#cb96-47" aria-hidden="true" tabindex="-1"></a>  },</span>
+<span id="cb96-48"><a href="#cb96-48" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb96-49"><a href="#cb96-49" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Using data.table package with data.table</span></span>
+<span id="cb96-50"><a href="#cb96-50" aria-hidden="true" tabindex="-1"></a>  <span class="at">dt_dt =</span> {</span>
+<span id="cb96-51"><a href="#cb96-51" aria-hidden="true" tabindex="-1"></a>    dt[x <span class="sc">&gt;</span> <span class="fl">0.5</span> <span class="sc">&amp;</span> y <span class="sc">&lt;</span> <span class="fl">0.5</span>]</span>
+<span id="cb96-52"><a href="#cb96-52" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb96-53"><a href="#cb96-53" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb96-54"><a href="#cb96-54" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Subsetting lists using base R</span></span>
+<span id="cb96-55"><a href="#cb96-55" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb96-56"><a href="#cb96-56" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb96-57"><a href="#cb96-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb96-58"><a href="#cb96-58" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">requireNamespace</span>(<span class="st">"highcharter"</span>)) {</span>
+<span id="cb96-59"><a href="#cb96-59" aria-hidden="true" tabindex="-1"></a>  hc_dt <span class="ot">&lt;-</span> highcharter<span class="sc">::</span><span class="fu">data_to_boxplot</span>(bench,</span>
+<span id="cb96-60"><a href="#cb96-60" aria-hidden="true" tabindex="-1"></a>                                        time,</span>
+<span id="cb96-61"><a href="#cb96-61" aria-hidden="true" tabindex="-1"></a>                                        expr,</span>
+<span id="cb96-62"><a href="#cb96-62" aria-hidden="true" tabindex="-1"></a>                                        <span class="at">add_outliers =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb96-63"><a href="#cb96-63" aria-hidden="true" tabindex="-1"></a>                                        <span class="at">name =</span> <span class="st">"Time in milliseconds"</span>)</span>
+<span id="cb96-64"><a href="#cb96-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb96-65"><a href="#cb96-65" aria-hidden="true" tabindex="-1"></a>  highcharter<span class="sc">::</span><span class="fu">highchart</span>() <span class="sc">|&gt;</span></span>
+<span id="cb96-66"><a href="#cb96-66" aria-hidden="true" tabindex="-1"></a>    highcharter<span class="sc">::</span><span class="fu">hc_xAxis</span>(<span class="at">type =</span> <span class="st">"category"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb96-67"><a href="#cb96-67" aria-hidden="true" tabindex="-1"></a>    highcharter<span class="sc">::</span><span class="fu">hc_chart</span>(<span class="at">inverted =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb96-68"><a href="#cb96-68" aria-hidden="true" tabindex="-1"></a>    highcharter<span class="sc">::</span><span class="fu">hc_add_series_list</span>(hc_dt)</span>
+<span id="cb96-69"><a href="#cb96-69" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
+<span id="cb96-70"><a href="#cb96-70" aria-hidden="true" tabindex="-1"></a>  <span class="fu">boxplot</span>(bench, <span class="at">outline =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb96-71"><a href="#cb96-71" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 
-<div class="highchart html-widget html-fill-item" id="htmlwidget-d192397cc64a412b02c0" style="width:100%;height:464px;"></div>
-<script type="application/json" data-for="htmlwidget-d192397cc64a412b02c0">{"x":{"hc_opts":{"chart":{"reflow":true,"inverted":true},"title":{"text":null},"yAxis":{"title":{"text":null}},"credits":{"enabled":false},"exporting":{"enabled":false},"boost":{"enabled":false},"plotOptions":{"series":{"label":{"enabled":false},"turboThreshold":0},"treemap":{"layoutAlgorithm":"squarified"}},"xAxis":{"type":"category"},"series":[{"name":"Time in milliseconds","data":[{"name":"df_base","low":5041686,"q1":5136963.5,"median":5180205.5,"q3":5296326,"high":5494824},{"name":"dt_base","low":2235930,"q1":2446326,"median":2527553,"q3":2597196,"high":2772975},{"name":"tb_base","low":2165823,"q1":2294558,"median":2341688,"q3":2400148,"high":2551341},{"name":"df_clp","low":2126606,"q1":2194817.5,"median":2222951.5,"q3":2281266,"high":2410910},{"name":"dt_clp","low":2109322,"q1":2212508,"median":2243021,"q3":2282890.5,"high":2356953},{"name":"tb_clp","low":2131069,"q1":2187610,"median":2217316.5,"q3":2258137,"high":2338784},{"name":"dt_dt","low":2352305,"q1":2482549.5,"median":2537642,"q3":2608224.5,"high":2723387}],"id":null,"type":"boxplot"}]},"theme":{"chart":{"backgroundColor":"transparent"},"colors":["#7cb5ec","#434348","#90ed7d","#f7a35c","#8085e9","#f15c80","#e4d354","#2b908f","#f45b5b","#91e8e1"]},"conf_opts":{"global":{"Date":null,"VMLRadialGradientURL":"http =//code.highcharts.com/list(version)/gfx/vml-radial-gradient.png","canvasToolsURL":"http =//code.highcharts.com/list(version)/modules/canvas-tools.js","getTimezoneOffset":null,"timezoneOffset":0,"useUTC":true},"lang":{"contextButtonTitle":"Chart context menu","decimalPoint":".","downloadCSV":"Download CSV","downloadJPEG":"Download JPEG image","downloadPDF":"Download PDF document","downloadPNG":"Download PNG image","downloadSVG":"Download SVG vector image","downloadXLS":"Download XLS","drillUpText":"◁ Back to {series.name}","exitFullscreen":"Exit from full screen","exportData":{"annotationHeader":"Annotations","categoryDatetimeHeader":"DateTime","categoryHeader":"Category"},"hideData":"Hide data table","invalidDate":null,"loading":"Loading...","months":["January","February","March","April","May","June","July","August","September","October","November","December"],"noData":"No data to display","numericSymbolMagnitude":1000,"numericSymbols":["k","M","G","T","P","E"],"printChart":"Print chart","resetZoom":"Reset zoom","resetZoomTitle":"Reset zoom level 1:1","shortMonths":["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],"shortWeekdays":["Sat","Sun","Mon","Tue","Wed","Thu","Fri"],"thousandsSep":" ","viewData":"View data table","viewFullscreen":"View in full screen","weekdays":["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]}},"type":"chart","fonts":[],"debug":false},"evals":[],"jsHooks":[]}</script>
+<div class="highchart html-widget html-fill-item" id="htmlwidget-41cc37ca17953fa7371c" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-41cc37ca17953fa7371c">{"x":{"hc_opts":{"chart":{"reflow":true,"inverted":true},"title":{"text":null},"yAxis":{"title":{"text":null}},"credits":{"enabled":false},"exporting":{"enabled":false},"boost":{"enabled":false},"plotOptions":{"series":{"label":{"enabled":false},"turboThreshold":0},"treemap":{"layoutAlgorithm":"squarified"}},"xAxis":{"type":"category"},"series":[{"name":"Time in milliseconds","data":[{"name":"df_base","low":2742700,"q1":3060900,"median":3623700,"q3":5327750,"high":8477100},{"name":"dt_base","low":1522600,"q1":1872050,"median":2104200,"q3":2516250,"high":3462900},{"name":"tb_base","low":1270000,"q1":1537200,"median":1696250,"q3":2012250,"high":2497100},{"name":"df_clp","low":1103900,"q1":1405050,"median":1582050,"q3":2119750,"high":3165400},{"name":"dt_clp","low":1091400,"q1":1405750,"median":1549150,"q3":1989300,"high":2699500},{"name":"tb_clp","low":1020800,"q1":1388400,"median":1559650,"q3":1918300,"high":2649300},{"name":"dt_dt","low":1608600,"q1":1923800,"median":2105850,"q3":2667550,"high":3711500}],"id":null,"type":"boxplot"}]},"theme":{"chart":{"backgroundColor":"transparent"},"colors":["#7cb5ec","#434348","#90ed7d","#f7a35c","#8085e9","#f15c80","#e4d354","#2b908f","#f45b5b","#91e8e1"]},"conf_opts":{"global":{"Date":null,"VMLRadialGradientURL":"http =//code.highcharts.com/list(version)/gfx/vml-radial-gradient.png","canvasToolsURL":"http =//code.highcharts.com/list(version)/modules/canvas-tools.js","getTimezoneOffset":null,"timezoneOffset":0,"useUTC":true},"lang":{"contextButtonTitle":"Chart context menu","decimalPoint":".","downloadCSV":"Download CSV","downloadJPEG":"Download JPEG image","downloadPDF":"Download PDF document","downloadPNG":"Download PNG image","downloadSVG":"Download SVG vector image","downloadXLS":"Download XLS","drillUpText":"◁ Back to {series.name}","exitFullscreen":"Exit from full screen","exportData":{"annotationHeader":"Annotations","categoryDatetimeHeader":"DateTime","categoryHeader":"Category"},"hideData":"Hide data table","invalidDate":null,"loading":"Loading...","months":["January","February","March","April","May","June","July","August","September","October","November","December"],"noData":"No data to display","numericSymbolMagnitude":1000,"numericSymbols":["k","M","G","T","P","E"],"printChart":"Print chart","resetZoom":"Reset zoom","resetZoomTitle":"Reset zoom level 1:1","shortMonths":["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],"shortWeekdays":["Sat","Sun","Mon","Tue","Wed","Thu","Fri"],"thousandsSep":" ","viewData":"View data table","viewFullscreen":"View in full screen","weekdays":["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]}},"type":"chart","fonts":[],"debug":false},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 <section id="boolean-algebra-vs-sets-i.e.-logical-vs-integer-subsetting" class="level4" data-number="1.5.1">
 <h4 data-number="1.5.1" class="anchored" data-anchor-id="boolean-algebra-vs-sets-i.e.-logical-vs-integer-subsetting"><span class="header-section-number">1.5.1</span> Boolean algebra vs sets (i.e., logical vs integer subsetting)</h4>
-<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Note
 </div>
 </div>
@@ -766,51 +742,51 @@ Note
 <p>Sets or indices allow direct access to specific positions, making it faster to locate the first or last TRUE value. Operations designed to find the first TRUE can exit early once the condition is met, avoiding unnecessary computations.</p>
 <p><em>note:</em>: which() allows you to convert a Boolean representation to an integer representation</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb93"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb93-1"><a href="#cb93-1" aria-hidden="true" tabindex="-1"></a>(x1 <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span> <span class="sc">%%</span> <span class="dv">2</span> <span class="sc">==</span> <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb97"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb97-1"><a href="#cb97-1" aria-hidden="true" tabindex="-1"></a>(x1 <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span> <span class="sc">%%</span> <span class="dv">2</span> <span class="sc">==</span> <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb95"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb95-1"><a href="#cb95-1" aria-hidden="true" tabindex="-1"></a>(x2 <span class="ot">&lt;-</span> <span class="fu">which</span>(x1))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb99"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb99-1"><a href="#cb99-1" aria-hidden="true" tabindex="-1"></a>(x2 <span class="ot">&lt;-</span> <span class="fu">which</span>(x1))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1]  2  4  6  8 10</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb97"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb97-1"><a href="#cb97-1" aria-hidden="true" tabindex="-1"></a>(y1 <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span> <span class="sc">%%</span> <span class="dv">5</span> <span class="sc">==</span> <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb101"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb101-1"><a href="#cb101-1" aria-hidden="true" tabindex="-1"></a>(y1 <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span> <span class="sc">%%</span> <span class="dv">5</span> <span class="sc">==</span> <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] FALSE FALSE FALSE FALSE  TRUE FALSE FALSE FALSE FALSE  TRUE</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb99"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb99-1"><a href="#cb99-1" aria-hidden="true" tabindex="-1"></a>(y2 <span class="ot">&lt;-</span> <span class="fu">which</span>(y1))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb103"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb103-1"><a href="#cb103-1" aria-hidden="true" tabindex="-1"></a>(y2 <span class="ot">&lt;-</span> <span class="fu">which</span>(y1))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1]  5 10</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb101"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb101-1"><a href="#cb101-1" aria-hidden="true" tabindex="-1"></a>x1 <span class="sc">&amp;</span> y1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb105"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb105-1"><a href="#cb105-1" aria-hidden="true" tabindex="-1"></a>x1 <span class="sc">&amp;</span> y1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE  TRUE</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb103"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb103-1"><a href="#cb103-1" aria-hidden="true" tabindex="-1"></a><span class="fu">intersect</span>(x2, y2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb107"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb107-1"><a href="#cb107-1" aria-hidden="true" tabindex="-1"></a><span class="fu">intersect</span>(x2, y2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 10</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb105"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb105-1"><a href="#cb105-1" aria-hidden="true" tabindex="-1"></a>x1 <span class="sc">|</span> y1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb109"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb109-1"><a href="#cb109-1" aria-hidden="true" tabindex="-1"></a>x1 <span class="sc">|</span> y1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] FALSE  TRUE FALSE  TRUE  TRUE  TRUE FALSE  TRUE FALSE  TRUE</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb107"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb107-1"><a href="#cb107-1" aria-hidden="true" tabindex="-1"></a><span class="fu">union</span>(x2, y2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb111"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb111-1"><a href="#cb111-1" aria-hidden="true" tabindex="-1"></a><span class="fu">union</span>(x2, y2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1]  2  4  6  8 10  5</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb109"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb109-1"><a href="#cb109-1" aria-hidden="true" tabindex="-1"></a>x1 <span class="sc">&amp;</span> <span class="sc">!</span>y1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb113"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb113-1"><a href="#cb113-1" aria-hidden="true" tabindex="-1"></a>x1 <span class="sc">&amp;</span> <span class="sc">!</span>y1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE FALSE</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb111"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb111-1"><a href="#cb111-1" aria-hidden="true" tabindex="-1"></a><span class="fu">setdiff</span>(x2, y2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb115"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb115-1"><a href="#cb115-1" aria-hidden="true" tabindex="-1"></a><span class="fu">setdiff</span>(x2, y2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 2 4 6 8</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb113"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb113-1"><a href="#cb113-1" aria-hidden="true" tabindex="-1"></a><span class="fu">xor</span>(x1, y1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb117"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb117-1"><a href="#cb117-1" aria-hidden="true" tabindex="-1"></a><span class="fu">xor</span>(x1, y1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] FALSE  TRUE FALSE  TRUE  TRUE  TRUE FALSE  TRUE FALSE FALSE</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb115"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb115-1"><a href="#cb115-1" aria-hidden="true" tabindex="-1"></a><span class="fu">setdiff</span>(<span class="fu">union</span>(x2, y2), <span class="fu">intersect</span>(x2, y2))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb119"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb119-1"><a href="#cb119-1" aria-hidden="true" tabindex="-1"></a><span class="fu">setdiff</span>(<span class="fu">union</span>(x2, y2), <span class="fu">intersect</span>(x2, y2))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 2 4 6 8 5</code></pre>
 </div>
@@ -823,117 +799,107 @@ Note
 <p>In general, avoid switching from logical to integer subsetting unless you want, for example, the first or last TRUE value.</p>
 <p><strong>More Examples to compare performance</strong>:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb117"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb117-1"><a href="#cb117-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Large logical vector</span></span>
-<span id="cb117-2"><a href="#cb117-2" aria-hidden="true" tabindex="-1"></a>vec <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="cn">TRUE</span>, <span class="cn">FALSE</span>), <span class="at">size =</span> <span class="fl">1e6</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb117-3"><a href="#cb117-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb117-4"><a href="#cb117-4" aria-hidden="true" tabindex="-1"></a><span class="co"># integer subsetting to find the first TRUE</span></span>
-<span id="cb117-5"><a href="#cb117-5" aria-hidden="true" tabindex="-1"></a>first_true_base <span class="ot">&lt;-</span> <span class="fu">which</span>(vec)[<span class="dv">1</span>]</span>
-<span id="cb117-6"><a href="#cb117-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb117-7"><a href="#cb117-7" aria-hidden="true" tabindex="-1"></a><span class="co"># logical subsetting</span></span>
-<span id="cb117-8"><a href="#cb117-8" aria-hidden="true" tabindex="-1"></a>first_true_set <span class="ot">&lt;-</span> <span class="fu">match</span>(<span class="cn">TRUE</span>, vec)</span>
-<span id="cb117-9"><a href="#cb117-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb117-10"><a href="#cb117-10" aria-hidden="true" tabindex="-1"></a><span class="co">#match(TRUE, vec) can be faster because it stops as soon as it finds the first TRUE, whereas which(vec)[1] computes all TRUE indices first and then selects the first one.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb121"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb121-1"><a href="#cb121-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Large logical vector</span></span>
+<span id="cb121-2"><a href="#cb121-2" aria-hidden="true" tabindex="-1"></a>vec <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="cn">TRUE</span>, <span class="cn">FALSE</span>), <span class="at">size =</span> <span class="fl">1e6</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb121-3"><a href="#cb121-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb121-4"><a href="#cb121-4" aria-hidden="true" tabindex="-1"></a><span class="co"># integer subsetting to find the first TRUE</span></span>
+<span id="cb121-5"><a href="#cb121-5" aria-hidden="true" tabindex="-1"></a>first_true_base <span class="ot">&lt;-</span> <span class="fu">which</span>(vec)[<span class="dv">1</span>]</span>
+<span id="cb121-6"><a href="#cb121-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb121-7"><a href="#cb121-7" aria-hidden="true" tabindex="-1"></a><span class="co"># logical subsetting</span></span>
+<span id="cb121-8"><a href="#cb121-8" aria-hidden="true" tabindex="-1"></a>first_true_set <span class="ot">&lt;-</span> <span class="fu">match</span>(<span class="cn">TRUE</span>, vec)</span>
+<span id="cb121-9"><a href="#cb121-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb121-10"><a href="#cb121-10" aria-hidden="true" tabindex="-1"></a><span class="co">#match(TRUE, vec) can be faster because it stops as soon as it finds the first TRUE, whereas which(vec)[1] computes all TRUE indices first and then selects the first one.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>When a dataset has very few TRUE values (sparse data) and many FALSE values, using set representations can be more efficient both in terms of speed and memory. Indices represent the positions of TRUE values, saving memory by not storing the FALSE values. Operations on sets typically faster because they involve fewer elements.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb118"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb118-1"><a href="#cb118-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Sparse logical vector</span></span>
-<span id="cb118-2"><a href="#cb118-2" aria-hidden="true" tabindex="-1"></a>vec <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">FALSE</span>, <span class="fl">1e6</span>)</span>
-<span id="cb118-3"><a href="#cb118-3" aria-hidden="true" tabindex="-1"></a>vec[<span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="fl">1e6</span>, <span class="dv">10</span>)] <span class="ot">&lt;-</span> <span class="cn">TRUE</span>  <span class="co"># Only 10 TRUE values</span></span>
-<span id="cb118-4"><a href="#cb118-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb118-5"><a href="#cb118-5" aria-hidden="true" tabindex="-1"></a><span class="co"># logical</span></span>
-<span id="cb118-6"><a href="#cb118-6" aria-hidden="true" tabindex="-1"></a>subset_base <span class="ot">&lt;-</span> vec[vec <span class="sc">==</span> <span class="cn">TRUE</span>]</span>
-<span id="cb118-7"><a href="#cb118-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb118-8"><a href="#cb118-8" aria-hidden="true" tabindex="-1"></a><span class="co"># integer</span></span>
-<span id="cb118-9"><a href="#cb118-9" aria-hidden="true" tabindex="-1"></a>true_indices <span class="ot">&lt;-</span> <span class="fu">which</span>(vec)</span>
-<span id="cb118-10"><a href="#cb118-10" aria-hidden="true" tabindex="-1"></a>subset_set <span class="ot">&lt;-</span> vec[true_indices]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb122"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb122-1"><a href="#cb122-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Sparse logical vector</span></span>
+<span id="cb122-2"><a href="#cb122-2" aria-hidden="true" tabindex="-1"></a>vec <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">FALSE</span>, <span class="fl">1e6</span>)</span>
+<span id="cb122-3"><a href="#cb122-3" aria-hidden="true" tabindex="-1"></a>vec[<span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="fl">1e6</span>, <span class="dv">10</span>)] <span class="ot">&lt;-</span> <span class="cn">TRUE</span>  <span class="co"># Only 10 TRUE values</span></span>
+<span id="cb122-4"><a href="#cb122-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb122-5"><a href="#cb122-5" aria-hidden="true" tabindex="-1"></a><span class="co"># logical</span></span>
+<span id="cb122-6"><a href="#cb122-6" aria-hidden="true" tabindex="-1"></a>subset_base <span class="ot">&lt;-</span> vec[vec <span class="sc">==</span> <span class="cn">TRUE</span>]</span>
+<span id="cb122-7"><a href="#cb122-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb122-8"><a href="#cb122-8" aria-hidden="true" tabindex="-1"></a><span class="co"># integer</span></span>
+<span id="cb122-9"><a href="#cb122-9" aria-hidden="true" tabindex="-1"></a>true_indices <span class="ot">&lt;-</span> <span class="fu">which</span>(vec)</span>
+<span id="cb122-10"><a href="#cb122-10" aria-hidden="true" tabindex="-1"></a>subset_set <span class="ot">&lt;-</span> vec[true_indices]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb119"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb119-1"><a href="#cb119-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(data.table)</span>
-<span id="cb119-2"><a href="#cb119-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tibble)</span>
-<span id="cb119-3"><a href="#cb119-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(collapse)</span>
-<span id="cb119-4"><a href="#cb119-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(microbenchmark)</span>
-<span id="cb119-5"><a href="#cb119-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(highcharter)</span>
-<span id="cb119-6"><a href="#cb119-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb119-7"><a href="#cb119-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Set the size for the test data</span></span>
-<span id="cb119-8"><a href="#cb119-8" aria-hidden="true" tabindex="-1"></a>size <span class="ot">&lt;-</span> <span class="fl">1e5</span></span>
-<span id="cb119-9"><a href="#cb119-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb119-10"><a href="#cb119-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a data frame and convert it to data.table and tibble</span></span>
-<span id="cb119-11"><a href="#cb119-11" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb119-12"><a href="#cb119-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="fu">runif</span>(size),</span>
-<span id="cb119-13"><a href="#cb119-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> <span class="fu">runif</span>(size),</span>
-<span id="cb119-14"><a href="#cb119-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">id =</span> <span class="fu">sample</span>(letters, size, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb119-15"><a href="#cb119-15" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb119-16"><a href="#cb119-16" aria-hidden="true" tabindex="-1"></a>dt <span class="ot">&lt;-</span> <span class="fu">as.data.table</span>(df)</span>
-<span id="cb119-17"><a href="#cb119-17" aria-hidden="true" tabindex="-1"></a>tb <span class="ot">&lt;-</span> <span class="fu">as_tibble</span>(df)</span>
-<span id="cb119-18"><a href="#cb119-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb119-19"><a href="#cb119-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Logical vector with sparse TRUE values</span></span>
-<span id="cb119-20"><a href="#cb119-20" aria-hidden="true" tabindex="-1"></a>logical_vector <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">FALSE</span>, size)</span>
-<span id="cb119-21"><a href="#cb119-21" aria-hidden="true" tabindex="-1"></a>logical_vector[<span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span>size, <span class="dv">100</span>)] <span class="ot">&lt;-</span> <span class="cn">TRUE</span>  <span class="co"># Only 100 TRUE values</span></span>
-<span id="cb119-22"><a href="#cb119-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb119-23"><a href="#cb119-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Benchmarking logical vs integer subsetting</span></span>
-<span id="cb119-24"><a href="#cb119-24" aria-hidden="true" tabindex="-1"></a>bench <span class="ot">&lt;-</span> microbenchmark<span class="sc">::</span><span class="fu">microbenchmark</span>(</span>
-<span id="cb119-25"><a href="#cb119-25" aria-hidden="true" tabindex="-1"></a>  <span class="at">times =</span> <span class="dv">100</span>,</span>
-<span id="cb119-26"><a href="#cb119-26" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb119-27"><a href="#cb119-27" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Logical subsetting for data.frame</span></span>
-<span id="cb119-28"><a href="#cb119-28" aria-hidden="true" tabindex="-1"></a>  <span class="at">df_logical =</span> {</span>
-<span id="cb119-29"><a href="#cb119-29" aria-hidden="true" tabindex="-1"></a>    df[logical_vector, ]</span>
-<span id="cb119-30"><a href="#cb119-30" aria-hidden="true" tabindex="-1"></a>  },</span>
-<span id="cb119-31"><a href="#cb119-31" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb119-32"><a href="#cb119-32" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Integer subsetting for data.frame</span></span>
-<span id="cb119-33"><a href="#cb119-33" aria-hidden="true" tabindex="-1"></a>  <span class="at">df_integer =</span> {</span>
-<span id="cb119-34"><a href="#cb119-34" aria-hidden="true" tabindex="-1"></a>    df[<span class="fu">which</span>(logical_vector), ]</span>
-<span id="cb119-35"><a href="#cb119-35" aria-hidden="true" tabindex="-1"></a>  },</span>
-<span id="cb119-36"><a href="#cb119-36" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb119-37"><a href="#cb119-37" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Logical subsetting for data.table</span></span>
-<span id="cb119-38"><a href="#cb119-38" aria-hidden="true" tabindex="-1"></a>  <span class="at">dt_logical =</span> {</span>
-<span id="cb119-39"><a href="#cb119-39" aria-hidden="true" tabindex="-1"></a>    dt[logical_vector]</span>
-<span id="cb119-40"><a href="#cb119-40" aria-hidden="true" tabindex="-1"></a>  },</span>
-<span id="cb119-41"><a href="#cb119-41" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb119-42"><a href="#cb119-42" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Integer subsetting for data.table</span></span>
-<span id="cb119-43"><a href="#cb119-43" aria-hidden="true" tabindex="-1"></a>  <span class="at">dt_integer =</span> {</span>
-<span id="cb119-44"><a href="#cb119-44" aria-hidden="true" tabindex="-1"></a>    dt[<span class="fu">which</span>(logical_vector)]</span>
-<span id="cb119-45"><a href="#cb119-45" aria-hidden="true" tabindex="-1"></a>  },</span>
-<span id="cb119-46"><a href="#cb119-46" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb119-47"><a href="#cb119-47" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Logical subsetting for tibble</span></span>
-<span id="cb119-48"><a href="#cb119-48" aria-hidden="true" tabindex="-1"></a>  <span class="at">tb_logical =</span> {</span>
-<span id="cb119-49"><a href="#cb119-49" aria-hidden="true" tabindex="-1"></a>    tb[logical_vector, ]</span>
-<span id="cb119-50"><a href="#cb119-50" aria-hidden="true" tabindex="-1"></a>  },</span>
-<span id="cb119-51"><a href="#cb119-51" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb119-52"><a href="#cb119-52" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Integer subsetting for tibble</span></span>
-<span id="cb119-53"><a href="#cb119-53" aria-hidden="true" tabindex="-1"></a>  <span class="at">tb_integer =</span> {</span>
-<span id="cb119-54"><a href="#cb119-54" aria-hidden="true" tabindex="-1"></a>    tb[<span class="fu">which</span>(logical_vector), ]</span>
-<span id="cb119-55"><a href="#cb119-55" aria-hidden="true" tabindex="-1"></a>  },</span>
-<span id="cb119-56"><a href="#cb119-56" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb119-57"><a href="#cb119-57" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Logical subsetting for list (base R)</span></span>
-<span id="cb119-58"><a href="#cb119-58" aria-hidden="true" tabindex="-1"></a>  <span class="at">lst_logical =</span> {</span>
-<span id="cb119-59"><a href="#cb119-59" aria-hidden="true" tabindex="-1"></a>    <span class="fu">lapply</span>(lst, <span class="cf">function</span>(x) x[logical_vector])</span>
-<span id="cb119-60"><a href="#cb119-60" aria-hidden="true" tabindex="-1"></a>  },</span>
-<span id="cb119-61"><a href="#cb119-61" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb119-62"><a href="#cb119-62" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Integer subsetting for list (base R)</span></span>
-<span id="cb119-63"><a href="#cb119-63" aria-hidden="true" tabindex="-1"></a>  <span class="at">lst_integer =</span> {</span>
-<span id="cb119-64"><a href="#cb119-64" aria-hidden="true" tabindex="-1"></a>    <span class="fu">lapply</span>(lst, <span class="cf">function</span>(x) x[<span class="fu">which</span>(logical_vector)])</span>
-<span id="cb119-65"><a href="#cb119-65" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb119-66"><a href="#cb119-66" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb119-67"><a href="#cb119-67" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb119-68"><a href="#cb119-68" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualization using highcharter</span></span>
-<span id="cb119-69"><a href="#cb119-69" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">requireNamespace</span>(<span class="st">"highcharter"</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>)) {</span>
-<span id="cb119-70"><a href="#cb119-70" aria-hidden="true" tabindex="-1"></a>  hc_dt <span class="ot">&lt;-</span> highcharter<span class="sc">::</span><span class="fu">data_to_boxplot</span>(bench,</span>
-<span id="cb119-71"><a href="#cb119-71" aria-hidden="true" tabindex="-1"></a>                                        time,</span>
-<span id="cb119-72"><a href="#cb119-72" aria-hidden="true" tabindex="-1"></a>                                        expr,</span>
-<span id="cb119-73"><a href="#cb119-73" aria-hidden="true" tabindex="-1"></a>                                        <span class="at">add_outliers =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb119-74"><a href="#cb119-74" aria-hidden="true" tabindex="-1"></a>                                        <span class="at">name =</span> <span class="st">"Time in milliseconds"</span>)</span>
-<span id="cb119-75"><a href="#cb119-75" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb119-76"><a href="#cb119-76" aria-hidden="true" tabindex="-1"></a>  highcharter<span class="sc">::</span><span class="fu">highchart</span>() <span class="sc">|&gt;</span></span>
-<span id="cb119-77"><a href="#cb119-77" aria-hidden="true" tabindex="-1"></a>    highcharter<span class="sc">::</span><span class="fu">hc_xAxis</span>(<span class="at">type =</span> <span class="st">"category"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb119-78"><a href="#cb119-78" aria-hidden="true" tabindex="-1"></a>    highcharter<span class="sc">::</span><span class="fu">hc_chart</span>(<span class="at">inverted =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
-<span id="cb119-79"><a href="#cb119-79" aria-hidden="true" tabindex="-1"></a>    highcharter<span class="sc">::</span><span class="fu">hc_add_series_list</span>(hc_dt)</span>
-<span id="cb119-80"><a href="#cb119-80" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
-<span id="cb119-81"><a href="#cb119-81" aria-hidden="true" tabindex="-1"></a>  <span class="fu">boxplot</span>(bench, <span class="at">outline =</span> <span class="cn">FALSE</span>, <span class="at">main =</span> <span class="st">"Logical vs Integer Subsetting Performance"</span>, <span class="at">ylab =</span> <span class="st">"Time (milliseconds)"</span>, <span class="at">las =</span> <span class="dv">2</span>)</span>
-<span id="cb119-82"><a href="#cb119-82" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb123"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb123-1"><a href="#cb123-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(data.table)</span>
+<span id="cb123-2"><a href="#cb123-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tibble)</span>
+<span id="cb123-3"><a href="#cb123-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(collapse)</span>
+<span id="cb123-4"><a href="#cb123-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(microbenchmark)</span>
+<span id="cb123-5"><a href="#cb123-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(highcharter)</span>
+<span id="cb123-6"><a href="#cb123-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb123-7"><a href="#cb123-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Set the size for the test data</span></span>
+<span id="cb123-8"><a href="#cb123-8" aria-hidden="true" tabindex="-1"></a>size <span class="ot">&lt;-</span> <span class="fl">1e5</span></span>
+<span id="cb123-9"><a href="#cb123-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb123-10"><a href="#cb123-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a data frame and convert it to data.table and tibble</span></span>
+<span id="cb123-11"><a href="#cb123-11" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb123-12"><a href="#cb123-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="fu">runif</span>(size),</span>
+<span id="cb123-13"><a href="#cb123-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> <span class="fu">runif</span>(size),</span>
+<span id="cb123-14"><a href="#cb123-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">id =</span> <span class="fu">sample</span>(letters, size, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb123-15"><a href="#cb123-15" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb123-16"><a href="#cb123-16" aria-hidden="true" tabindex="-1"></a>dt <span class="ot">&lt;-</span> <span class="fu">as.data.table</span>(df)</span>
+<span id="cb123-17"><a href="#cb123-17" aria-hidden="true" tabindex="-1"></a>tb <span class="ot">&lt;-</span> <span class="fu">as_tibble</span>(df)</span>
+<span id="cb123-18"><a href="#cb123-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb123-19"><a href="#cb123-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Logical vector with sparse TRUE values</span></span>
+<span id="cb123-20"><a href="#cb123-20" aria-hidden="true" tabindex="-1"></a>logical_vector <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">FALSE</span>, size)</span>
+<span id="cb123-21"><a href="#cb123-21" aria-hidden="true" tabindex="-1"></a>logical_vector[<span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span>size, <span class="dv">100</span>)] <span class="ot">&lt;-</span> <span class="cn">TRUE</span>  <span class="co"># Only 100 TRUE values</span></span>
+<span id="cb123-22"><a href="#cb123-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb123-23"><a href="#cb123-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Benchmarking logical vs integer subsetting</span></span>
+<span id="cb123-24"><a href="#cb123-24" aria-hidden="true" tabindex="-1"></a>bench <span class="ot">&lt;-</span> microbenchmark<span class="sc">::</span><span class="fu">microbenchmark</span>(</span>
+<span id="cb123-25"><a href="#cb123-25" aria-hidden="true" tabindex="-1"></a>  <span class="at">times =</span> <span class="dv">100</span>,</span>
+<span id="cb123-26"><a href="#cb123-26" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb123-27"><a href="#cb123-27" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Logical subsetting for data.frame</span></span>
+<span id="cb123-28"><a href="#cb123-28" aria-hidden="true" tabindex="-1"></a>  <span class="at">df_logical =</span> {</span>
+<span id="cb123-29"><a href="#cb123-29" aria-hidden="true" tabindex="-1"></a>    df[logical_vector, ]</span>
+<span id="cb123-30"><a href="#cb123-30" aria-hidden="true" tabindex="-1"></a>  },</span>
+<span id="cb123-31"><a href="#cb123-31" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb123-32"><a href="#cb123-32" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Integer subsetting for data.frame</span></span>
+<span id="cb123-33"><a href="#cb123-33" aria-hidden="true" tabindex="-1"></a>  <span class="at">df_integer =</span> {</span>
+<span id="cb123-34"><a href="#cb123-34" aria-hidden="true" tabindex="-1"></a>    df[<span class="fu">which</span>(logical_vector), ]</span>
+<span id="cb123-35"><a href="#cb123-35" aria-hidden="true" tabindex="-1"></a>  },</span>
+<span id="cb123-36"><a href="#cb123-36" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb123-37"><a href="#cb123-37" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Logical subsetting for data.table</span></span>
+<span id="cb123-38"><a href="#cb123-38" aria-hidden="true" tabindex="-1"></a>  <span class="at">dt_logical =</span> {</span>
+<span id="cb123-39"><a href="#cb123-39" aria-hidden="true" tabindex="-1"></a>    dt[logical_vector]</span>
+<span id="cb123-40"><a href="#cb123-40" aria-hidden="true" tabindex="-1"></a>  },</span>
+<span id="cb123-41"><a href="#cb123-41" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb123-42"><a href="#cb123-42" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Integer subsetting for data.table</span></span>
+<span id="cb123-43"><a href="#cb123-43" aria-hidden="true" tabindex="-1"></a>  <span class="at">dt_integer =</span> {</span>
+<span id="cb123-44"><a href="#cb123-44" aria-hidden="true" tabindex="-1"></a>    dt[<span class="fu">which</span>(logical_vector)]</span>
+<span id="cb123-45"><a href="#cb123-45" aria-hidden="true" tabindex="-1"></a>  },</span>
+<span id="cb123-46"><a href="#cb123-46" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb123-47"><a href="#cb123-47" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Logical subsetting for tibble</span></span>
+<span id="cb123-48"><a href="#cb123-48" aria-hidden="true" tabindex="-1"></a>  <span class="at">tb_logical =</span> {</span>
+<span id="cb123-49"><a href="#cb123-49" aria-hidden="true" tabindex="-1"></a>    tb[logical_vector, ]</span>
+<span id="cb123-50"><a href="#cb123-50" aria-hidden="true" tabindex="-1"></a>  },</span>
+<span id="cb123-51"><a href="#cb123-51" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb123-52"><a href="#cb123-52" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Integer subsetting for tibble</span></span>
+<span id="cb123-53"><a href="#cb123-53" aria-hidden="true" tabindex="-1"></a>  <span class="at">tb_integer =</span> {</span>
+<span id="cb123-54"><a href="#cb123-54" aria-hidden="true" tabindex="-1"></a>    tb[<span class="fu">which</span>(logical_vector), ]</span>
+<span id="cb123-55"><a href="#cb123-55" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb123-56"><a href="#cb123-56" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb123-57"><a href="#cb123-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb123-58"><a href="#cb123-58" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualization using highcharter</span></span>
+<span id="cb123-59"><a href="#cb123-59" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">requireNamespace</span>(<span class="st">"highcharter"</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>)) {</span>
+<span id="cb123-60"><a href="#cb123-60" aria-hidden="true" tabindex="-1"></a>  hc_dt <span class="ot">&lt;-</span> highcharter<span class="sc">::</span><span class="fu">data_to_boxplot</span>(bench,</span>
+<span id="cb123-61"><a href="#cb123-61" aria-hidden="true" tabindex="-1"></a>                                        time,</span>
+<span id="cb123-62"><a href="#cb123-62" aria-hidden="true" tabindex="-1"></a>                                        expr,</span>
+<span id="cb123-63"><a href="#cb123-63" aria-hidden="true" tabindex="-1"></a>                                        <span class="at">add_outliers =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb123-64"><a href="#cb123-64" aria-hidden="true" tabindex="-1"></a>                                        <span class="at">name =</span> <span class="st">"Time in milliseconds"</span>)</span>
+<span id="cb123-65"><a href="#cb123-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb123-66"><a href="#cb123-66" aria-hidden="true" tabindex="-1"></a>  highcharter<span class="sc">::</span><span class="fu">highchart</span>() <span class="sc">|&gt;</span></span>
+<span id="cb123-67"><a href="#cb123-67" aria-hidden="true" tabindex="-1"></a>    highcharter<span class="sc">::</span><span class="fu">hc_xAxis</span>(<span class="at">type =</span> <span class="st">"category"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb123-68"><a href="#cb123-68" aria-hidden="true" tabindex="-1"></a>    highcharter<span class="sc">::</span><span class="fu">hc_chart</span>(<span class="at">inverted =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb123-69"><a href="#cb123-69" aria-hidden="true" tabindex="-1"></a>    highcharter<span class="sc">::</span><span class="fu">hc_add_series_list</span>(hc_dt)</span>
+<span id="cb123-70"><a href="#cb123-70" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
+<span id="cb123-71"><a href="#cb123-71" aria-hidden="true" tabindex="-1"></a>  <span class="fu">boxplot</span>(bench, <span class="at">outline =</span> <span class="cn">FALSE</span>, <span class="at">main =</span> <span class="st">"Logical vs Integer Subsetting Performance"</span>, <span class="at">ylab =</span> <span class="st">"Time (milliseconds)"</span>, <span class="at">las =</span> <span class="dv">2</span>)</span>
+<span id="cb123-72"><a href="#cb123-72" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 
-<div class="highchart html-widget html-fill-item" id="htmlwidget-be4f915c3fa24e04b38e" style="width:100%;height:464px;"></div>
-<script type="application/json" data-for="htmlwidget-be4f915c3fa24e04b38e">{"x":{"hc_opts":{"chart":{"reflow":true,"inverted":true},"title":{"text":null},"yAxis":{"title":{"text":null}},"credits":{"enabled":false},"exporting":{"enabled":false},"boost":{"enabled":false},"plotOptions":{"series":{"label":{"enabled":false},"turboThreshold":0},"treemap":{"layoutAlgorithm":"squarified"}},"xAxis":{"type":"category"},"series":[{"name":"Time in milliseconds","data":[{"name":"df_logical","low":270650,"q1":289140.5,"median":299473.5,"q3":322118,"high":367800},{"name":"df_integer","low":79999,"q1":88894,"median":93706,"q3":97880.5,"high":108958},{"name":"dt_logical","low":123952,"q1":140010.5,"median":145723,"q3":152774,"high":170775},{"name":"dt_integer","low":143481,"q1":155978.5,"median":164496.5,"q3":173256.5,"high":196411},{"name":"tb_logical","low":167282,"q1":180856.5,"median":185053.5,"q3":202537.5,"high":234599},{"name":"tb_integer","low":83668,"q1":95650.5,"median":101930.5,"q3":109537,"high":129813},{"name":"lst_logical","low":182993,"q1":189421,"median":192052,"q3":196146.5,"high":202416},{"name":"lst_integer","low":117580,"q1":129248,"median":132384,"q3":137640.5,"high":149580}],"id":null,"type":"boxplot"}]},"theme":{"chart":{"backgroundColor":"transparent"},"colors":["#7cb5ec","#434348","#90ed7d","#f7a35c","#8085e9","#f15c80","#e4d354","#2b908f","#f45b5b","#91e8e1"]},"conf_opts":{"global":{"Date":null,"VMLRadialGradientURL":"http =//code.highcharts.com/list(version)/gfx/vml-radial-gradient.png","canvasToolsURL":"http =//code.highcharts.com/list(version)/modules/canvas-tools.js","getTimezoneOffset":null,"timezoneOffset":0,"useUTC":true},"lang":{"contextButtonTitle":"Chart context menu","decimalPoint":".","downloadCSV":"Download CSV","downloadJPEG":"Download JPEG image","downloadPDF":"Download PDF document","downloadPNG":"Download PNG image","downloadSVG":"Download SVG vector image","downloadXLS":"Download XLS","drillUpText":"◁ Back to {series.name}","exitFullscreen":"Exit from full screen","exportData":{"annotationHeader":"Annotations","categoryDatetimeHeader":"DateTime","categoryHeader":"Category"},"hideData":"Hide data table","invalidDate":null,"loading":"Loading...","months":["January","February","March","April","May","June","July","August","September","October","November","December"],"noData":"No data to display","numericSymbolMagnitude":1000,"numericSymbols":["k","M","G","T","P","E"],"printChart":"Print chart","resetZoom":"Reset zoom","resetZoomTitle":"Reset zoom level 1:1","shortMonths":["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],"shortWeekdays":["Sat","Sun","Mon","Tue","Wed","Thu","Fri"],"thousandsSep":" ","viewData":"View data table","viewFullscreen":"View in full screen","weekdays":["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]}},"type":"chart","fonts":[],"debug":false},"evals":[],"jsHooks":[]}</script>
+<div class="highchart html-widget html-fill-item" id="htmlwidget-30d261e8a7ca44ff257b" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-30d261e8a7ca44ff257b">{"x":{"hc_opts":{"chart":{"reflow":true,"inverted":true},"title":{"text":null},"yAxis":{"title":{"text":null}},"credits":{"enabled":false},"exporting":{"enabled":false},"boost":{"enabled":false},"plotOptions":{"series":{"label":{"enabled":false},"turboThreshold":0},"treemap":{"layoutAlgorithm":"squarified"}},"xAxis":{"type":"category"},"series":[{"name":"Time in milliseconds","data":[{"name":"df_logical","low":109200,"q1":117900,"median":127200,"q3":197550,"high":313600},{"name":"df_integer","low":40400,"q1":47400,"median":54100,"q3":76350,"high":113300},{"name":"dt_logical","low":65400,"q1":73750,"median":84200,"q3":113900,"high":173200},{"name":"dt_integer","low":78800,"q1":90400,"median":109050,"q3":157700,"high":217900},{"name":"tb_logical","low":227300,"q1":233450,"median":247100,"q3":283900,"high":358600},{"name":"tb_integer","low":44500,"q1":50400,"median":56050,"q3":73600,"high":99900}],"id":null,"type":"boxplot"}]},"theme":{"chart":{"backgroundColor":"transparent"},"colors":["#7cb5ec","#434348","#90ed7d","#f7a35c","#8085e9","#f15c80","#e4d354","#2b908f","#f45b5b","#91e8e1"]},"conf_opts":{"global":{"Date":null,"VMLRadialGradientURL":"http =//code.highcharts.com/list(version)/gfx/vml-radial-gradient.png","canvasToolsURL":"http =//code.highcharts.com/list(version)/modules/canvas-tools.js","getTimezoneOffset":null,"timezoneOffset":0,"useUTC":true},"lang":{"contextButtonTitle":"Chart context menu","decimalPoint":".","downloadCSV":"Download CSV","downloadJPEG":"Download JPEG image","downloadPDF":"Download PDF document","downloadPNG":"Download PNG image","downloadSVG":"Download SVG vector image","downloadXLS":"Download XLS","drillUpText":"◁ Back to {series.name}","exitFullscreen":"Exit from full screen","exportData":{"annotationHeader":"Annotations","categoryDatetimeHeader":"DateTime","categoryHeader":"Category"},"hideData":"Hide data table","invalidDate":null,"loading":"Loading...","months":["January","February","March","April","May","June","July","August","September","October","November","December"],"noData":"No data to display","numericSymbolMagnitude":1000,"numericSymbols":["k","M","G","T","P","E"],"printChart":"Print chart","resetZoom":"Reset zoom","resetZoomTitle":"Reset zoom level 1:1","shortMonths":["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],"shortWeekdays":["Sat","Sun","Mon","Tue","Wed","Thu","Fri"],"thousandsSep":" ","viewData":"View data table","viewFullscreen":"View in full screen","weekdays":["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]}},"type":"chart","fonts":[],"debug":false},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 </section>
@@ -946,15 +912,15 @@ Note
 <h5 data-number="1.6.1.1" class="anchored" data-anchor-id="lookup-tables"><span class="header-section-number">1.6.1.1</span> Lookup tables</h5>
 <p>These are usually named vectors or lists, useful when you want to map values from one object to another. For example,</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb120"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb120-1"><a href="#cb120-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"m"</span>, <span class="st">"f"</span>, <span class="st">"u"</span>, <span class="st">"f"</span>, <span class="st">"f"</span>, <span class="st">"m"</span>, <span class="st">"m"</span>) </span>
-<span id="cb120-2"><a href="#cb120-2" aria-hidden="true" tabindex="-1"></a>lookup <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">m =</span> <span class="st">"Male"</span>, <span class="at">f =</span> <span class="st">"Female"</span>, <span class="at">u =</span> <span class="cn">NA</span>)</span>
-<span id="cb120-3"><a href="#cb120-3" aria-hidden="true" tabindex="-1"></a>lookup[x]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb124"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb124-1"><a href="#cb124-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"m"</span>, <span class="st">"f"</span>, <span class="st">"u"</span>, <span class="st">"f"</span>, <span class="st">"f"</span>, <span class="st">"m"</span>, <span class="st">"m"</span>) </span>
+<span id="cb124-2"><a href="#cb124-2" aria-hidden="true" tabindex="-1"></a>lookup <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">m =</span> <span class="st">"Male"</span>, <span class="at">f =</span> <span class="st">"Female"</span>, <span class="at">u =</span> <span class="cn">NA</span>)</span>
+<span id="cb124-3"><a href="#cb124-3" aria-hidden="true" tabindex="-1"></a>lookup[x]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       m        f        u        f        f        m        m 
   "Male" "Female"       NA "Female" "Female"   "Male"   "Male" </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb122"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb122-1"><a href="#cb122-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Can use unname() if you don't want names in the result </span></span>
-<span id="cb122-2"><a href="#cb122-2" aria-hidden="true" tabindex="-1"></a><span class="fu">unname</span>(lookup[x])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb126"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb126-1"><a href="#cb126-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Can use unname() if you don't want names in the result </span></span>
+<span id="cb126-2"><a href="#cb126-2" aria-hidden="true" tabindex="-1"></a><span class="fu">unname</span>(lookup[x])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "Male"   "Female" NA       "Female" "Female" "Male"   "Male"  </code></pre>
 </div>
@@ -964,13 +930,13 @@ Note
 <h5 data-number="1.6.1.2" class="anchored" data-anchor-id="removing-columns-from-data-frames"><span class="header-section-number">1.6.1.2</span> Removing columns from data frames</h5>
 <p>There are two ways of removing columns:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb124"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb124-1"><a href="#cb124-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Option 1 - Set it to NULL</span></span>
-<span id="cb124-2"><a href="#cb124-2" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="at">y =</span> <span class="dv">3</span><span class="sc">:</span><span class="dv">1</span>, <span class="at">z =</span> letters[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>])</span>
-<span id="cb124-3"><a href="#cb124-3" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>z <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
-<span id="cb124-4"><a href="#cb124-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb124-5"><a href="#cb124-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Option 2 - Subset the columns you want </span></span>
-<span id="cb124-6"><a href="#cb124-6" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="at">y =</span> <span class="dv">3</span><span class="sc">:</span><span class="dv">1</span>, <span class="at">z =</span> letters[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>])</span>
-<span id="cb124-7"><a href="#cb124-7" aria-hidden="true" tabindex="-1"></a>df[<span class="fu">c</span>(<span class="st">"x"</span>, <span class="st">"y"</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb128"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb128-1"><a href="#cb128-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Option 1 - Set it to NULL</span></span>
+<span id="cb128-2"><a href="#cb128-2" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="at">y =</span> <span class="dv">3</span><span class="sc">:</span><span class="dv">1</span>, <span class="at">z =</span> letters[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>])</span>
+<span id="cb128-3"><a href="#cb128-3" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>z <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb128-4"><a href="#cb128-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb128-5"><a href="#cb128-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Option 2 - Subset the columns you want </span></span>
+<span id="cb128-6"><a href="#cb128-6" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="at">y =</span> <span class="dv">3</span><span class="sc">:</span><span class="dv">1</span>, <span class="at">z =</span> letters[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>])</span>
+<span id="cb128-7"><a href="#cb128-7" aria-hidden="true" tabindex="-1"></a>df[<span class="fu">c</span>(<span class="st">"x"</span>, <span class="st">"y"</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  x y
 1 1 3
@@ -980,7 +946,7 @@ Note
 </div>
 <p>If you only know the columns you do not want (e.g., “z”):</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb126"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb126-1"><a href="#cb126-1" aria-hidden="true" tabindex="-1"></a>df[<span class="fu">setdiff</span>(<span class="fu">names</span>(df), <span class="st">"z"</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb130"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb130-1"><a href="#cb130-1" aria-hidden="true" tabindex="-1"></a>df[<span class="fu">setdiff</span>(<span class="fu">names</span>(df), <span class="st">"z"</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  x y
 1 1 3
@@ -997,22 +963,22 @@ Note
 <p>Suppose you have a more complex lookup table, i.e., with multiple columns of information.</p>
 <p>For example, suppose you have a vector of integer grades and a table that describes their property:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb128"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb128-1"><a href="#cb128-1" aria-hidden="true" tabindex="-1"></a>grades <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">1</span>) </span>
-<span id="cb128-2"><a href="#cb128-2" aria-hidden="true" tabindex="-1"></a>info <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb128-3"><a href="#cb128-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">grade =</span> <span class="dv">3</span><span class="sc">:</span><span class="dv">1</span>,</span>
-<span id="cb128-4"><a href="#cb128-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">desc =</span> <span class="fu">c</span>(<span class="st">"Excellent"</span>, <span class="st">"Good"</span>, <span class="st">"Poor"</span>),</span>
-<span id="cb128-5"><a href="#cb128-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">fail =</span> <span class="fu">c</span>(F, F, T)</span>
-<span id="cb128-6"><a href="#cb128-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb132"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb132-1"><a href="#cb132-1" aria-hidden="true" tabindex="-1"></a>grades <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">1</span>) </span>
+<span id="cb132-2"><a href="#cb132-2" aria-hidden="true" tabindex="-1"></a>info <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb132-3"><a href="#cb132-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">grade =</span> <span class="dv">3</span><span class="sc">:</span><span class="dv">1</span>,</span>
+<span id="cb132-4"><a href="#cb132-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">desc =</span> <span class="fu">c</span>(<span class="st">"Excellent"</span>, <span class="st">"Good"</span>, <span class="st">"Poor"</span>),</span>
+<span id="cb132-5"><a href="#cb132-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">fail =</span> <span class="fu">c</span>(F, F, T)</span>
+<span id="cb132-6"><a href="#cb132-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>say we want to have a row for each value in grades. A way to do this is by combining match() and integer subsetting</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb129"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb129-1"><a href="#cb129-1" aria-hidden="true" tabindex="-1"></a>id <span class="ot">&lt;-</span> <span class="fu">match</span>(grades, info<span class="sc">$</span>grade) </span>
-<span id="cb129-2"><a href="#cb129-2" aria-hidden="true" tabindex="-1"></a><span class="co">#return position where each grade is found in info$grade</span></span>
-<span id="cb129-3"><a href="#cb129-3" aria-hidden="true" tabindex="-1"></a>id</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb133"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb133-1"><a href="#cb133-1" aria-hidden="true" tabindex="-1"></a>id <span class="ot">&lt;-</span> <span class="fu">match</span>(grades, info<span class="sc">$</span>grade) </span>
+<span id="cb133-2"><a href="#cb133-2" aria-hidden="true" tabindex="-1"></a><span class="co">#return position where each grade is found in info$grade</span></span>
+<span id="cb133-3"><a href="#cb133-3" aria-hidden="true" tabindex="-1"></a>id</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 3 2 2 1 3</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb131"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb131-1"><a href="#cb131-1" aria-hidden="true" tabindex="-1"></a>info[id, ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb135"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb135-1"><a href="#cb135-1" aria-hidden="true" tabindex="-1"></a>info[id, ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>    grade      desc  fail
 3       1      Poor  TRUE
@@ -1027,37 +993,37 @@ Note
 <h5 data-number="1.6.2.2" class="anchored" data-anchor-id="random-samples"><span class="header-section-number">1.6.2.2</span> Random samples</h5>
 <p>You can use integer indices to randomly sample a vector or data frame.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb133"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb133-1"><a href="#cb133-1" aria-hidden="true" tabindex="-1"></a><span class="co"># use sample(n) to generate a random permutation of 1:n </span></span>
-<span id="cb133-2"><a href="#cb133-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb133-3"><a href="#cb133-3" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">1</span>, <span class="dv">2</span>), <span class="at">y =</span> <span class="dv">5</span><span class="sc">:</span><span class="dv">1</span>, <span class="at">z =</span> letters[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>])</span>
-<span id="cb133-4"><a href="#cb133-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Randomly reorder</span></span>
-<span id="cb133-5"><a href="#cb133-5" aria-hidden="true" tabindex="-1"></a>df[<span class="fu">sample</span>(<span class="fu">nrow</span>(df)), ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb137"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb137-1"><a href="#cb137-1" aria-hidden="true" tabindex="-1"></a><span class="co"># use sample(n) to generate a random permutation of 1:n </span></span>
+<span id="cb137-2"><a href="#cb137-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb137-3"><a href="#cb137-3" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">1</span>, <span class="dv">2</span>), <span class="at">y =</span> <span class="dv">5</span><span class="sc">:</span><span class="dv">1</span>, <span class="at">z =</span> letters[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>])</span>
+<span id="cb137-4"><a href="#cb137-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Randomly reorder</span></span>
+<span id="cb137-5"><a href="#cb137-5" aria-hidden="true" tabindex="-1"></a>df[<span class="fu">sample</span>(<span class="fu">nrow</span>(df)), ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  x y z
-5 2 1 e
 2 2 4 b
+4 1 2 d
+3 3 3 c
+1 1 5 a
+5 2 1 e</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb139"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb139-1"><a href="#cb139-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Select 3 random rows</span></span>
+<span id="cb139-2"><a href="#cb139-2" aria-hidden="true" tabindex="-1"></a>df[<span class="fu">sample</span>(<span class="fu">nrow</span>(df), <span class="dv">3</span>), ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  x y z
 4 1 2 d
 1 1 5 a
 3 3 3 c</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb135"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb135-1"><a href="#cb135-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Select 3 random rows</span></span>
-<span id="cb135-2"><a href="#cb135-2" aria-hidden="true" tabindex="-1"></a>df[<span class="fu">sample</span>(<span class="fu">nrow</span>(df), <span class="dv">3</span>), ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>  x y z
-2 2 4 b
-3 3 3 c
-5 2 1 e</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb137"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb137-1"><a href="#cb137-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Select 6 bootstrap replicates</span></span>
-<span id="cb137-2"><a href="#cb137-2" aria-hidden="true" tabindex="-1"></a>df[<span class="fu">sample</span>(<span class="fu">nrow</span>(df), <span class="dv">6</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>), ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb141"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb141-1"><a href="#cb141-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Select 6 bootstrap replicates</span></span>
+<span id="cb141-2"><a href="#cb141-2" aria-hidden="true" tabindex="-1"></a>df[<span class="fu">sample</span>(<span class="fu">nrow</span>(df), <span class="dv">6</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>), ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>    x y z
+5   2 1 e
 4   1 2 d
 3   3 3 c
-2   2 4 b
-5   2 1 e
-2.1 2 4 b
-1   1 5 a</code></pre>
+4.1 1 2 d
+4.2 1 2 d
+3.1 3 3 c</code></pre>
 </div>
 </div>
 </section>
@@ -1065,76 +1031,76 @@ Note
 <h5 data-number="1.6.2.3" class="anchored" data-anchor-id="ordering"><span class="header-section-number">1.6.2.3</span> Ordering</h5>
 <p>order() takes a vector as its input and returns an integer vector describing how to order the subsetted vector</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb139"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb139-1"><a href="#cb139-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"b"</span>, <span class="st">"c"</span>, <span class="st">"a"</span>)</span>
-<span id="cb139-2"><a href="#cb139-2" aria-hidden="true" tabindex="-1"></a><span class="fu">order</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb143"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb143-1"><a href="#cb143-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"b"</span>, <span class="st">"c"</span>, <span class="st">"a"</span>)</span>
+<span id="cb143-2"><a href="#cb143-2" aria-hidden="true" tabindex="-1"></a><span class="fu">order</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 3 1 2</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb141"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb141-1"><a href="#cb141-1" aria-hidden="true" tabindex="-1"></a>x[<span class="fu">order</span>(x)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb145"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb145-1"><a href="#cb145-1" aria-hidden="true" tabindex="-1"></a>x[<span class="fu">order</span>(x)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "a" "b" "c"</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb143"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb143-1"><a href="#cb143-1" aria-hidden="true" tabindex="-1"></a><span class="co"># can also change the order from ascending to descending by using decreasing = TRUE</span></span>
-<span id="cb143-2"><a href="#cb143-2" aria-hidden="true" tabindex="-1"></a><span class="fu">order</span>(x, <span class="at">decreasing =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb147"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb147-1"><a href="#cb147-1" aria-hidden="true" tabindex="-1"></a><span class="co"># can also change the order from ascending to descending by using decreasing = TRUE</span></span>
+<span id="cb147-2"><a href="#cb147-2" aria-hidden="true" tabindex="-1"></a><span class="fu">order</span>(x, <span class="at">decreasing =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 2 1 3</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb145"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb145-1"><a href="#cb145-1" aria-hidden="true" tabindex="-1"></a>x[<span class="fu">order</span>(x, <span class="at">decreasing =</span> <span class="cn">TRUE</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb149"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb149-1"><a href="#cb149-1" aria-hidden="true" tabindex="-1"></a>x[<span class="fu">order</span>(x, <span class="at">decreasing =</span> <span class="cn">TRUE</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "c" "b" "a"</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb147"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb147-1"><a href="#cb147-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"b"</span>, <span class="cn">NA</span>, <span class="st">"c"</span>, <span class="st">"a"</span>)</span>
-<span id="cb147-2"><a href="#cb147-2" aria-hidden="true" tabindex="-1"></a><span class="fu">order</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb151"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb151-1"><a href="#cb151-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"b"</span>, <span class="cn">NA</span>, <span class="st">"c"</span>, <span class="st">"a"</span>)</span>
+<span id="cb151-2"><a href="#cb151-2" aria-hidden="true" tabindex="-1"></a><span class="fu">order</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 4 1 3 2</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb149"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb149-1"><a href="#cb149-1" aria-hidden="true" tabindex="-1"></a>x[<span class="fu">order</span>(x)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb153"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb153-1"><a href="#cb153-1" aria-hidden="true" tabindex="-1"></a>x[<span class="fu">order</span>(x)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "a" "b" "c" NA </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb151"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb151-1"><a href="#cb151-1" aria-hidden="true" tabindex="-1"></a><span class="co"># missing values will be put at the end of the vector</span></span>
-<span id="cb151-2"><a href="#cb151-2" aria-hidden="true" tabindex="-1"></a><span class="co"># you can remove them with na.last = NA</span></span>
-<span id="cb151-3"><a href="#cb151-3" aria-hidden="true" tabindex="-1"></a>x[<span class="fu">order</span>(x, <span class="at">na.last =</span> <span class="cn">NA</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb155"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb155-1"><a href="#cb155-1" aria-hidden="true" tabindex="-1"></a><span class="co"># missing values will be put at the end of the vector</span></span>
+<span id="cb155-2"><a href="#cb155-2" aria-hidden="true" tabindex="-1"></a><span class="co"># you can remove them with na.last = NA</span></span>
+<span id="cb155-3"><a href="#cb155-3" aria-hidden="true" tabindex="-1"></a>x[<span class="fu">order</span>(x, <span class="at">na.last =</span> <span class="cn">NA</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "a" "b" "c"</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb153"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb153-1"><a href="#cb153-1" aria-hidden="true" tabindex="-1"></a><span class="co"># or you can put them at the front</span></span>
-<span id="cb153-2"><a href="#cb153-2" aria-hidden="true" tabindex="-1"></a>x[<span class="fu">order</span>(x, <span class="at">na.last =</span> <span class="cn">FALSE</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb157"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb157-1"><a href="#cb157-1" aria-hidden="true" tabindex="-1"></a><span class="co"># or you can put them at the front</span></span>
+<span id="cb157-2"><a href="#cb157-2" aria-hidden="true" tabindex="-1"></a>x[<span class="fu">order</span>(x, <span class="at">na.last =</span> <span class="cn">FALSE</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] NA  "a" "b" "c"</code></pre>
 </div>
 </div>
 <p>For two or more dimensions, order() and integer subsetting makes it easy to order either the rows or columns of an object:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb155"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb155-1"><a href="#cb155-1" aria-hidden="true" tabindex="-1"></a>df2 <span class="ot">&lt;-</span> df[<span class="fu">sample</span>(<span class="fu">nrow</span>(df)), <span class="dv">3</span><span class="sc">:</span><span class="dv">1</span>]</span>
-<span id="cb155-2"><a href="#cb155-2" aria-hidden="true" tabindex="-1"></a>df2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb159"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb159-1"><a href="#cb159-1" aria-hidden="true" tabindex="-1"></a>df2 <span class="ot">&lt;-</span> df[<span class="fu">sample</span>(<span class="fu">nrow</span>(df)), <span class="dv">3</span><span class="sc">:</span><span class="dv">1</span>]</span>
+<span id="cb159-2"><a href="#cb159-2" aria-hidden="true" tabindex="-1"></a>df2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  z y x
-1 a 5 1
-2 b 4 2
-5 e 1 2
-3 c 3 3
-4 d 2 1</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb157"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb157-1"><a href="#cb157-1" aria-hidden="true" tabindex="-1"></a><span class="co"># order rows</span></span>
-<span id="cb157-2"><a href="#cb157-2" aria-hidden="true" tabindex="-1"></a>df2[<span class="fu">order</span>(df2<span class="sc">$</span>x), ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>  z y x
-1 a 5 1
 4 d 2 1
-2 b 4 2
 5 e 1 2
+2 b 4 2
+1 a 5 1
 3 c 3 3</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb159"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb159-1"><a href="#cb159-1" aria-hidden="true" tabindex="-1"></a><span class="co"># order cols</span></span>
-<span id="cb159-2"><a href="#cb159-2" aria-hidden="true" tabindex="-1"></a>df2[, <span class="fu">order</span>(<span class="fu">names</span>(df2))]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb161"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb161-1"><a href="#cb161-1" aria-hidden="true" tabindex="-1"></a><span class="co"># order rows</span></span>
+<span id="cb161-2"><a href="#cb161-2" aria-hidden="true" tabindex="-1"></a>df2[<span class="fu">order</span>(df2<span class="sc">$</span>x), ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  z y x
+4 d 2 1
+1 a 5 1
+5 e 1 2
+2 b 4 2
+3 c 3 3</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb163"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb163-1"><a href="#cb163-1" aria-hidden="true" tabindex="-1"></a><span class="co"># order cols</span></span>
+<span id="cb163-2"><a href="#cb163-2" aria-hidden="true" tabindex="-1"></a>df2[, <span class="fu">order</span>(<span class="fu">names</span>(df2))]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  x y z
-1 1 5 a
-2 2 4 b
+4 1 2 d
 5 2 1 e
-3 3 3 c
-4 1 2 d</code></pre>
+2 2 4 b
+1 1 5 a
+3 3 3 c</code></pre>
 </div>
 </div>
 </section>
@@ -1171,9 +1137,23 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     icon: icon
   };
   anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
   const clipboard = new window.ClipboardJS('.code-copy-button', {
-    target: function(trigger) {
-      return trigger.previousElementSibling;
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
     }
   });
   clipboard.on('success', function(e) {
@@ -1238,6 +1218,92 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       return note.innerHTML;
     });
   }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
   const findCites = (el) => {
     const parentEl = el.parentElement;
     if (parentEl) {
@@ -1281,7 +1347,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         return filterRegex.test(href) || localhostRegex.test(href);
     }
     // Inspect non-navigation links and adorn them if external
-    var links = window.document.querySelectorAll('a:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item)');
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item)');
     for (var i=0; i<links.length; i++) {
       const link = links[i];
       if (!isInternal(link.href)) {

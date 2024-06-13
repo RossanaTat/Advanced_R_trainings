@@ -77,7 +77,6 @@ mtcars$cyl[[3]]
 
 mtcars[ , "cyl"][[3]]
 mtcars[["cyl"]][[3]]
-#with(mtcars, cyl[[3]])
 
 # Select row first
 mtcars[3, ]$cyl
