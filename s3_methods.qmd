@@ -1,0 +1,112 @@
+---
+title: "s3_methods"
+format: 
+  revealjs:
+    center: true
+editor: visual
+echo: TRUE
+---
+
+## Intro on OOP and S3 methods
+
+-   **OOP**: based on objects, which have a class, - *what the object is* -, and a method - *what the object does*
+-   classes are organized into **hierarchies** so that if a method is missing for a certain class, it is inherited from the parent
+-   Main goal of OOP: **polymorphism**, so that you can consider the function interface separately from the function implementation
+-   S3 methods are most commonly used OOP system in CRAN packages, they are an implementation of ***functional OOP***:
+    -   methods belong to generic functions
+    -   method calls look like ordinary functions calls
+
+## The basics
+
+-   An S3 object is a base type with at least a `class` attribute(e.g., factor)
+
+-   It behaves differently from its underlying base type whenever it’s passed to a **generic function**, which**:**
+
+    -   uses a different implementation (the **method**) depending on the class of an argument
+
+    -   finds that method by performing **method dispatch**
+
+You can use [`sloop::s3_dispatch()`](https://sloop.r-lib.org/reference/s3_dispatch.html) to see the process of method dispatch:
+
+```{r echo = TRUE}
+library(sloop)
+f <- factor(c("a", "b", "c"))
+s3_dispatch(print(f))
+```
+
+## Classes
+
+-   no formal definition of a class, to make an object an instance of a class, you simply set the **class attribute**
+
+```{r}
+# Create and assign class in one step
+x <- structure(list(), class = "my_class")
+
+# Create, then set class
+x <- list()
+class(x) <- "my_class"
+```
+
+-   You can determine the class of an S3 object with [`class(x)`](https://rdrr.io/r/base/class.html), and see if an object is an instance of a class using [`inherits(x, "classname")`](https://rdrr.io/r/base/class.html).
+
+```{r}
+class(x)
+inherits(x, "my_class")
+
+inherits(x, "your_class")
+```
+
+## **Class name guidelines**: {.smaller}
+
+-   **Any string can be a class name**, but it’s advised to keep it simple by using only **letters** and **underscores** (`_`). Avoid using periods (`.`) in the class name because it could be confused with the period separator used between a generic name and a class name in R (e.g., `generic.class`).
+
+-   When using classes within a package, it’s a good idea to **include the package name in the class name** (e.g., `mypackage_myclass`). This reduces the risk of class name collisions
+
+## **Three recommended functions for class management**: {.smaller}
+
+1\. **Constructor: `new_myclass()`**
+
+-   **Purpose**: The constructor is a **low-level function** that is responsible for **creating new objects** of your class with the correct internal structure.
+
+2\. **Validator: `validate_myclass()`**
+
+-   **Purpose**: The validator is used to **check** if the object’s internal values are valid or meet certain conditions.
+
+-   **What it does**: It performs more **computationally expensive checks** to ensure that the object's fields contain **correct data**
+
+3\. **Helper: `myclass()`**
+
+-   **Purpose**: The helper function is a **convenience function** for users to easily create objects of your class. It is typically a wrapper around the constructor function.
+
+## TODO: add examples on contructor validator and helper
+
+## Generics and methods - method dispatch
+
+-   every generic calls `UseMethod` to perform method dispatch. `UseMethod()` takes two arguments: the name of the generic function (required), and the argument to use for method dispatch (optional)
+-   it creates a vector of method names, `paste0("generic", ".", c(class(x), "default"))`, and then looks for each potential method in turn..see this in action with `sloop::s3_dispatch()`
+-   “default” class is not a real class, but is included to define a standard fallback that is found whenever a class-specific method is not available.
+
+## Finding methods
+
+To find all methods defined for a generic or associated with a class, use `sloop::s3_methods_generic()` and `sloop::s3_methods_class()`
+
+ADD examples
+
+## Creating methods
+
+-   **Best Practice**: Only create methods for generics or classes that you own (or collaborate with the author of the package/class to add your method).
+-   **Argument Matching:** Your method should have the same argument signature as the generic, except when using ... for flexibility.
+-   **Ellipsis (...)**: Using ... in methods allows you to accept additional arguments, but be careful because misspelled arguments will be silently ignored, which could cause hidden issues.
+
+## TODO: add examples, maybe the print i developed for syncdr
+
+---
+
+Exercises to add 
+
+---
+
+## Object styles
+
+
+## S3 methods - application with {vctrs}
