@@ -1,9 +1,14 @@
 ---
 title: "S3 Methods in R - Part 1"
 author: Rossana Tatulli
-format: 
-  revealjs:
-    center: true
+format: revealjs
+revealjs:
+  slideNumber: true
+  theme: simple
+  transition: fade
+  fontSize: 20
+  slideWidth: 1280
+  slideHeight: 720
 editor: visual
 echo: TRUE
 ---

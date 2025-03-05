@@ -401,7 +401,7 @@ Rossana Tatulli
 </div>
 
 </section>
-<section id="intro-on-oop-and-s3-methods" class="slide level2 center">
+<section id="intro-on-oop-and-s3-methods" class="slide level2">
 <h2>Intro on OOP and S3 methods</h2>
 <ul>
 <li><strong>OOP</strong>: based on objects, which have a class, - <em>what the object is</em> -, and a method - <em>what the object does</em></li>
@@ -414,7 +414,7 @@ Rossana Tatulli
 </ul></li>
 </ul>
 </section>
-<section id="the-basics" class="slide level2 center">
+<section id="the-basics" class="slide level2">
 <h2>The basics</h2>
 <ul>
 <li><p>An S3 object is a base type with at least a <code>class</code> attribute(e.g., factor)</p></li>
@@ -435,7 +435,7 @@ Rossana Tatulli
 </div>
 </div>
 </section>
-<section id="classes" class="slide level2 center">
+<section id="classes" class="slide level2">
 <h2>Classes</h2>
 <ul>
 <li>no formal definition of a class, to make an object an instance of a class, you simply set the&nbsp;<strong>class attribute</strong></li>
@@ -466,14 +466,14 @@ Rossana Tatulli
 </div>
 </div>
 </section>
-<section id="class-name-guidelines" class="slide level2 smaller center">
+<section id="class-name-guidelines" class="slide level2 smaller">
 <h2><strong>Class name guidelines</strong>:</h2>
 <ul>
 <li><p><strong>Any string can be a class name</strong>, but it’s advised to keep it simple by using only <strong>letters</strong> and <strong>underscores</strong> (<code>_</code>). Avoid using periods (<code>.</code>) in the class name because it could be confused with the period separator used between a generic name and a class name in R (e.g., <code>generic.class</code>).</p></li>
 <li><p>When using classes within a package, it’s a good idea to <strong>include the package name in the class name</strong> (e.g., <code>mypackage_myclass</code>). This reduces the risk of class name collisions</p></li>
 </ul>
 </section>
-<section id="three-recommended-functions-for-class-management" class="slide level2 smaller center">
+<section id="three-recommended-functions-for-class-management" class="slide level2 smaller">
 <h2><strong>Three recommended functions for class management</strong>:</h2>
 <p>1. <strong>Constructor: <code>new_myclass()</code></strong></p>
 <ul>
@@ -489,10 +489,10 @@ Rossana Tatulli
 <li><strong>Purpose</strong>: The helper function is a <strong>convenience function</strong> for users to easily create objects of your class. It is typically a wrapper around the constructor function.</li>
 </ul>
 </section>
-<section id="todo-add-examples-on-contructor-validator-and-helper" class="slide level2 center">
+<section id="todo-add-examples-on-contructor-validator-and-helper" class="slide level2">
 <h2>TODO: add examples on contructor validator and helper</h2>
 </section>
-<section id="generics-and-methods---method-dispatch" class="slide level2 smaller center">
+<section id="generics-and-methods---method-dispatch" class="slide level2 smaller">
 <h2>Generics and methods - method dispatch</h2>
 <ul>
 <li>every generic calls <code>UseMethod</code> to perform method dispatch. <code>UseMethod()</code> takes two arguments: the name of the generic function (required), and the argument to use for method dispatch (optional)</li>
@@ -500,12 +500,12 @@ Rossana Tatulli
 <li>“default” class is not a real class, but is included to define a standard fallback that is found whenever a class-specific method is not available.</li>
 </ul>
 </section>
-<section id="finding-methods" class="slide level2 smaller center">
+<section id="finding-methods" class="slide level2 smaller">
 <h2>Finding methods</h2>
 <p>To find all methods defined for a generic or associated with a class, use <code>sloop::s3_methods_generic()</code> and <code>sloop::s3_methods_class()</code></p>
 <p>ADD examples</p>
 </section>
-<section id="creating-methods" class="slide level2 smaller center">
+<section id="creating-methods" class="slide level2 smaller">
 <h2>Creating methods</h2>
 <ul>
 <li><strong>Best Practice</strong>: Only create methods for generics or classes that you own (or collaborate with the author of the package/class to add your method).</li>
@@ -513,25 +513,25 @@ Rossana Tatulli
 <li><strong>Ellipsis (…)</strong>: Using … in methods allows you to accept additional arguments, but be careful because misspelled arguments will be silently ignored, which could cause hidden issues.</li>
 </ul>
 </section>
-<section id="todo-add-examples-maybe-the-print-i-developed-for-syncdr" class="slide level2 center">
+<section id="todo-add-examples-maybe-the-print-i-developed-for-syncdr" class="slide level2">
 <h2>TODO: add examples, maybe the print i developed for syncdr</h2>
 </section>
-<section class="slide level2 center">
+<section class="slide level2">
 
 <p>Exercises to add</p>
 </section>
-<section id="object-styles" class="slide level2 center">
+<section id="object-styles" class="slide level2">
 <h2>Object styles</h2>
 <p>Think about if relevant</p>
 </section>
-<section id="inheritance" class="slide level2 smaller center">
+<section id="inheritance" class="slide level2 smaller">
 <h2>Inheritance</h2>
 <p>Mechanism through which <strong>different classes</strong> can <strong>share behavior</strong>, powered by 3 ideas:</p>
 <p>1. Class can be a character vector</p>
 <p>2. If method not found for the first class, R looks to method for the second class</p>
 <p>3. A method can delegate work by calling <code>NextMethod()</code>, “-&gt;”</p>
 </section>
-<section class="slide level2 center">
+<section class="slide level2">
 
 <div class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="co"># Example with ordered </span></span>
@@ -567,7 +567,7 @@ Levels: 1 &lt; 2 &lt; 3 &lt; 4</code></pre>
 </div>
 </div>
 </section>
-<section class="slide level2 center">
+<section class="slide level2">
 
 <p><strong><em>Output takeaways</em></strong></p>
 <p><u><em>Step 1: Printing</em></u></p>
@@ -577,7 +577,7 @@ Levels: 1 &lt; 2 &lt; 3 &lt; 4</code></pre>
 <p>- The * before <code>print.default</code> means it was skipped, because <code>print.factor</code> was found.</p>
 <p>–&gt; Since an ordered factor is also a factor, R uses print.factor to display it</p>
 </section>
-<section class="slide level2 center">
+<section class="slide level2">
 
 <p><u><em>Step 2: Subsetting</em></u></p>
 <p>- When <code>ordered("x")[1]</code> is evaluated, R looks for a <code>[.ordered</code> method (a special method for subsetting ordered factors).</p>
@@ -587,7 +587,7 @@ Levels: 1 &lt; 2 &lt; 3 &lt; 4</code></pre>
 <p>–&gt; Ordered factors don’t have a specialized <code>[.ordered</code> method, so they rely on <code>[.factor</code>.</p>
 <p>–&gt; The actual subsetting operation is ultimately handled by the internal <code>[</code> function.</p>
 </section>
-<section class="slide level2 center">
+<section class="slide level2">
 
 <div class="callout callout-caution callout-titled callout-style-default">
 <div class="callout-body">
@@ -614,7 +614,7 @@ Levels: 1 &lt; 2 &lt; 3 &lt; 4</code></pre>
 </div>
 </div>
 </section>
-<section id="relationship-between-the-classes-that-appear-together-in-a-class-vector" class="slide level2 smaller center">
+<section id="relationship-between-the-classes-that-appear-together-in-a-class-vector" class="slide level2 smaller">
 <h2>Relationship between the classes that appear together in a class vector</h2>
 <p>In our example, <code>ordered</code> is a <strong>subclass</strong> of <code>factor</code> and <code>factor</code>is a <strong>superclass</strong> of <code>ordered</code>.</p>
 <p>It is recommend that you adhere to two principles when creating a subclass:</p>
@@ -623,7 +623,7 @@ Levels: 1 &lt; 2 &lt; 3 &lt; 4</code></pre>
 <li><strong>Attributes</strong> of the subclass should be a <strong>superset</strong> of the attributes of the <strong>superclass</strong>.</li>
 </ol>
 </section>
-<section class="slide level2 center">
+<section class="slide level2">
 
 <p><strong>Example</strong></p>
 <div class="cell">
@@ -650,7 +650,7 @@ Levels: 1 &lt; 2 &lt; 3 &lt; 4</code></pre>
 </div>
 </div>
 </section>
-<section id="nextmethod" class="slide level2 smaller center">
+<section id="nextmethod" class="slide level2 smaller">
 <h2><code>NextMethod()</code></h2>
 <p>Let’s start with an example</p>
 <div class="cell">
@@ -671,7 +671,7 @@ Levels: 1 &lt; 2 &lt; 3 &lt; 4</code></pre>
 </div>
 </div>
 </section>
-<section class="slide level2 center">
+<section class="slide level2">
 
 <p>However, the default <code>[</code> method does not preserve the class</p>
 <div class="cell">
@@ -687,7 +687,7 @@ Levels: 1 &lt; 2 &lt; 3 &lt; 4</code></pre>
 </div>
 </div>
 </section>
-<section class="slide level2 center">
+<section class="slide level2">
 
 <p>Need to define a <code>[.secret</code> method:</p>
 <p>Option 1:</p>
@@ -724,7 +724,7 @@ Levels: 1 &lt; 2 &lt; 3 &lt; 4</code></pre>
 </div>
 </div>
 </section>
-<section class="slide level2 center">
+<section class="slide level2">
 
 <p>With <code>NextMethod()</code> instead</p>
 <div class="cell">
@@ -747,7 +747,7 @@ Levels: 1 &lt; 2 &lt; 3 &lt; 4</code></pre>
 <li><p>When a method is called, R checks the class of the object and finds the corresponding method. If the method defines a call to <code>NextMethod()</code>, R will <strong>continue searching for the next method in the chain</strong>, considering the inheritance hierarchy and class structure</p></li>
 </ul>
 </section>
-<section id="allowing-sub-classes" class="slide level2 smaller center">
+<section id="allowing-sub-classes" class="slide level2 smaller">
 <h2>Allowing sub-classes</h2>
 <p><strong>Subclassing</strong> might allows for more flexible and extensible code. To allow subclasses, the parent constructor needs to have<code>...</code>and <code>class</code> arguments:</p>
 <div class="cell">
@@ -763,7 +763,7 @@ Levels: 1 &lt; 2 &lt; 3 &lt; 4</code></pre>
 <span id="cb33-10"><a href="#cb33-10"></a><span class="co">#note that the class argument is used to attach the class to the object, and "secret" is added to the class chain.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section class="slide level2 center">
+<section class="slide level2">
 
 <ul>
 <li>Subclasses (like <code>supersecret</code>) can be created by simply calling the parent constructor with the <code>class</code> argument modified to the subclass name.</li>
@@ -774,7 +774,7 @@ Levels: 1 &lt; 2 &lt; 3 &lt; 4</code></pre>
 <span id="cb34-3"><a href="#cb34-3"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section class="slide level2 center">
+<section class="slide level2">
 
 <p>To allow inheritance, you need to think about your methods, as you can no longer use the constructor. See the example below:</p>
 <div class="cell">
@@ -798,7 +798,7 @@ Levels: 1 &lt; 2 &lt; 3 &lt; 4</code></pre>
 <li><p>general idea: using <code>vctrs::vec_restore()</code> helps manage subclassing: when an object loses its subclass information (e.g., after subsetting), it can be restored to the correct class.</p></li>
 </ul>
 </section>
-<section id="more-on-usemethod-nextmethod-and-default-method-in-s3" class="slide level2 smaller center">
+<section id="more-on-usemethod-nextmethod-and-default-method-in-s3" class="slide level2 smaller">
 <h2>More on <code>UseMethod</code>, <code>NextMethod</code>, and <code>default</code> method in S3</h2>
 <p><code>UseMethod()</code>:</p>
 <ul>
@@ -806,7 +806,7 @@ Levels: 1 &lt; 2 &lt; 3 &lt; 4</code></pre>
 <li>It’s used in the <strong>generic function</strong></li>
 </ul>
 </section>
-<section class="slide level2 center">
+<section class="slide level2">
 
 <p><code>NextMethod()</code>:</p>
 <ul>
@@ -814,7 +814,7 @@ Levels: 1 &lt; 2 &lt; 3 &lt; 4</code></pre>
 <li>If a method is called for a subclass, the <code>NextMethod()</code> function is used to call the corresponding method of the superclass, keeping the method dispatch chain intact</li>
 </ul>
 </section>
-<section class="slide level2 center">
+<section class="slide level2">
 
 <p><code>default</code> methods:</p>
 <ul>
@@ -824,7 +824,7 @@ Levels: 1 &lt; 2 &lt; 3 &lt; 4</code></pre>
 <li><strong>unnecessary</strong> when you want to ensure specific behavior for each subclass or class in a way that does not fall back on a generic implementation</li>
 </ul>
 </section>
-<section class="slide level2 center">
+<section class="slide level2">
 
 <p>Example:</p>
 <div class="cell">
@@ -853,7 +853,7 @@ Levels: 1 &lt; 2 &lt; 3 &lt; 4</code></pre>
 <span id="cb39-23"><a href="#cb39-23"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section class="slide level2 center">
+<section class="slide level2">
 
 <div class="cell">
 <div class="sourceCode cell-code" id="cb40"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1"></a><span class="co"># Create some objects and call the function</span></span>
@@ -895,7 +895,7 @@ Levels: 1 &lt; 2 &lt; 3 &lt; 4</code></pre>
 </div>
 </div>
 </section>
-<section id="s3-methods---application-with-vctrs" class="slide level2 center">
+<section id="s3-methods---application-with-vctrs" class="slide level2">
 <h2>S3 methods - application with {vctrs}</h2>
 <p>NEXT SESSION</p>
 <div class="footer footer-default">
@@ -983,7 +983,7 @@ Levels: 1 &lt; 2 &lt; 3 &lt; 4</code></pre>
         disableLayout: false,
 
         // Vertical centering of slides
-        center: true,
+        center: false,
 
         // Enables touch navigation on devices with touch input
         touch: true,
