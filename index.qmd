@@ -81,19 +81,19 @@ inherits(x, "your_class")
 
 ## TODO: add examples on contructor validator and helper
 
-## Generics and methods - method dispatch
+## Generics and methods - method dispatch {.smaller}
 
 -   every generic calls `UseMethod` to perform method dispatch. `UseMethod()` takes two arguments: the name of the generic function (required), and the argument to use for method dispatch (optional)
 -   it creates a vector of method names, `paste0("generic", ".", c(class(x), "default"))`, and then looks for each potential method in turn..see this in action with `sloop::s3_dispatch()`
 -   “default” class is not a real class, but is included to define a standard fallback that is found whenever a class-specific method is not available.
 
-## Finding methods
+## Finding methods {.smaller}
 
 To find all methods defined for a generic or associated with a class, use `sloop::s3_methods_generic()` and `sloop::s3_methods_class()`
 
 ADD examples
 
-## Creating methods
+## Creating methods {.smaller}
 
 -   **Best Practice**: Only create methods for generics or classes that you own (or collaborate with the author of the package/class to add your method).
 -   **Argument Matching:** Your method should have the same argument signature as the generic, except when using ... for flexibility.
@@ -111,7 +111,7 @@ Exercises to add
 
 Think about if relevant
 
-## Inheritance
+## Inheritance {.smaller}
 
 Mechanism through which **different classes** can **share behavior**, powered by 3 ideas:
 
@@ -169,11 +169,11 @@ s3_dispatch(ordered("x")[1])
 
 \- R then falls back to `[.factor`, which exists and is used (=\> means this method was applied)
 
-\- `-> [ (internal)` means that the base \`\[ operator was used at the lowest level
+\- `-> [ (internal)` means that the base "'['" operator was used at the lowest level
 
---\> Ordered factors don’t have a specialized \[.ordered method, so they rely on \[.factor.
+--\> Ordered factors don’t have a specialized `[.ordered` method, so they rely on `[.factor`.
 
---\> The actual subsetting operation is ultimately handled by the internal \`\[ function.
+--\> The actual subsetting operation is ultimately handled by the internal `[` function.
 
 ------------------------------------------------------------------------
 
@@ -182,20 +182,20 @@ s3_dispatch(ordered("x")[1])
 
 In R’s S3 method dispatch system:
 
--   R first looks for \[.ordered, but it doesn't exist.
--   It then finds \[.factor and uses it (=\> means it was applied).
--   Inside \[.factor, R calls NextMethod(), which means:
-    -   It delegates the call to \[.default (if it exists) or the base \`\[ function.
-    -   Since \[.default is not used here, it goes directly to \[ (internal).
+-   R first looks for `[.ordered`, but it doesn't exist.
+-   It then finds `[.factor` and uses it (=\> means it was applied).
+-   Inside `[.factor`, R calls `NextMethod()`, which means:
+    -   It delegates the call to `[.default` (if it exists) or the base `[` function.
+    -   Since `[.default` is not used here, it goes directly to `[ (internal)`.
 
 --\> 💡 Key takeaway:
 
 `-> [ (internal)` means that `[.factor` did not completely handle the operation itself but instead delegated the actual work to the base R \``[` function (written in C). This delegation is likely happening via `NextMethod()`
 :::
 
-## Relationship between the classes that appear together in a class vector
+## Relationship between the classes that appear together in a class vector {.smaller}
 
-In our example, `ordered` is a **subclass** of `factor` and `factor` is a **superclass** of `ordered`.
+In our example, `ordered` is a **subclass** of `factor` and `factor`is a **superclass** of `ordered`.
 
 It is recommend that you adhere to two principles when creating a subclass:
 
@@ -226,7 +226,7 @@ lf <- labelled_factor(x, label = "Risk Level")
 str(lf)
 ```
 
-## `NextMethod()`
+## `NextMethod()` {.smaller}
 
 Let's start with an example
 
@@ -301,9 +301,9 @@ s3_dispatch(x[1])
 
 -   When a method is called, R checks the class of the object and finds the corresponding method. If the method defines a call to `NextMethod()`, R will **continue searching for the next method in the chain**, considering the inheritance hierarchy and class structure
 
-## Allowing sub-classes
-
-**Subclassing** might allows for more flexible and extensible code. To allow subclasses, the parent constructor needs to have `...` and `class` arguments:
+## Allowing sub-classes {.smaller}
+ 
+**Subclassing** might allows for more flexible and extensible code. To allow subclasses, the parent constructor needs to have`...`and `class` arguments:
 
 ```{r}
 new_secret <- function(x, ..., class = character()) {
@@ -350,7 +350,91 @@ We need to refine the `[.secret` method, because currently it always return a `s
 
 -   general idea: using `vctrs::vec_restore()` helps manage subclassing: when an object loses its subclass information (e.g., after subsetting), it can be restored to the correct class.
 
-## Overview of `UseMethod`, `NextMethod`, and `default` method in S3
+## More on `UseMethod`, `NextMethod`, and `default` method in S3 {.smaller}
+
+`UseMethod()`: 
+
+* the mechanism that triggers method dispatch in S3 -dispatch appropriate function based on the class of the object passed to it
+* It's used in the **generic function**
+
+---
+
+`NextMethod()`:
+
+* used inside a method to call the next method in the dispatch chain
+* If a method is called for a subclass, the `NextMethod()` function is used to call the corresponding method of the superclass, keeping the method dispatch chain intact
+
+---
+
+`default` methods:
+
+* Fallback methods that are used when no more specific method is found for a particular class
+* **useful** when you want to provide a generic implementation of a function for all object types, while still allowing specific classes to override the method with specialized behavior
+* **necessary** if you want to ensure that a function works for any object, even if that object doesn’t have a specific method defined for it
+* **unnecessary** when you want to ensure specific behavior for each subclass or class in a way that does not fall back on a generic implementation
+
+--- 
+
+Example:
+
+```{r define, error=TRUE}
+# Define generic class
+area <- function(x) {
+  UseMethod("area", x)
+}
+
+# Define the specific methods
+# Circle area
+area.circle <- function(x) {
+  pi * x$radius^2
+}
+# Square area
+area.square <- function(x) {
+  x$side^2
+}
+# Rectangle area
+area.rectangle <- function(x) {
+  x$length * x$width
+}
+
+# Define the Default Method
+area.default <- function(x) {
+  stop("No method for calculating area for this class.")
+}
+```
+
+---
+```{r call-objs, error=TRUE}
+# Create some objects and call the function
+
+# Create a circle
+circle <- list(radius = 5)
+class(circle) <- "circle"
+
+# Create a square
+square <- list(side = 4)
+class(square) <- "square"
+
+# Create a rectangle
+rectangle <- list(length = 6, width = 3)
+class(rectangle) <- "rectangle"
+
+# Create a generic object (no specific class)
+unknown_shape <- list()
+class(unknown_shape) <- "unknown"
+
+# ________ ####
+# Calling area for specific shapes
+cat("Area of circle:", area(circle), "\n")        # Should calculate area of the circle
+cat("Area of square:", area(square), "\n")        # Should calculate area of the square
+cat("Area of rectangle:", area(rectangle), "\n")  # Should calculate area of the rectangle
+
+# Calling area for an object with no specific class
+cat("Area of unknown shape:", area(unknown_shape), "\n")  # Should trigger default method
+
+```
+
+
 
 ## S3 methods - application with {vctrs}
 

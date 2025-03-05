@@ -492,7 +492,7 @@ Rossana Tatulli
 <section id="todo-add-examples-on-contructor-validator-and-helper" class="slide level2 center">
 <h2>TODO: add examples on contructor validator and helper</h2>
 </section>
-<section id="generics-and-methods---method-dispatch" class="slide level2 center">
+<section id="generics-and-methods---method-dispatch" class="slide level2 smaller center">
 <h2>Generics and methods - method dispatch</h2>
 <ul>
 <li>every generic calls <code>UseMethod</code> to perform method dispatch. <code>UseMethod()</code> takes two arguments: the name of the generic function (required), and the argument to use for method dispatch (optional)</li>
@@ -500,12 +500,12 @@ Rossana Tatulli
 <li>“default” class is not a real class, but is included to define a standard fallback that is found whenever a class-specific method is not available.</li>
 </ul>
 </section>
-<section id="finding-methods" class="slide level2 center">
+<section id="finding-methods" class="slide level2 smaller center">
 <h2>Finding methods</h2>
 <p>To find all methods defined for a generic or associated with a class, use <code>sloop::s3_methods_generic()</code> and <code>sloop::s3_methods_class()</code></p>
 <p>ADD examples</p>
 </section>
-<section id="creating-methods" class="slide level2 center">
+<section id="creating-methods" class="slide level2 smaller center">
 <h2>Creating methods</h2>
 <ul>
 <li><strong>Best Practice</strong>: Only create methods for generics or classes that you own (or collaborate with the author of the package/class to add your method).</li>
@@ -524,7 +524,7 @@ Rossana Tatulli
 <h2>Object styles</h2>
 <p>Think about if relevant</p>
 </section>
-<section id="inheritance" class="slide level2 center">
+<section id="inheritance" class="slide level2 smaller center">
 <h2>Inheritance</h2>
 <p>Mechanism through which <strong>different classes</strong> can <strong>share behavior</strong>, powered by 3 ideas:</p>
 <p>1. Class can be a character vector</p>
@@ -583,9 +583,9 @@ Levels: 1 &lt; 2 &lt; 3 &lt; 4</code></pre>
 <p>- When <code>ordered("x")[1]</code> is evaluated, R looks for a <code>[.ordered</code> method (a special method for subsetting ordered factors).</p>
 <p>- No =&gt; appears next to <code>[.ordered</code>, meaning it was not found.</p>
 <p>- R then falls back to <code>[.factor</code>, which exists and is used (=&gt; means this method was applied)</p>
-<p>- <code>-&gt; [ (internal)</code> means that the base `[ operator was used at the lowest level</p>
-<p>–&gt; Ordered factors don’t have a specialized [.ordered method, so they rely on [.factor.</p>
-<p>–&gt; The actual subsetting operation is ultimately handled by the internal `[ function.</p>
+<p>- <code>-&gt; [ (internal)</code> means that the base “‘[’” operator was used at the lowest level</p>
+<p>–&gt; Ordered factors don’t have a specialized <code>[.ordered</code> method, so they rely on <code>[.factor</code>.</p>
+<p>–&gt; The actual subsetting operation is ultimately handled by the internal <code>[</code> function.</p>
 </section>
 <section class="slide level2 center">
 
@@ -600,12 +600,12 @@ Levels: 1 &lt; 2 &lt; 3 &lt; 4</code></pre>
 <div class="callout-content">
 <p>In R’s S3 method dispatch system:</p>
 <ul>
-<li>R first looks for [.ordered, but it doesn’t exist.</li>
-<li>It then finds [.factor and uses it (=&gt; means it was applied).</li>
-<li>Inside [.factor, R calls NextMethod(), which means:
+<li>R first looks for <code>[.ordered</code>, but it doesn’t exist.</li>
+<li>It then finds <code>[.factor</code> and uses it (=&gt; means it was applied).</li>
+<li>Inside <code>[.factor</code>, R calls <code>NextMethod()</code>, which means:
 <ul>
-<li>It delegates the call to [.default (if it exists) or the base `[ function.</li>
-<li>Since [.default is not used here, it goes directly to [ (internal).</li>
+<li>It delegates the call to <code>[.default</code> (if it exists) or the base <code>[</code> function.</li>
+<li>Since <code>[.default</code> is not used here, it goes directly to <code>[ (internal)</code>.</li>
 </ul></li>
 </ul>
 <p>–&gt; 💡 Key takeaway:</p>
@@ -614,9 +614,9 @@ Levels: 1 &lt; 2 &lt; 3 &lt; 4</code></pre>
 </div>
 </div>
 </section>
-<section id="relationship-between-the-classes-that-appear-together-in-a-class-vector" class="slide level2 center">
+<section id="relationship-between-the-classes-that-appear-together-in-a-class-vector" class="slide level2 smaller center">
 <h2>Relationship between the classes that appear together in a class vector</h2>
-<p>In our example, <code>ordered</code>&nbsp;is a&nbsp;<strong>subclass</strong>&nbsp;of&nbsp;<code>factor</code>&nbsp;and&nbsp;<code>factor</code>&nbsp;is a&nbsp;<strong>superclass</strong>&nbsp;of&nbsp;<code>ordered</code>.</p>
+<p>In our example, <code>ordered</code> is a <strong>subclass</strong> of <code>factor</code> and <code>factor</code>is a <strong>superclass</strong> of <code>ordered</code>.</p>
 <p>It is recommend that you adhere to two principles when creating a subclass:</p>
 <ol type="1">
 <li>Sub-class and class belong to the <strong>same base type</strong></li>
@@ -650,7 +650,7 @@ Levels: 1 &lt; 2 &lt; 3 &lt; 4</code></pre>
 </div>
 </div>
 </section>
-<section id="nextmethod" class="slide level2 center">
+<section id="nextmethod" class="slide level2 smaller center">
 <h2><code>NextMethod()</code></h2>
 <p>Let’s start with an example</p>
 <div class="cell">
@@ -747,9 +747,9 @@ Levels: 1 &lt; 2 &lt; 3 &lt; 4</code></pre>
 <li><p>When a method is called, R checks the class of the object and finds the corresponding method. If the method defines a call to <code>NextMethod()</code>, R will <strong>continue searching for the next method in the chain</strong>, considering the inheritance hierarchy and class structure</p></li>
 </ul>
 </section>
-<section id="allowing-sub-classes" class="slide level2 center">
+<section id="allowing-sub-classes" class="slide level2 smaller center">
 <h2>Allowing sub-classes</h2>
-<p><strong>Subclassing</strong> might allows for more flexible and extensible code. To allow subclasses, the parent constructor needs to have&nbsp;<code>...</code>&nbsp;and&nbsp;<code>class</code>&nbsp;arguments:</p>
+<p><strong>Subclassing</strong> might allows for more flexible and extensible code. To allow subclasses, the parent constructor needs to have<code>...</code>and <code>class</code> arguments:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1"></a>new_secret <span class="ot">&lt;-</span> <span class="cf">function</span>(x, ..., <span class="at">class =</span> <span class="fu">character</span>()) {</span>
 <span id="cb33-2"><a href="#cb33-2"></a>  <span class="fu">stopifnot</span>(<span class="fu">is.double</span>(x))</span>
@@ -798,8 +798,102 @@ Levels: 1 &lt; 2 &lt; 3 &lt; 4</code></pre>
 <li><p>general idea: using <code>vctrs::vec_restore()</code> helps manage subclassing: when an object loses its subclass information (e.g., after subsetting), it can be restored to the correct class.</p></li>
 </ul>
 </section>
-<section id="overview-of-usemethod-nextmethod-and-default-method-in-s3" class="slide level2 center">
-<h2>Overview of <code>UseMethod</code>, <code>NextMethod</code>, and <code>default</code> method in S3</h2>
+<section id="more-on-usemethod-nextmethod-and-default-method-in-s3" class="slide level2 smaller center">
+<h2>More on <code>UseMethod</code>, <code>NextMethod</code>, and <code>default</code> method in S3</h2>
+<p><code>UseMethod()</code>:</p>
+<ul>
+<li>the mechanism that triggers method dispatch in S3 -dispatch appropriate function based on the class of the object passed to it</li>
+<li>It’s used in the <strong>generic function</strong></li>
+</ul>
+</section>
+<section class="slide level2 center">
+
+<p><code>NextMethod()</code>:</p>
+<ul>
+<li>used inside a method to call the next method in the dispatch chain</li>
+<li>If a method is called for a subclass, the <code>NextMethod()</code> function is used to call the corresponding method of the superclass, keeping the method dispatch chain intact</li>
+</ul>
+</section>
+<section class="slide level2 center">
+
+<p><code>default</code> methods:</p>
+<ul>
+<li>Fallback methods that are used when no more specific method is found for a particular class</li>
+<li><strong>useful</strong> when you want to provide a generic implementation of a function for all object types, while still allowing specific classes to override the method with specialized behavior</li>
+<li><strong>necessary</strong> if you want to ensure that a function works for any object, even if that object doesn’t have a specific method defined for it</li>
+<li><strong>unnecessary</strong> when you want to ensure specific behavior for each subclass or class in a way that does not fall back on a generic implementation</li>
+</ul>
+</section>
+<section class="slide level2 center">
+
+<p>Example:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1"></a><span class="co"># Define generic class</span></span>
+<span id="cb39-2"><a href="#cb39-2"></a>area <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb39-3"><a href="#cb39-3"></a>  <span class="fu">UseMethod</span>(<span class="st">"area"</span>, x)</span>
+<span id="cb39-4"><a href="#cb39-4"></a>}</span>
+<span id="cb39-5"><a href="#cb39-5"></a></span>
+<span id="cb39-6"><a href="#cb39-6"></a><span class="co"># Define the specific methods</span></span>
+<span id="cb39-7"><a href="#cb39-7"></a><span class="co"># Circle area</span></span>
+<span id="cb39-8"><a href="#cb39-8"></a>area.circle <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb39-9"><a href="#cb39-9"></a>  pi <span class="sc">*</span> x<span class="sc">$</span>radius<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb39-10"><a href="#cb39-10"></a>}</span>
+<span id="cb39-11"><a href="#cb39-11"></a><span class="co"># Square area</span></span>
+<span id="cb39-12"><a href="#cb39-12"></a>area.square <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb39-13"><a href="#cb39-13"></a>  x<span class="sc">$</span>side<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb39-14"><a href="#cb39-14"></a>}</span>
+<span id="cb39-15"><a href="#cb39-15"></a><span class="co"># Rectangle area</span></span>
+<span id="cb39-16"><a href="#cb39-16"></a>area.rectangle <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb39-17"><a href="#cb39-17"></a>  x<span class="sc">$</span>length <span class="sc">*</span> x<span class="sc">$</span>width</span>
+<span id="cb39-18"><a href="#cb39-18"></a>}</span>
+<span id="cb39-19"><a href="#cb39-19"></a></span>
+<span id="cb39-20"><a href="#cb39-20"></a><span class="co"># Define the Default Method</span></span>
+<span id="cb39-21"><a href="#cb39-21"></a>area.default <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb39-22"><a href="#cb39-22"></a>  <span class="fu">stop</span>(<span class="st">"No method for calculating area for this class."</span>)</span>
+<span id="cb39-23"><a href="#cb39-23"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section class="slide level2 center">
+
+<div class="cell">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1"></a><span class="co"># Create some objects and call the function</span></span>
+<span id="cb40-2"><a href="#cb40-2"></a></span>
+<span id="cb40-3"><a href="#cb40-3"></a><span class="co"># Create a circle</span></span>
+<span id="cb40-4"><a href="#cb40-4"></a>circle <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">radius =</span> <span class="dv">5</span>)</span>
+<span id="cb40-5"><a href="#cb40-5"></a><span class="fu">class</span>(circle) <span class="ot">&lt;-</span> <span class="st">"circle"</span></span>
+<span id="cb40-6"><a href="#cb40-6"></a></span>
+<span id="cb40-7"><a href="#cb40-7"></a><span class="co"># Create a square</span></span>
+<span id="cb40-8"><a href="#cb40-8"></a>square <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">side =</span> <span class="dv">4</span>)</span>
+<span id="cb40-9"><a href="#cb40-9"></a><span class="fu">class</span>(square) <span class="ot">&lt;-</span> <span class="st">"square"</span></span>
+<span id="cb40-10"><a href="#cb40-10"></a></span>
+<span id="cb40-11"><a href="#cb40-11"></a><span class="co"># Create a rectangle</span></span>
+<span id="cb40-12"><a href="#cb40-12"></a>rectangle <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">length =</span> <span class="dv">6</span>, <span class="at">width =</span> <span class="dv">3</span>)</span>
+<span id="cb40-13"><a href="#cb40-13"></a><span class="fu">class</span>(rectangle) <span class="ot">&lt;-</span> <span class="st">"rectangle"</span></span>
+<span id="cb40-14"><a href="#cb40-14"></a></span>
+<span id="cb40-15"><a href="#cb40-15"></a><span class="co"># Create a generic object (no specific class)</span></span>
+<span id="cb40-16"><a href="#cb40-16"></a>unknown_shape <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb40-17"><a href="#cb40-17"></a><span class="fu">class</span>(unknown_shape) <span class="ot">&lt;-</span> <span class="st">"unknown"</span></span>
+<span id="cb40-18"><a href="#cb40-18"></a></span>
+<span id="cb40-19"><a href="#cb40-19"></a><span class="co"># ________ ####</span></span>
+<span id="cb40-20"><a href="#cb40-20"></a><span class="co"># Calling area for specific shapes</span></span>
+<span id="cb40-21"><a href="#cb40-21"></a><span class="fu">cat</span>(<span class="st">"Area of circle:"</span>, <span class="fu">area</span>(circle), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)        <span class="co"># Should calculate area of the circle</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Area of circle: 78.53982 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1"></a><span class="fu">cat</span>(<span class="st">"Area of square:"</span>, <span class="fu">area</span>(square), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)        <span class="co"># Should calculate area of the square</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Area of square: 16 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1"></a><span class="fu">cat</span>(<span class="st">"Area of rectangle:"</span>, <span class="fu">area</span>(rectangle), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)  <span class="co"># Should calculate area of the rectangle</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Area of rectangle: 18 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1"></a><span class="co"># Calling area for an object with no specific class</span></span>
+<span id="cb46-2"><a href="#cb46-2"></a><span class="fu">cat</span>(<span class="st">"Area of unknown shape:"</span>, <span class="fu">area</span>(unknown_shape), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)  <span class="co"># Should trigger default method</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-error">
+<pre><code>Error in area.default(unknown_shape): No method for calculating area for this class.</code></pre>
+</div>
+</div>
 </section>
 <section id="s3-methods---application-with-vctrs" class="slide level2 center">
 <h2>S3 methods - application with {vctrs}</h2>
