@@ -514,8 +514,102 @@
 
 <p>Exercises to add</p>
 </section>
+<section id="object-styles" class="slide level2 center">
+<h2>Object styles</h2>
+<p>Think about if relevant</p>
+</section>
+<section id="inheritance" class="slide level2 center">
+<h2>Inheritance</h2>
+<p>Mechanism through which <strong>different classes</strong> can <strong>share behavior</strong>, powered by 3 ideas:</p>
+<p>1. Class can be a character vector</p>
+<p>2. If method not found for the first class, R looks to method for the second class</p>
+<p>3. A method can delegate work by calling <code>NextMethod()</code>, “-&gt;”</p>
+</section>
+<section class="slide level2 center">
+
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="co"># Example with ordered </span></span>
+<span id="cb10-2"><a href="#cb10-2"></a><span class="co"># ordered() creates an ordered factor with a given input </span></span>
+<span id="cb10-3"><a href="#cb10-3"></a></span>
+<span id="cb10-4"><a href="#cb10-4"></a><span class="co"># 1. ----- #</span></span>
+<span id="cb10-5"><a href="#cb10-5"></a><span class="fu">ordered</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1 2 3 4
+Levels: 1 &lt; 2 &lt; 3 &lt; 4</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="fu">class</span>(<span class="fu">ordered</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "ordered" "factor" </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a><span class="co"># (Even though both objects contain the same values, ordered() ensures that comparisons (&lt;, &gt;) are meaningful:)</span></span>
+<span id="cb14-2"><a href="#cb14-2"></a></span>
+<span id="cb14-3"><a href="#cb14-3"></a><span class="co"># 2. ----- #</span></span>
+<span id="cb14-4"><a href="#cb14-4"></a>x <span class="ot">&lt;-</span> <span class="fu">ordered</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>)</span>
+<span id="cb14-5"><a href="#cb14-5"></a><span class="fu">s3_dispatch</span>(<span class="fu">print</span>(<span class="fu">ordered</span>(<span class="st">"x"</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   print.ordered
+=&gt; print.factor
+ * print.default</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a><span class="co"># 3. ----- #</span></span>
+<span id="cb16-2"><a href="#cb16-2"></a><span class="fu">s3_dispatch</span>(<span class="fu">ordered</span>(<span class="st">"x"</span>)[<span class="dv">1</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   [.ordered
+=&gt; [.factor
+   [.default
+-&gt; [ (internal)</code></pre>
+</div>
+</div>
+</section>
+<section class="slide level2 center">
+
+<p><strong><em>Output takeaways</em></strong></p>
+<p><em>Step 1: Printing</em></p>
+<p>- The print() function is called on the result of ordered(“x”)[1].</p>
+<p>- R first tries print.factor, which is the specialized print method for factors (including ordered factors).</p>
+<p>- The =&gt; symbol means this method was used.</p>
+<p>- The * before <code>print.default</code> means it was skipped, because <code>print.factor</code> was found.</p>
+<p>–&gt; Since an ordered factor is also a factor, R uses print.factor to display it</p>
+</section>
+<section class="slide level2 center">
+
+<p><em>Step 2: Subsetting</em></p>
+<p>- When <code>ordered("x")[1]</code> is evaluated, R looks for a <code>[.ordered</code> method (a special method for subsetting ordered factors).</p>
+<p>- No =&gt; appears next to <code>[.ordered</code>, meaning it was not found.</p>
+<p>- R then falls back to <code>[.factor</code>, which exists and is used (=&gt; means this method was applied)</p>
+<p>- <code>-&gt; [ (internal)</code> means that the base `[ operator was used at the lowest level</p>
+<p>–&gt; Ordered factors don’t have a specialized [.ordered method, so they rely on [.factor. –&gt; The actual subsetting operation is ultimately handled by the internal `[ function.</p>
+</section>
+<section class="slide level2 center">
+
+<div class="callout callout-caution callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Why delegation to <code>-&gt; [ (internal)</code></strong></p>
+</div>
+<div class="callout-content">
+<p>In R’s S3 method dispatch system:</p>
+<ul>
+<li>R first looks for [.ordered, but it doesn’t exist.</li>
+<li>It then finds [.factor and uses it (=&gt; means it was applied).</li>
+<li>Inside [.factor, R calls NextMethod(), which means:
+<ul>
+<li>It delegates the call to [.default (if it exists) or the base `[ function.</li>
+<li>Since [.default is not used here, it goes directly to [ (internal).</li>
+</ul></li>
+</ul>
+<p>–&gt; 💡 Key takeaway:</p>
+<p><code>-&gt; [ (internal)</code> means that <code>[.factor</code> did not completely handle the operation itself but instead delegated the actual work to the base R `<code>[</code> function (written in C). This delegation is likely happening via <code>NextMethod()</code></p>
+</div>
+</div>
+</div>
+</section>
 <section id="s3-methods---application-with-vctrs" class="slide level2 center">
 <h2>S3 methods - application with {vctrs}</h2>
+<p>NEXT SESSION</p>
 <div class="footer footer-default">
 
 </div>

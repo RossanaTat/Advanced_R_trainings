@@ -100,13 +100,98 @@ ADD examples
 
 ## TODO: add examples, maybe the print i developed for syncdr
 
----
+------------------------------------------------------------------------
 
-Exercises to add 
+Exercises to add
 
----
+------------------------------------------------------------------------
 
 ## Object styles
 
+Think about if relevant
+
+## Inheritance
+
+Mechanism through which **different classes** can **share behavior**, powered by 3 ideas:
+
+1\. Class can be a character vector
+
+2\. If method not found for the first class, R looks to method for the second class
+
+3\. A method can delegate work by calling `NextMethod()`, "-\>"
+
+---
+
+```{r}
+
+# Example with ordered 
+# ordered() creates an ordered factor with a given input 
+
+# 1. ----- #
+ordered(1:4)
+class(ordered(1:4))
+
+# (Even though both objects contain the same values, ordered() ensures that comparisons (<, >) are meaningful:)
+
+# 2. ----- #
+x <- ordered(1:4)
+s3_dispatch(print(ordered("x")))
+
+# 3. ----- #
+s3_dispatch(ordered("x")[1])
+
+```
+
+------------------------------------------------------------------------
+
+***Output takeaways***
+
+*Step 1: Printing*
+
+\- The print() function is called on the result of ordered("x")\[1\].
+
+\- R first tries print.factor, which is the specialized print method for factors (including ordered factors).
+
+\- The =\> symbol means this method was used.
+
+\- The \* before `print.default` means it was skipped, because `print.factor` was found.
+
+--\> Since an ordered factor is also a factor, R uses print.factor to display it
+
+------------------------------------------------------------------------
+
+*Step 2: Subsetting*
+
+\- When `ordered("x")[1]` is evaluated, R looks for a `[.ordered` method (a special method for subsetting ordered factors).
+
+\- No =\> appears next to `[.ordered`, meaning it was not found.
+
+\- R then falls back to `[.factor`, which exists and is used (=\> means this method was applied)
+
+\- `-> [ (internal)` means that the base \`\[ operator was used at the lowest level
+
+--\> Ordered factors don’t have a specialized \[.ordered method, so they rely on \[.factor.
+
+--\> The actual subsetting operation is ultimately handled by the internal \`\[ function.
+
+------------------------------------------------------------------------
+
+::: {.callout-caution collapse="true"}
+## Why delegation to `-> [ (internal)`
+
+In R’s S3 method dispatch system:
+
+-   R first looks for \[.ordered, but it doesn't exist.
+-   It then finds \[.factor and uses it (=\> means it was applied).
+-   Inside \[.factor, R calls NextMethod(), which means:
+    -   It delegates the call to \[.default (if it exists) or the base \`\[ function.
+    -   Since \[.default is not used here, it goes directly to \[ (internal).
+
+--\> 💡 Key takeaway:
+
+`-> [ (internal)` means that `[.factor` did not completely handle the operation itself but instead delegated the actual work to the base R \``[` function (written in C). This delegation is likely happening via `NextMethod()`
+:::
 
 ## S3 methods - application with {vctrs}
+
+NEXT SESSION
