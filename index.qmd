@@ -1,6 +1,5 @@
 ---
 title: "S3 Methods in R - Part 1"
-author: Rossana Tatulli
 format: revealjs
 revealjs:
   slideNumber: true
@@ -126,28 +125,22 @@ print(f)
 -   it creates a vector of method names, `paste0("generic", ".", c(class(x), "default"))`, and then looks for each potential method in turn..see this in action with `sloop::s3_dispatch()`
 -   “default” class is not a real class, but is included to define a standard fallback that is found whenever a class-specific method is not available.
 
+Most generics are very simple, and consist of only a call to `UseMethod()`, for example see
+
+```{r}
+mean
+```
+
+
 ## Finding methods {.smaller}
 
 To find all methods defined for a generic or associated with a class, use `sloop::s3_methods_generic()` and `sloop::s3_methods_class()`
 
 ```{r}
 
-# Define a generic function
-print.my_factor <- function(x, ...) {
-  cat("My Factor:\n")
-  cat("Values:", paste(x$values, collapse = ", "), "\n")
-  cat("Levels:", paste(x$levels, collapse = ", "), "\n")
-}
+s3_methods_generic("mean")
 
-# Create an instance of the S3 class
-f <- as_my_factor(c("low", "medium", "high"), 
-                  levels = c("low", "medium", "high"))
-
-# Check methods for the generic function "print"
-s3_methods_generic("print")
-
-# Check methods associated with the "my_factor" class
-s3_methods_class("my_factor")
+s3_methods_class("ordered")
 
 ```
 
@@ -160,10 +153,6 @@ s3_methods_class("my_factor")
 
 --> we will see more of this in the practical session next time
 
-
-------------------------------------------------------------------------
-
-Exercises to add
 
 ------------------------------------------------------------------------
 
@@ -191,7 +180,7 @@ class(ordered(1:4))
 # (Even though both objects contain the same values, ordered() ensures that comparisons (<, >) are meaningful:)
 
 # 2. ----- #
-x <- ordered(1:4)
+x <- 1:4
 s3_dispatch(print(ordered("x")))
 
 # 3. ----- #
@@ -413,6 +402,35 @@ We need to refine the `[.secret` method, because currently it always return a `s
 * the mechanism that triggers method dispatch in S3 -dispatch appropriate function based on the class of the object passed to it
 * It's used in the **generic function**
 
+Consider this example, what rules of function evaluation does `UseMethod()` violate? 
+
+```{r}
+g <- function(x) {
+  x <- 10
+  y <- 10
+  UseMethod("g")
+}
+
+g.default <- function(x) c(x = x, y = y)
+
+x <- 1
+y <- 1
+
+g(x)
+g.default(x)
+```
+
+## Comments {.smaller}
+
+* x remains 1 because arguments are passed unchanged to methods.
+* However, local variables in `g()` (excluding function arguments) are accessible inside the method: y is taken from the local environment of `g()`, where it was set to 10, not from the global environment.
+* When `UseMethod()` dispatches a method, it preserves the environment where the generic function was called.
+  - Arguments (x) are explicitly passed, so they cannot be modified by the generic
+  - Other variables (y) inside the generic function are still available in the method's evaluation environment
+
+2 takeaways:
+1. Arguments are normally evaluated in the function’s environment, but **`UseMethod()` ignores changes inside the generic**
+2.  Normally, **local variables** in a function are not visible in **called functions**, but `UseMethod()` makes them available
 ---
 
 `NextMethod()`:
