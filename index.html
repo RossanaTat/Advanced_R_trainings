@@ -438,7 +438,7 @@ Rossana Tatulli
 <section id="classes" class="slide level2">
 <h2>Classes</h2>
 <ul>
-<li>no formal definition of a class, to make an object an instance of a class, you simply set the&nbsp;<strong>class attribute</strong></li>
+<li>no formal definition of a class, to make an object an instance of a class, you simply set the <strong>class attribute</strong></li>
 </ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="co"># Create and assign class in one step</span></span>
@@ -489,8 +489,48 @@ Rossana Tatulli
 <li><strong>Purpose</strong>: The helper function is a <strong>convenience function</strong> for users to easily create objects of your class. It is typically a wrapper around the constructor function.</li>
 </ul>
 </section>
-<section id="todo-add-examples-on-contructor-validator-and-helper" class="slide level2">
-<h2>TODO: add examples on contructor validator and helper</h2>
+<section id="example" class="slide level2">
+<h2>Example</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="co"># Constructor</span></span>
+<span id="cb10-2"><a href="#cb10-2"></a>new_my_factor <span class="ot">&lt;-</span> <span class="cf">function</span>(values, levels) {</span>
+<span id="cb10-3"><a href="#cb10-3"></a>  <span class="fu">stopifnot</span>(<span class="fu">is.character</span>(values), </span>
+<span id="cb10-4"><a href="#cb10-4"></a>            <span class="fu">is.character</span>(levels))</span>
+<span id="cb10-5"><a href="#cb10-5"></a>  <span class="fu">structure</span>(</span>
+<span id="cb10-6"><a href="#cb10-6"></a>    <span class="fu">list</span>(<span class="at">values =</span> values, </span>
+<span id="cb10-7"><a href="#cb10-7"></a>         <span class="at">levels =</span> levels),</span>
+<span id="cb10-8"><a href="#cb10-8"></a>    <span class="at">class =</span> <span class="st">"my_factor"</span></span>
+<span id="cb10-9"><a href="#cb10-9"></a>  )</span>
+<span id="cb10-10"><a href="#cb10-10"></a>}</span>
+<span id="cb10-11"><a href="#cb10-11"></a></span>
+<span id="cb10-12"><a href="#cb10-12"></a><span class="co"># Validator</span></span>
+<span id="cb10-13"><a href="#cb10-13"></a>validate_my_factor <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb10-14"><a href="#cb10-14"></a>  <span class="cf">if</span> (<span class="sc">!</span><span class="fu">all</span>(x<span class="sc">$</span>values <span class="sc">%in%</span> x<span class="sc">$</span>levels)) {</span>
+<span id="cb10-15"><a href="#cb10-15"></a>    <span class="fu">stop</span>(<span class="st">"All values must be in levels."</span>)</span>
+<span id="cb10-16"><a href="#cb10-16"></a>  }</span>
+<span id="cb10-17"><a href="#cb10-17"></a>  x</span>
+<span id="cb10-18"><a href="#cb10-18"></a>}</span>
+<span id="cb10-19"><a href="#cb10-19"></a></span>
+<span id="cb10-20"><a href="#cb10-20"></a><span class="co"># Helper function</span></span>
+<span id="cb10-21"><a href="#cb10-21"></a>as_my_factor <span class="ot">&lt;-</span> <span class="cf">function</span>(x, <span class="at">levels =</span> <span class="fu">unique</span>(x)) {</span>
+<span id="cb10-22"><a href="#cb10-22"></a>  x <span class="ot">&lt;-</span> <span class="fu">as.character</span>(x)</span>
+<span id="cb10-23"><a href="#cb10-23"></a>  <span class="fu">validate_my_factor</span>(<span class="fu">new_my_factor</span>(x, levels))</span>
+<span id="cb10-24"><a href="#cb10-24"></a>}</span>
+<span id="cb10-25"><a href="#cb10-25"></a></span>
+<span id="cb10-26"><a href="#cb10-26"></a><span class="co"># Example usage</span></span>
+<span id="cb10-27"><a href="#cb10-27"></a>f <span class="ot">&lt;-</span> <span class="fu">as_my_factor</span>(<span class="fu">c</span>(<span class="st">"low"</span>, <span class="st">"medium"</span>, <span class="st">"high"</span>), <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"low"</span>, <span class="st">"medium"</span>, <span class="st">"high"</span>))</span>
+<span id="cb10-28"><a href="#cb10-28"></a><span class="fu">print</span>(f)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$values
+[1] "low"    "medium" "high"  
+
+$levels
+[1] "low"    "medium" "high"  
+
+attr(,"class")
+[1] "my_factor"</code></pre>
+</div>
+</div>
 </section>
 <section id="generics-and-methods---method-dispatch" class="slide level2 smaller">
 <h2>Generics and methods - method dispatch</h2>
@@ -503,7 +543,45 @@ Rossana Tatulli
 <section id="finding-methods" class="slide level2 smaller">
 <h2>Finding methods</h2>
 <p>To find all methods defined for a generic or associated with a class, use <code>sloop::s3_methods_generic()</code> and <code>sloop::s3_methods_class()</code></p>
-<p>ADD examples</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="co"># Define a generic function</span></span>
+<span id="cb12-2"><a href="#cb12-2"></a>print.my_factor <span class="ot">&lt;-</span> <span class="cf">function</span>(x, ...) {</span>
+<span id="cb12-3"><a href="#cb12-3"></a>  <span class="fu">cat</span>(<span class="st">"My Factor:</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb12-4"><a href="#cb12-4"></a>  <span class="fu">cat</span>(<span class="st">"Values:"</span>, <span class="fu">paste</span>(x<span class="sc">$</span>values, <span class="at">collapse =</span> <span class="st">", "</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb12-5"><a href="#cb12-5"></a>  <span class="fu">cat</span>(<span class="st">"Levels:"</span>, <span class="fu">paste</span>(x<span class="sc">$</span>levels, <span class="at">collapse =</span> <span class="st">", "</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb12-6"><a href="#cb12-6"></a>}</span>
+<span id="cb12-7"><a href="#cb12-7"></a></span>
+<span id="cb12-8"><a href="#cb12-8"></a><span class="co"># Create an instance of the S3 class</span></span>
+<span id="cb12-9"><a href="#cb12-9"></a>f <span class="ot">&lt;-</span> <span class="fu">as_my_factor</span>(<span class="fu">c</span>(<span class="st">"low"</span>, <span class="st">"medium"</span>, <span class="st">"high"</span>), </span>
+<span id="cb12-10"><a href="#cb12-10"></a>                  <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"low"</span>, <span class="st">"medium"</span>, <span class="st">"high"</span>))</span>
+<span id="cb12-11"><a href="#cb12-11"></a></span>
+<span id="cb12-12"><a href="#cb12-12"></a><span class="co"># Check methods for the generic function "print"</span></span>
+<span id="cb12-13"><a href="#cb12-13"></a><span class="fu">s3_methods_generic</span>(<span class="st">"print"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 258 × 4
+   generic class             visible source             
+   &lt;chr&gt;   &lt;chr&gt;             &lt;lgl&gt;   &lt;chr&gt;              
+ 1 print   acf               FALSE   registered S3method
+ 2 print   activeConcordance FALSE   registered S3method
+ 3 print   AES               FALSE   registered S3method
+ 4 print   anova             FALSE   registered S3method
+ 5 print   aov               FALSE   registered S3method
+ 6 print   aovlist           FALSE   registered S3method
+ 7 print   ar                FALSE   registered S3method
+ 8 print   Arima             FALSE   registered S3method
+ 9 print   arima0            FALSE   registered S3method
+10 print   AsIs              TRUE    base               
+# ℹ 248 more rows</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a><span class="co"># Check methods associated with the "my_factor" class</span></span>
+<span id="cb14-2"><a href="#cb14-2"></a><span class="fu">s3_methods_class</span>(<span class="st">"my_factor"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 4
+  generic class     visible source    
+  &lt;chr&gt;   &lt;chr&gt;     &lt;lgl&gt;   &lt;chr&gt;     
+1 print   my_factor TRUE    .GlobalEnv</code></pre>
+</div>
+</div>
 </section>
 <section id="creating-methods" class="slide level2 smaller">
 <h2>Creating methods</h2>
@@ -512,17 +590,11 @@ Rossana Tatulli
 <li><strong>Argument Matching:</strong> Your method should have the same argument signature as the generic, except when using … for flexibility.</li>
 <li><strong>Ellipsis (…)</strong>: Using … in methods allows you to accept additional arguments, but be careful because misspelled arguments will be silently ignored, which could cause hidden issues.</li>
 </ul>
-</section>
-<section id="todo-add-examples-maybe-the-print-i-developed-for-syncdr" class="slide level2">
-<h2>TODO: add examples, maybe the print i developed for syncdr</h2>
+<p>–&gt; we will see more of this in the practical session next time</p>
 </section>
 <section class="slide level2">
 
 <p>Exercises to add</p>
-</section>
-<section id="object-styles" class="slide level2">
-<h2>Object styles</h2>
-<p>Think about if relevant</p>
 </section>
 <section id="inheritance" class="slide level2 smaller">
 <h2>Inheritance</h2>
@@ -534,31 +606,31 @@ Rossana Tatulli
 <section class="slide level2">
 
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="co"># Example with ordered </span></span>
-<span id="cb10-2"><a href="#cb10-2"></a><span class="co"># ordered() creates an ordered factor with a given input </span></span>
-<span id="cb10-3"><a href="#cb10-3"></a></span>
-<span id="cb10-4"><a href="#cb10-4"></a><span class="co"># 1. ----- #</span></span>
-<span id="cb10-5"><a href="#cb10-5"></a><span class="fu">ordered</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a><span class="co"># Example with ordered </span></span>
+<span id="cb16-2"><a href="#cb16-2"></a><span class="co"># ordered() creates an ordered factor with a given input </span></span>
+<span id="cb16-3"><a href="#cb16-3"></a></span>
+<span id="cb16-4"><a href="#cb16-4"></a><span class="co"># 1. ----- #</span></span>
+<span id="cb16-5"><a href="#cb16-5"></a><span class="fu">ordered</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1 2 3 4
 Levels: 1 &lt; 2 &lt; 3 &lt; 4</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="fu">class</span>(<span class="fu">ordered</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a><span class="fu">class</span>(<span class="fu">ordered</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "ordered" "factor" </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a><span class="co"># (Even though both objects contain the same values, ordered() ensures that comparisons (&lt;, &gt;) are meaningful:)</span></span>
-<span id="cb14-2"><a href="#cb14-2"></a></span>
-<span id="cb14-3"><a href="#cb14-3"></a><span class="co"># 2. ----- #</span></span>
-<span id="cb14-4"><a href="#cb14-4"></a>x <span class="ot">&lt;-</span> <span class="fu">ordered</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>)</span>
-<span id="cb14-5"><a href="#cb14-5"></a><span class="fu">s3_dispatch</span>(<span class="fu">print</span>(<span class="fu">ordered</span>(<span class="st">"x"</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a><span class="co"># (Even though both objects contain the same values, ordered() ensures that comparisons (&lt;, &gt;) are meaningful:)</span></span>
+<span id="cb20-2"><a href="#cb20-2"></a></span>
+<span id="cb20-3"><a href="#cb20-3"></a><span class="co"># 2. ----- #</span></span>
+<span id="cb20-4"><a href="#cb20-4"></a>x <span class="ot">&lt;-</span> <span class="fu">ordered</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>)</span>
+<span id="cb20-5"><a href="#cb20-5"></a><span class="fu">s3_dispatch</span>(<span class="fu">print</span>(<span class="fu">ordered</span>(<span class="st">"x"</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   print.ordered
 =&gt; print.factor
  * print.default</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a><span class="co"># 3. ----- #</span></span>
-<span id="cb16-2"><a href="#cb16-2"></a><span class="fu">s3_dispatch</span>(<span class="fu">ordered</span>(<span class="st">"x"</span>)[<span class="dv">1</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a><span class="co"># 3. ----- #</span></span>
+<span id="cb22-2"><a href="#cb22-2"></a><span class="fu">s3_dispatch</span>(<span class="fu">ordered</span>(<span class="st">"x"</span>)[<span class="dv">1</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   [.ordered
 =&gt; [.factor
@@ -627,23 +699,23 @@ Levels: 1 &lt; 2 &lt; 3 &lt; 4</code></pre>
 
 <p><strong>Example</strong></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a><span class="co"># Function to create a "labelled_factor" subclass</span></span>
-<span id="cb18-2"><a href="#cb18-2"></a>labelled_factor <span class="ot">&lt;-</span> <span class="cf">function</span>(x, label) {</span>
-<span id="cb18-3"><a href="#cb18-3"></a>  <span class="co"># Ensure the base type remains the same as the superclass (factor)</span></span>
-<span id="cb18-4"><a href="#cb18-4"></a>  <span class="cf">if</span> (<span class="sc">!</span><span class="fu">inherits</span>(x, <span class="st">"factor"</span>)) {</span>
-<span id="cb18-5"><a href="#cb18-5"></a>    <span class="fu">stop</span>(<span class="st">"x must be a factor"</span>)</span>
-<span id="cb18-6"><a href="#cb18-6"></a>  }</span>
-<span id="cb18-7"><a href="#cb18-7"></a>  </span>
-<span id="cb18-8"><a href="#cb18-8"></a>  <span class="co"># Add an extra attribute ("label") while preserving existing attributes</span></span>
-<span id="cb18-9"><a href="#cb18-9"></a>  <span class="fu">structure</span>(x, <span class="at">class =</span> <span class="fu">c</span>(<span class="st">"labelled_factor"</span>, <span class="st">"factor"</span>), <span class="at">label =</span> label)</span>
-<span id="cb18-10"><a href="#cb18-10"></a>}</span>
-<span id="cb18-11"><a href="#cb18-11"></a></span>
-<span id="cb18-12"><a href="#cb18-12"></a><span class="co"># Example usage</span></span>
-<span id="cb18-13"><a href="#cb18-13"></a>x  <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="st">"low"</span>, <span class="st">"medium"</span>, <span class="st">"high"</span>))</span>
-<span id="cb18-14"><a href="#cb18-14"></a>lf <span class="ot">&lt;-</span> <span class="fu">labelled_factor</span>(x, <span class="at">label =</span> <span class="st">"Risk Level"</span>)</span>
-<span id="cb18-15"><a href="#cb18-15"></a></span>
-<span id="cb18-16"><a href="#cb18-16"></a><span class="co"># Check structure</span></span>
-<span id="cb18-17"><a href="#cb18-17"></a><span class="fu">str</span>(lf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1"></a><span class="co"># Function to create a "labelled_factor" subclass</span></span>
+<span id="cb24-2"><a href="#cb24-2"></a>labelled_factor <span class="ot">&lt;-</span> <span class="cf">function</span>(x, label) {</span>
+<span id="cb24-3"><a href="#cb24-3"></a>  <span class="co"># Ensure the base type remains the same as the superclass (factor)</span></span>
+<span id="cb24-4"><a href="#cb24-4"></a>  <span class="cf">if</span> (<span class="sc">!</span><span class="fu">inherits</span>(x, <span class="st">"factor"</span>)) {</span>
+<span id="cb24-5"><a href="#cb24-5"></a>    <span class="fu">stop</span>(<span class="st">"x must be a factor"</span>)</span>
+<span id="cb24-6"><a href="#cb24-6"></a>  }</span>
+<span id="cb24-7"><a href="#cb24-7"></a>  </span>
+<span id="cb24-8"><a href="#cb24-8"></a>  <span class="co"># Add an extra attribute ("label") while preserving existing attributes</span></span>
+<span id="cb24-9"><a href="#cb24-9"></a>  <span class="fu">structure</span>(x, <span class="at">class =</span> <span class="fu">c</span>(<span class="st">"labelled_factor"</span>, <span class="st">"factor"</span>), <span class="at">label =</span> label)</span>
+<span id="cb24-10"><a href="#cb24-10"></a>}</span>
+<span id="cb24-11"><a href="#cb24-11"></a></span>
+<span id="cb24-12"><a href="#cb24-12"></a><span class="co"># Example usage</span></span>
+<span id="cb24-13"><a href="#cb24-13"></a>x  <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="st">"low"</span>, <span class="st">"medium"</span>, <span class="st">"high"</span>))</span>
+<span id="cb24-14"><a href="#cb24-14"></a>lf <span class="ot">&lt;-</span> <span class="fu">labelled_factor</span>(x, <span class="at">label =</span> <span class="st">"Risk Level"</span>)</span>
+<span id="cb24-15"><a href="#cb24-15"></a></span>
+<span id="cb24-16"><a href="#cb24-16"></a><span class="co"># Check structure</span></span>
+<span id="cb24-17"><a href="#cb24-17"></a><span class="fu">str</span>(lf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> Factor w/ 3 levels "high","low","medium": 2 3 1
  - attr(*, "label")= chr "Risk Level"</code></pre>
@@ -654,18 +726,18 @@ Levels: 1 &lt; 2 &lt; 3 &lt; 4</code></pre>
 <h2><code>NextMethod()</code></h2>
 <p>Let’s start with an example</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a>new_secret <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">x =</span> <span class="fu">double</span>()) {</span>
-<span id="cb20-2"><a href="#cb20-2"></a>  <span class="fu">stopifnot</span>(<span class="fu">is.double</span>(x))</span>
-<span id="cb20-3"><a href="#cb20-3"></a>  <span class="fu">structure</span>(x, <span class="at">class =</span> <span class="st">"secret"</span>)</span>
-<span id="cb20-4"><a href="#cb20-4"></a>}</span>
-<span id="cb20-5"><a href="#cb20-5"></a></span>
-<span id="cb20-6"><a href="#cb20-6"></a>print.secret <span class="ot">&lt;-</span> <span class="cf">function</span>(x, ...) {</span>
-<span id="cb20-7"><a href="#cb20-7"></a>  <span class="fu">print</span>(<span class="fu">strrep</span>(<span class="st">"x"</span>, <span class="fu">nchar</span>(x)))</span>
-<span id="cb20-8"><a href="#cb20-8"></a>  <span class="fu">invisible</span>(x)</span>
-<span id="cb20-9"><a href="#cb20-9"></a>}</span>
-<span id="cb20-10"><a href="#cb20-10"></a></span>
-<span id="cb20-11"><a href="#cb20-11"></a>x <span class="ot">&lt;-</span> <span class="fu">new_secret</span>(<span class="fu">c</span>(<span class="dv">15</span>, <span class="dv">1</span>, <span class="dv">456</span>))</span>
-<span id="cb20-12"><a href="#cb20-12"></a>x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1"></a>new_secret <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">x =</span> <span class="fu">double</span>()) {</span>
+<span id="cb26-2"><a href="#cb26-2"></a>  <span class="fu">stopifnot</span>(<span class="fu">is.double</span>(x))</span>
+<span id="cb26-3"><a href="#cb26-3"></a>  <span class="fu">structure</span>(x, <span class="at">class =</span> <span class="st">"secret"</span>)</span>
+<span id="cb26-4"><a href="#cb26-4"></a>}</span>
+<span id="cb26-5"><a href="#cb26-5"></a></span>
+<span id="cb26-6"><a href="#cb26-6"></a>print.secret <span class="ot">&lt;-</span> <span class="cf">function</span>(x, ...) {</span>
+<span id="cb26-7"><a href="#cb26-7"></a>  <span class="fu">print</span>(<span class="fu">strrep</span>(<span class="st">"x"</span>, <span class="fu">nchar</span>(x)))</span>
+<span id="cb26-8"><a href="#cb26-8"></a>  <span class="fu">invisible</span>(x)</span>
+<span id="cb26-9"><a href="#cb26-9"></a>}</span>
+<span id="cb26-10"><a href="#cb26-10"></a></span>
+<span id="cb26-11"><a href="#cb26-11"></a>x <span class="ot">&lt;-</span> <span class="fu">new_secret</span>(<span class="fu">c</span>(<span class="dv">15</span>, <span class="dv">1</span>, <span class="dv">456</span>))</span>
+<span id="cb26-12"><a href="#cb26-12"></a>x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "xx"  "x"   "xxx"</code></pre>
 </div>
@@ -675,13 +747,13 @@ Levels: 1 &lt; 2 &lt; 3 &lt; 4</code></pre>
 
 <p>However, the default <code>[</code> method does not preserve the class</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a><span class="fu">s3_dispatch</span>(x[<span class="dv">1</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1"></a><span class="fu">s3_dispatch</span>(x[<span class="dv">1</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   [.secret
    [.default
 =&gt; [ (internal)</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1"></a>x[<span class="dv">1</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1"></a>x[<span class="dv">1</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 15</code></pre>
 </div>
@@ -692,17 +764,17 @@ Levels: 1 &lt; 2 &lt; 3 &lt; 4</code></pre>
 <p>Need to define a <code>[.secret</code> method:</p>
 <p>Option 1:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1"></a><span class="st">`</span><span class="at">[.secret</span><span class="st">`</span> <span class="ot">&lt;-</span> <span class="cf">function</span>(x, i) {</span>
-<span id="cb26-2"><a href="#cb26-2"></a>  <span class="fu">new_secret</span>(x[i])</span>
-<span id="cb26-3"><a href="#cb26-3"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1"></a><span class="st">`</span><span class="at">[.secret</span><span class="st">`</span> <span class="ot">&lt;-</span> <span class="cf">function</span>(x, i) {</span>
+<span id="cb32-2"><a href="#cb32-2"></a>  <span class="fu">new_secret</span>(x[i])</span>
+<span id="cb32-3"><a href="#cb32-3"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Option 2:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1"></a><span class="st">`</span><span class="at">[.secret</span><span class="st">`</span> <span class="ot">&lt;-</span> <span class="cf">function</span>(x, i) {</span>
-<span id="cb27-2"><a href="#cb27-2"></a>  x <span class="ot">&lt;-</span> <span class="fu">unclass</span>(x)</span>
-<span id="cb27-3"><a href="#cb27-3"></a>  <span class="fu">new_secret</span>(x[i])</span>
-<span id="cb27-4"><a href="#cb27-4"></a>}</span>
-<span id="cb27-5"><a href="#cb27-5"></a>x[<span class="dv">1</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1"></a><span class="st">`</span><span class="at">[.secret</span><span class="st">`</span> <span class="ot">&lt;-</span> <span class="cf">function</span>(x, i) {</span>
+<span id="cb33-2"><a href="#cb33-2"></a>  x <span class="ot">&lt;-</span> <span class="fu">unclass</span>(x)</span>
+<span id="cb33-3"><a href="#cb33-3"></a>  <span class="fu">new_secret</span>(x[i])</span>
+<span id="cb33-4"><a href="#cb33-4"></a>}</span>
+<span id="cb33-5"><a href="#cb33-5"></a>x[<span class="dv">1</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "xx"</code></pre>
 </div>
@@ -728,14 +800,14 @@ Levels: 1 &lt; 2 &lt; 3 &lt; 4</code></pre>
 
 <p>With <code>NextMethod()</code> instead</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1"></a><span class="st">`</span><span class="at">[.secret</span><span class="st">`</span> <span class="ot">&lt;-</span> <span class="cf">function</span>(x, i) {</span>
-<span id="cb29-2"><a href="#cb29-2"></a>  <span class="fu">new_secret</span>(<span class="fu">NextMethod</span>())</span>
-<span id="cb29-3"><a href="#cb29-3"></a>}</span>
-<span id="cb29-4"><a href="#cb29-4"></a>x[<span class="dv">1</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1"></a><span class="st">`</span><span class="at">[.secret</span><span class="st">`</span> <span class="ot">&lt;-</span> <span class="cf">function</span>(x, i) {</span>
+<span id="cb35-2"><a href="#cb35-2"></a>  <span class="fu">new_secret</span>(<span class="fu">NextMethod</span>())</span>
+<span id="cb35-3"><a href="#cb35-3"></a>}</span>
+<span id="cb35-4"><a href="#cb35-4"></a>x[<span class="dv">1</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "xx"</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1"></a><span class="fu">s3_dispatch</span>(x[<span class="dv">1</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1"></a><span class="fu">s3_dispatch</span>(x[<span class="dv">1</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>=&gt; [.secret
    [.default
@@ -751,16 +823,16 @@ Levels: 1 &lt; 2 &lt; 3 &lt; 4</code></pre>
 <h2>Allowing sub-classes</h2>
 <p><strong>Subclassing</strong> might allows for more flexible and extensible code. To allow subclasses, the parent constructor needs to have<code>...</code>and <code>class</code> arguments:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1"></a>new_secret <span class="ot">&lt;-</span> <span class="cf">function</span>(x, ..., <span class="at">class =</span> <span class="fu">character</span>()) {</span>
-<span id="cb33-2"><a href="#cb33-2"></a>  <span class="fu">stopifnot</span>(<span class="fu">is.double</span>(x))</span>
-<span id="cb33-3"><a href="#cb33-3"></a></span>
-<span id="cb33-4"><a href="#cb33-4"></a>  <span class="fu">structure</span>(</span>
-<span id="cb33-5"><a href="#cb33-5"></a>    x,</span>
-<span id="cb33-6"><a href="#cb33-6"></a>    ...,</span>
-<span id="cb33-7"><a href="#cb33-7"></a>    <span class="at">class =</span> <span class="fu">c</span>(class, <span class="st">"secret"</span>)</span>
-<span id="cb33-8"><a href="#cb33-8"></a>  )</span>
-<span id="cb33-9"><a href="#cb33-9"></a>}</span>
-<span id="cb33-10"><a href="#cb33-10"></a><span class="co">#note that the class argument is used to attach the class to the object, and "secret" is added to the class chain.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1"></a>new_secret <span class="ot">&lt;-</span> <span class="cf">function</span>(x, ..., <span class="at">class =</span> <span class="fu">character</span>()) {</span>
+<span id="cb39-2"><a href="#cb39-2"></a>  <span class="fu">stopifnot</span>(<span class="fu">is.double</span>(x))</span>
+<span id="cb39-3"><a href="#cb39-3"></a></span>
+<span id="cb39-4"><a href="#cb39-4"></a>  <span class="fu">structure</span>(</span>
+<span id="cb39-5"><a href="#cb39-5"></a>    x,</span>
+<span id="cb39-6"><a href="#cb39-6"></a>    ...,</span>
+<span id="cb39-7"><a href="#cb39-7"></a>    <span class="at">class =</span> <span class="fu">c</span>(class, <span class="st">"secret"</span>)</span>
+<span id="cb39-8"><a href="#cb39-8"></a>  )</span>
+<span id="cb39-9"><a href="#cb39-9"></a>}</span>
+<span id="cb39-10"><a href="#cb39-10"></a><span class="co">#note that the class argument is used to attach the class to the object, and "secret" is added to the class chain.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section class="slide level2">
@@ -769,25 +841,25 @@ Levels: 1 &lt; 2 &lt; 3 &lt; 4</code></pre>
 <li>Subclasses (like <code>supersecret</code>) can be created by simply calling the parent constructor with the <code>class</code> argument modified to the subclass name.</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1"></a>new_supersecret <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
-<span id="cb34-2"><a href="#cb34-2"></a>  <span class="fu">new_secret</span>(x, <span class="at">class =</span> <span class="st">"supersecret"</span>)</span>
-<span id="cb34-3"><a href="#cb34-3"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1"></a>new_supersecret <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb40-2"><a href="#cb40-2"></a>  <span class="fu">new_secret</span>(x, <span class="at">class =</span> <span class="st">"supersecret"</span>)</span>
+<span id="cb40-3"><a href="#cb40-3"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section class="slide level2">
 
 <p>To allow inheritance, you need to think about your methods, as you can no longer use the constructor. See the example below:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1"></a>x2 <span class="ot">&lt;-</span> <span class="fu">new_supersecret</span>(<span class="fu">c</span>(<span class="dv">15</span>, <span class="dv">1</span>, <span class="dv">456</span>))</span>
-<span id="cb35-2"><a href="#cb35-2"></a>x2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1"></a>x2 <span class="ot">&lt;-</span> <span class="fu">new_supersecret</span>(<span class="fu">c</span>(<span class="dv">15</span>, <span class="dv">1</span>, <span class="dv">456</span>))</span>
+<span id="cb41-2"><a href="#cb41-2"></a>x2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "xx"  "x"   "xxx"</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1"></a><span class="st">`</span><span class="at">[.secret</span><span class="st">`</span> <span class="ot">&lt;-</span> <span class="cf">function</span>(x, ...) {</span>
-<span id="cb37-2"><a href="#cb37-2"></a>  <span class="fu">new_secret</span>(<span class="fu">NextMethod</span>())</span>
-<span id="cb37-3"><a href="#cb37-3"></a>}</span>
-<span id="cb37-4"><a href="#cb37-4"></a></span>
-<span id="cb37-5"><a href="#cb37-5"></a>x2[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1"></a><span class="st">`</span><span class="at">[.secret</span><span class="st">`</span> <span class="ot">&lt;-</span> <span class="cf">function</span>(x, ...) {</span>
+<span id="cb43-2"><a href="#cb43-2"></a>  <span class="fu">new_secret</span>(<span class="fu">NextMethod</span>())</span>
+<span id="cb43-3"><a href="#cb43-3"></a>}</span>
+<span id="cb43-4"><a href="#cb43-4"></a></span>
+<span id="cb43-5"><a href="#cb43-5"></a>x2[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "xx"  "x"   "xxx"</code></pre>
 </div>
@@ -828,68 +900,68 @@ Levels: 1 &lt; 2 &lt; 3 &lt; 4</code></pre>
 
 <p>Example:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1"></a><span class="co"># Define generic class</span></span>
-<span id="cb39-2"><a href="#cb39-2"></a>area <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
-<span id="cb39-3"><a href="#cb39-3"></a>  <span class="fu">UseMethod</span>(<span class="st">"area"</span>, x)</span>
-<span id="cb39-4"><a href="#cb39-4"></a>}</span>
-<span id="cb39-5"><a href="#cb39-5"></a></span>
-<span id="cb39-6"><a href="#cb39-6"></a><span class="co"># Define the specific methods</span></span>
-<span id="cb39-7"><a href="#cb39-7"></a><span class="co"># Circle area</span></span>
-<span id="cb39-8"><a href="#cb39-8"></a>area.circle <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
-<span id="cb39-9"><a href="#cb39-9"></a>  pi <span class="sc">*</span> x<span class="sc">$</span>radius<span class="sc">^</span><span class="dv">2</span></span>
-<span id="cb39-10"><a href="#cb39-10"></a>}</span>
-<span id="cb39-11"><a href="#cb39-11"></a><span class="co"># Square area</span></span>
-<span id="cb39-12"><a href="#cb39-12"></a>area.square <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
-<span id="cb39-13"><a href="#cb39-13"></a>  x<span class="sc">$</span>side<span class="sc">^</span><span class="dv">2</span></span>
-<span id="cb39-14"><a href="#cb39-14"></a>}</span>
-<span id="cb39-15"><a href="#cb39-15"></a><span class="co"># Rectangle area</span></span>
-<span id="cb39-16"><a href="#cb39-16"></a>area.rectangle <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
-<span id="cb39-17"><a href="#cb39-17"></a>  x<span class="sc">$</span>length <span class="sc">*</span> x<span class="sc">$</span>width</span>
-<span id="cb39-18"><a href="#cb39-18"></a>}</span>
-<span id="cb39-19"><a href="#cb39-19"></a></span>
-<span id="cb39-20"><a href="#cb39-20"></a><span class="co"># Define the Default Method</span></span>
-<span id="cb39-21"><a href="#cb39-21"></a>area.default <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
-<span id="cb39-22"><a href="#cb39-22"></a>  <span class="fu">stop</span>(<span class="st">"No method for calculating area for this class."</span>)</span>
-<span id="cb39-23"><a href="#cb39-23"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1"></a><span class="co"># Define generic class</span></span>
+<span id="cb45-2"><a href="#cb45-2"></a>area <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb45-3"><a href="#cb45-3"></a>  <span class="fu">UseMethod</span>(<span class="st">"area"</span>, x)</span>
+<span id="cb45-4"><a href="#cb45-4"></a>}</span>
+<span id="cb45-5"><a href="#cb45-5"></a></span>
+<span id="cb45-6"><a href="#cb45-6"></a><span class="co"># Define the specific methods</span></span>
+<span id="cb45-7"><a href="#cb45-7"></a><span class="co"># Circle area</span></span>
+<span id="cb45-8"><a href="#cb45-8"></a>area.circle <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb45-9"><a href="#cb45-9"></a>  pi <span class="sc">*</span> x<span class="sc">$</span>radius<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb45-10"><a href="#cb45-10"></a>}</span>
+<span id="cb45-11"><a href="#cb45-11"></a><span class="co"># Square area</span></span>
+<span id="cb45-12"><a href="#cb45-12"></a>area.square <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb45-13"><a href="#cb45-13"></a>  x<span class="sc">$</span>side<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb45-14"><a href="#cb45-14"></a>}</span>
+<span id="cb45-15"><a href="#cb45-15"></a><span class="co"># Rectangle area</span></span>
+<span id="cb45-16"><a href="#cb45-16"></a>area.rectangle <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb45-17"><a href="#cb45-17"></a>  x<span class="sc">$</span>length <span class="sc">*</span> x<span class="sc">$</span>width</span>
+<span id="cb45-18"><a href="#cb45-18"></a>}</span>
+<span id="cb45-19"><a href="#cb45-19"></a></span>
+<span id="cb45-20"><a href="#cb45-20"></a><span class="co"># Define the Default Method</span></span>
+<span id="cb45-21"><a href="#cb45-21"></a>area.default <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb45-22"><a href="#cb45-22"></a>  <span class="fu">stop</span>(<span class="st">"No method for calculating area for this class."</span>)</span>
+<span id="cb45-23"><a href="#cb45-23"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section class="slide level2">
 
 <div class="cell">
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1"></a><span class="co"># Create some objects and call the function</span></span>
-<span id="cb40-2"><a href="#cb40-2"></a></span>
-<span id="cb40-3"><a href="#cb40-3"></a><span class="co"># Create a circle</span></span>
-<span id="cb40-4"><a href="#cb40-4"></a>circle <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">radius =</span> <span class="dv">5</span>)</span>
-<span id="cb40-5"><a href="#cb40-5"></a><span class="fu">class</span>(circle) <span class="ot">&lt;-</span> <span class="st">"circle"</span></span>
-<span id="cb40-6"><a href="#cb40-6"></a></span>
-<span id="cb40-7"><a href="#cb40-7"></a><span class="co"># Create a square</span></span>
-<span id="cb40-8"><a href="#cb40-8"></a>square <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">side =</span> <span class="dv">4</span>)</span>
-<span id="cb40-9"><a href="#cb40-9"></a><span class="fu">class</span>(square) <span class="ot">&lt;-</span> <span class="st">"square"</span></span>
-<span id="cb40-10"><a href="#cb40-10"></a></span>
-<span id="cb40-11"><a href="#cb40-11"></a><span class="co"># Create a rectangle</span></span>
-<span id="cb40-12"><a href="#cb40-12"></a>rectangle <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">length =</span> <span class="dv">6</span>, <span class="at">width =</span> <span class="dv">3</span>)</span>
-<span id="cb40-13"><a href="#cb40-13"></a><span class="fu">class</span>(rectangle) <span class="ot">&lt;-</span> <span class="st">"rectangle"</span></span>
-<span id="cb40-14"><a href="#cb40-14"></a></span>
-<span id="cb40-15"><a href="#cb40-15"></a><span class="co"># Create a generic object (no specific class)</span></span>
-<span id="cb40-16"><a href="#cb40-16"></a>unknown_shape <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
-<span id="cb40-17"><a href="#cb40-17"></a><span class="fu">class</span>(unknown_shape) <span class="ot">&lt;-</span> <span class="st">"unknown"</span></span>
-<span id="cb40-18"><a href="#cb40-18"></a></span>
-<span id="cb40-19"><a href="#cb40-19"></a><span class="co"># ________ ####</span></span>
-<span id="cb40-20"><a href="#cb40-20"></a><span class="co"># Calling area for specific shapes</span></span>
-<span id="cb40-21"><a href="#cb40-21"></a><span class="fu">cat</span>(<span class="st">"Area of circle:"</span>, <span class="fu">area</span>(circle), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)        <span class="co"># Should calculate area of the circle</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1"></a><span class="co"># Create some objects and call the function</span></span>
+<span id="cb46-2"><a href="#cb46-2"></a></span>
+<span id="cb46-3"><a href="#cb46-3"></a><span class="co"># Create a circle</span></span>
+<span id="cb46-4"><a href="#cb46-4"></a>circle <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">radius =</span> <span class="dv">5</span>)</span>
+<span id="cb46-5"><a href="#cb46-5"></a><span class="fu">class</span>(circle) <span class="ot">&lt;-</span> <span class="st">"circle"</span></span>
+<span id="cb46-6"><a href="#cb46-6"></a></span>
+<span id="cb46-7"><a href="#cb46-7"></a><span class="co"># Create a square</span></span>
+<span id="cb46-8"><a href="#cb46-8"></a>square <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">side =</span> <span class="dv">4</span>)</span>
+<span id="cb46-9"><a href="#cb46-9"></a><span class="fu">class</span>(square) <span class="ot">&lt;-</span> <span class="st">"square"</span></span>
+<span id="cb46-10"><a href="#cb46-10"></a></span>
+<span id="cb46-11"><a href="#cb46-11"></a><span class="co"># Create a rectangle</span></span>
+<span id="cb46-12"><a href="#cb46-12"></a>rectangle <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">length =</span> <span class="dv">6</span>, <span class="at">width =</span> <span class="dv">3</span>)</span>
+<span id="cb46-13"><a href="#cb46-13"></a><span class="fu">class</span>(rectangle) <span class="ot">&lt;-</span> <span class="st">"rectangle"</span></span>
+<span id="cb46-14"><a href="#cb46-14"></a></span>
+<span id="cb46-15"><a href="#cb46-15"></a><span class="co"># Create a generic object (no specific class)</span></span>
+<span id="cb46-16"><a href="#cb46-16"></a>unknown_shape <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb46-17"><a href="#cb46-17"></a><span class="fu">class</span>(unknown_shape) <span class="ot">&lt;-</span> <span class="st">"unknown"</span></span>
+<span id="cb46-18"><a href="#cb46-18"></a></span>
+<span id="cb46-19"><a href="#cb46-19"></a><span class="co"># ________ ####</span></span>
+<span id="cb46-20"><a href="#cb46-20"></a><span class="co"># Calling area for specific shapes</span></span>
+<span id="cb46-21"><a href="#cb46-21"></a><span class="fu">cat</span>(<span class="st">"Area of circle:"</span>, <span class="fu">area</span>(circle), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)        <span class="co"># Should calculate area of the circle</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Area of circle: 78.53982 </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1"></a><span class="fu">cat</span>(<span class="st">"Area of square:"</span>, <span class="fu">area</span>(square), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)        <span class="co"># Should calculate area of the square</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1"></a><span class="fu">cat</span>(<span class="st">"Area of square:"</span>, <span class="fu">area</span>(square), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)        <span class="co"># Should calculate area of the square</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Area of square: 16 </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1"></a><span class="fu">cat</span>(<span class="st">"Area of rectangle:"</span>, <span class="fu">area</span>(rectangle), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)  <span class="co"># Should calculate area of the rectangle</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1"></a><span class="fu">cat</span>(<span class="st">"Area of rectangle:"</span>, <span class="fu">area</span>(rectangle), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)  <span class="co"># Should calculate area of the rectangle</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Area of rectangle: 18 </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1"></a><span class="co"># Calling area for an object with no specific class</span></span>
-<span id="cb46-2"><a href="#cb46-2"></a><span class="fu">cat</span>(<span class="st">"Area of unknown shape:"</span>, <span class="fu">area</span>(unknown_shape), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)  <span class="co"># Should trigger default method</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1"></a><span class="co"># Calling area for an object with no specific class</span></span>
+<span id="cb52-2"><a href="#cb52-2"></a><span class="fu">cat</span>(<span class="st">"Area of unknown shape:"</span>, <span class="fu">area</span>(unknown_shape), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)  <span class="co"># Should trigger default method</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-error">
 <pre><code>Error in area.default(unknown_shape): No method for calculating area for this class.</code></pre>
 </div>

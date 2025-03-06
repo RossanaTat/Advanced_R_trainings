@@ -42,7 +42,7 @@ s3_dispatch(print(f))
 
 ## Classes
 
--   no formal definition of a class, to make an object an instance of a class, you simply set the **class attribute**
+-   no formal definition of a class, to make an object an instance of a class, you simply set the **class attribute**
 
 ```{r}
 # Create and assign class in one step
@@ -84,7 +84,41 @@ inherits(x, "your_class")
 
 -   **Purpose**: The helper function is a **convenience function** for users to easily create objects of your class. It is typically a wrapper around the constructor function.
 
-## TODO: add examples on contructor validator and helper
+## Example 
+
+```{r}
+# Constructor
+new_my_factor <- function(values, levels) {
+  stopifnot(is.character(values), 
+            is.character(levels))
+  structure(
+    list(values = values, 
+         levels = levels),
+    class = "my_factor"
+  )
+}
+
+# Validator
+validate_my_factor <- function(x) {
+  if (!all(x$values %in% x$levels)) {
+    stop("All values must be in levels.")
+  }
+  x
+}
+
+# Helper function
+as_my_factor <- function(x, levels = unique(x)) {
+  x <- as.character(x)
+  validate_my_factor(new_my_factor(x, levels))
+}
+
+# Example usage
+f <- as_my_factor(c("low", "medium", "high"), levels = c("low", "medium", "high"))
+print(f)
+
+```
+
+
 
 ## Generics and methods - method dispatch {.smaller}
 
@@ -96,7 +130,27 @@ inherits(x, "your_class")
 
 To find all methods defined for a generic or associated with a class, use `sloop::s3_methods_generic()` and `sloop::s3_methods_class()`
 
-ADD examples
+```{r}
+
+# Define a generic function
+print.my_factor <- function(x, ...) {
+  cat("My Factor:\n")
+  cat("Values:", paste(x$values, collapse = ", "), "\n")
+  cat("Levels:", paste(x$levels, collapse = ", "), "\n")
+}
+
+# Create an instance of the S3 class
+f <- as_my_factor(c("low", "medium", "high"), 
+                  levels = c("low", "medium", "high"))
+
+# Check methods for the generic function "print"
+s3_methods_generic("print")
+
+# Check methods associated with the "my_factor" class
+s3_methods_class("my_factor")
+
+```
+
 
 ## Creating methods {.smaller}
 
@@ -104,17 +158,14 @@ ADD examples
 -   **Argument Matching:** Your method should have the same argument signature as the generic, except when using ... for flexibility.
 -   **Ellipsis (...)**: Using ... in methods allows you to accept additional arguments, but be careful because misspelled arguments will be silently ignored, which could cause hidden issues.
 
-## TODO: add examples, maybe the print i developed for syncdr
+--> we will see more of this in the practical session next time
+
 
 ------------------------------------------------------------------------
 
 Exercises to add
 
 ------------------------------------------------------------------------
-
-## Object styles
-
-Think about if relevant
 
 ## Inheritance {.smaller}
 
