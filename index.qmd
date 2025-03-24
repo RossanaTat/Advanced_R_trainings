@@ -1,15 +1,14 @@
 ---
 title: "S3 Methods in R - Part 1"
-format: revealjs
-revealjs:
-  slideNumber: true
-  theme: simple
-  transition: fade
-  fontSize: 20
-  slideWidth: 1280
-  slideHeight: 720
+format: 
+  revealjs:
+    slide-number: true
+    theme: simple
+    transition: fade
 editor: visual
-echo: TRUE
+execute:
+  echo: true
+  error: TRUE
 ---
 
 ## Intro on OOP and S3 methods
@@ -83,7 +82,7 @@ inherits(x, "your_class")
 
 -   **Purpose**: The helper function is a **convenience function** for users to easily create objects of your class. It is typically a wrapper around the constructor function.
 
-## Example 
+## Example
 
 ```{r}
 # Constructor
@@ -117,8 +116,6 @@ print(f)
 
 ```
 
-
-
 ## Generics and methods - method dispatch {.smaller}
 
 -   every generic calls `UseMethod` to perform method dispatch. `UseMethod()` takes two arguments: the name of the generic function (required), and the argument to use for method dispatch (optional)
@@ -130,7 +127,6 @@ Most generics are very simple, and consist of only a call to `UseMethod()`, for 
 ```{r}
 mean
 ```
-
 
 ## Finding methods {.smaller}
 
@@ -144,15 +140,13 @@ s3_methods_class("ordered")
 
 ```
 
-
 ## Creating methods {.smaller}
 
 -   **Best Practice**: Only create methods for generics or classes that you own (or collaborate with the author of the package/class to add your method).
 -   **Argument Matching:** Your method should have the same argument signature as the generic, except when using ... for flexibility.
 -   **Ellipsis (...)**: Using ... in methods allows you to accept additional arguments, but be careful because misspelled arguments will be silently ignored, which could cause hidden issues.
 
---> we will see more of this in the practical session next time
-
+--\> we will see more of this in the practical session next time
 
 ------------------------------------------------------------------------
 
@@ -166,7 +160,7 @@ Mechanism through which **different classes** can **share behavior**, powered by
 
 3\. A method can delegate work by calling `NextMethod()`, "-\>"
 
----
+------------------------------------------------------------------------
 
 ```{r}
 
@@ -214,7 +208,7 @@ s3_dispatch(ordered("x")[1])
 
 \- R then falls back to `[.factor`, which exists and is used (=\> means this method was applied)
 
-\- `-> [ (internal)` means that the base "'['" operator was used at the lowest level
+\- `-> [ (internal)` means that the base "'\\\\['" operator was used at the lowest level
 
 --\> Ordered factors don’t have a specialized `[.ordered` method, so they rely on `[.factor`.
 
@@ -247,7 +241,7 @@ It is recommend that you adhere to two principles when creating a subclass:
 1.  Sub-class and class belong to the **same base type**
 2.  **Attributes** of the subclass should be a **superset** of the attributes of the **superclass**.
 
----
+------------------------------------------------------------------------
 
 **Example**
 
@@ -290,7 +284,7 @@ x <- new_secret(c(15, 1, 456))
 x
 ```
 
----
+------------------------------------------------------------------------
 
 However, the default `[` method does not preserve the class
 
@@ -300,7 +294,7 @@ x[1]
 
 ```
 
----
+------------------------------------------------------------------------
 
 Need to define a `[.secret` method:
 
@@ -322,15 +316,13 @@ Option 2:
 x[1]
 ```
 
-::: {.callout-note}
-
+::: callout-note
 -   Can you guess why [Option 1]{.underline} does not work?
 
 -   Why is [Option 2]{.underline} not efficient? (hint: *copy-on-modify* mechanism)
-
 :::
 
----
+------------------------------------------------------------------------
 
 With `NextMethod()` instead
 
@@ -347,7 +339,7 @@ s3_dispatch(x[1])
 -   When a method is called, R checks the class of the object and finds the corresponding method. If the method defines a call to `NextMethod()`, R will **continue searching for the next method in the chain**, considering the inheritance hierarchy and class structure
 
 ## Allowing sub-classes {.smaller}
- 
+
 **Subclassing** might allows for more flexible and extensible code. To allow subclasses, the parent constructor needs to have`...`and `class` arguments:
 
 ```{r}
@@ -363,7 +355,7 @@ new_secret <- function(x, ..., class = character()) {
 #note that the class argument is used to attach the class to the object, and "secret" is added to the class chain.
 ```
 
----
+------------------------------------------------------------------------
 
 -   Subclasses (like `supersecret`) can be created by simply calling the parent constructor with the `class` argument modified to the subclass name.
 
@@ -374,7 +366,7 @@ new_supersecret <- function(x) {
 
 ```
 
----
+------------------------------------------------------------------------
 
 To allow inheritance, you need to think about your methods, as you can no longer use the constructor. See the example below:
 
@@ -397,12 +389,12 @@ We need to refine the `[.secret` method, because currently it always return a `s
 
 ## More on `UseMethod`, `NextMethod`, and `default` method in S3 {.smaller}
 
-`UseMethod()`: 
+`UseMethod()`:
 
-* the mechanism that triggers method dispatch in S3 -dispatch appropriate function based on the class of the object passed to it
-* It's used in the **generic function**
+-   the mechanism that triggers method dispatch in S3 -dispatch appropriate function based on the class of the object passed to it
+-   It's used in the **generic function**
 
-Consider this example, what rules of function evaluation does `UseMethod()` violate? 
+Consider this example, what rules of function evaluation does `UseMethod()` violate?
 
 ```{r}
 g <- function(x) {
@@ -422,32 +414,29 @@ g.default(x)
 
 ## Comments {.smaller}
 
-* x remains 1 because arguments are passed unchanged to methods.
-* However, local variables in `g()` (excluding function arguments) are accessible inside the method: y is taken from the local environment of `g()`, where it was set to 10, not from the global environment.
-* When `UseMethod()` dispatches a method, it preserves the environment where the generic function was called.
-  - Arguments (x) are explicitly passed, so they cannot be modified by the generic
-  - Other variables (y) inside the generic function are still available in the method's evaluation environment
+-   x remains 1 because arguments are passed unchanged to methods.
+-   However, local variables in `g()` (excluding function arguments) are accessible inside the method: y is taken from the local environment of `g()`, where it was set to 10, not from the global environment.
+-   When `UseMethod()` dispatches a method, it preserves the environment where the generic function was called.
+    -   Arguments (x) are explicitly passed, so they cannot be modified by the generic
+    -   Other variables (y) inside the generic function are still available in the method's evaluation environment
 
-2 takeaways:
-1. Arguments are normally evaluated in the function’s environment, but **`UseMethod()` ignores changes inside the generic**
-2.  Normally, **local variables** in a function are not visible in **called functions**, but `UseMethod()` makes them available
----
+2 takeaways: 1. Arguments are normally evaluated in the function’s environment, but **`UseMethod()` ignores changes inside the generic** 2. Normally, **local variables** in a function are not visible in **called functions**, but `UseMethod()` makes them available ---
 
 `NextMethod()`:
 
-* used inside a method to call the next method in the dispatch chain
-* If a method is called for a subclass, the `NextMethod()` function is used to call the corresponding method of the superclass, keeping the method dispatch chain intact
+-   used inside a method to call the next method in the dispatch chain
+-   If a method is called for a subclass, the `NextMethod()` function is used to call the corresponding method of the superclass, keeping the method dispatch chain intact
 
----
+------------------------------------------------------------------------
 
 `default` methods:
 
-* Fallback methods that are used when no more specific method is found for a particular class
-* **useful** when you want to provide a generic implementation of a function for all object types, while still allowing specific classes to override the method with specialized behavior
-* **necessary** if you want to ensure that a function works for any object, even if that object doesn’t have a specific method defined for it
-* **unnecessary** when you want to ensure specific behavior for each subclass or class in a way that does not fall back on a generic implementation
+-   Fallback methods that are used when no more specific method is found for a particular class
+-   **useful** when you want to provide a generic implementation of a function for all object types, while still allowing specific classes to override the method with specialized behavior
+-   **necessary** if you want to ensure that a function works for any object, even if that object doesn’t have a specific method defined for it
+-   **unnecessary** when you want to ensure specific behavior for each subclass or class in a way that does not fall back on a generic implementation
 
---- 
+------------------------------------------------------------------------
 
 Example:
 
@@ -477,7 +466,8 @@ area.default <- function(x) {
 }
 ```
 
----
+------------------------------------------------------------------------
+
 ```{r call-objs, error=TRUE}
 # Create some objects and call the function
 
@@ -508,8 +498,277 @@ cat("Area of unknown shape:", area(unknown_shape), "\n")  # Should trigger defau
 
 ```
 
-
-
 ## S3 methods - application with {vctrs}
 
-NEXT SESSION
+**Overview**
+
+-   Main goals of {vctrs}
+
+-   Creating S3 classes with {vctrs}
+
+-   Understanding and Implementing Inheritance
+
+-   Method Dispatch and Generic Functions
+
+## {vctrs} {.smaller}
+
+It provides tools to ensure that functions behave consistently with respect to inputs of varying length and type.
+
+**Goals of vctrs**:
+
+1\. Type stability
+
+2\. Size stability
+
+3\. Make it easier to build new S3 classes: {vctrs} gives a clear development path for creating an S3 class
+
+```{r}
+library(vctrs)
+library(rlang)
+```
+
+```{r, error=TRUE}
+# vec_c() behaves similarly to c() for atomic vectors 
+vec_c(TRUE, 1)
+vec_c(1L, 1.5)
+
+# but is stricter when converting to character 
+vec_c(1.5, "x")
+c(1.5, "x")
+
+```
+
+these vctrs functions allow you to declare the desired "prototype" of the output
+
+```{r, error=TRUE}
+# for example, make the output look like an empty character vector
+#vec_c(1.5, "x", .ptype = character())
+```
+
+Instead of implicitly coercing to a type, we cast to a specific type
+
+## Example with factors
+
+```{r, error=TRUE}
+fa <- factor("a")
+fb <- factor("b")
+vec_c(fa, fb)
+vec_c(fb, fa) # different levels 
+
+# if you try to combine a factor and an ordered factor you'll get an error
+oa <- ordered("a")
+vec_c(fa, oa)
+# explicitly declaring the type of output
+vec_c(fa, oa, .ptype = character())
+```
+
+## 1. TYPE STABILITY {.smaller}
+
+1.  The output type should only depend on the types of the input (in base R, `ifelse` violates this)
+
+```{r}
+# Output changes depending on type of logical element 
+typeof(ifelse(NA, 1, "a"))
+typeof(ifelse(NA, 1, "a"))
+typeof(ifelse(NA, 1, "a"))
+# undesirable bevause you don't know what type of output to expect
+```
+
+2.  The order of the inputs in vectors or functions should not affect the output type
+
+```{r}
+today <- as.Date("2025-03-24")
+c(NULL, today)
+c(today, NULL)
+```
+
+3.  It uses consistent rules
+
+```{r}
+c(fa, fb)
+unlist(unlist(fa, fb))
+
+# hard to have a mental model to guess what the operation is going to return
+```
+
+## 2. SIZE STABILITY
+
+Size-stability = consistent recycling rules. Given the sized of the inputs you should be able to predict the sizes of the output
+
+For example, when you combine two vectors of different sizes.
+
+```{r}
+c(1, 2, 3, 4) + c(10, 20)
+# Shorter vector (c(10, 20)) is repeated to match length 4
+c(1, 2, 3, 4, 5) + c(10, 20)
+# Warning: longer object length is not a multiple of shorter object length
+
+
+# TO COMPLETE - SEE VIGNETTE
+```
+
+## 3. EASIER WAYS OF CREATING NEW VECTORS CLASSES
+
+For example, in R you might need to define methods for a lot of different generics. {vctrs}, instead, gives some documentation/support: e.g., which methods you need to define depending on what you want the vectors to do.
+
+**Basics:** create a new vector class by calling `new_vctr()` , this creates an object of class `vctrs_vct` which has a number of methods ????
+
+## Percent class
+
+Let's make a make a `percent` class, i.e., a double vector that is printed as a percentage. Start by defining a low-level [constructor](https://adv-r.hadley.nz/s3.html#s3-constrcutor) to check types and/or sizes and call [`new_vctr()`](https://vctrs.r-lib.org/reference/new_vctr.html). `percent` is built on a double vector of any length and doesn’t have any attributes.
+
+```{r}
+new_percent <- function(x = double()) {
+  if (!is_double(x)) {
+    abort("`x` must be a double vector.")
+  }
+  new_vctr(x, class = "vctrs_percent")
+}
+
+x <- new_percent(c(seq(0, 1, length.out = 4), NA))
+x
+
+str(x)
+```
+
+Then define the helper
+
+```{r}
+percent <- function(x = double()) {
+  x <- vec_cast(x, double())
+  new_percent(x)
+}
+```
+
+For the convenience of your users, consider implementing an `is_percent()` function:
+
+```{r}
+is_percent <- function(x) {
+  inherits(x, "vctrs_percent")
+}
+```
+
+## `format` method {. smaller}
+
+first method for every class should almost always be a [`format()`](https://rdrr.io/r/base/format.html) method. This should return a character vector the same length as `x` The easiest way to do this is to rely on one of R’s low-level formatting functions like [`formatC()`](https://rdrr.io/r/base/formatc.html):
+
+```{r}
+format.vctrs_percent <- function(x, ...) {
+  out <- formatC(signif(vec_data(x) * 100, 3))
+  out[is.na(x)] <- NA
+  out[!is.na(x)] <- paste0(out[!is.na(x)], "%")
+  out
+}
+
+x
+```
+
+(Note the use of [`vec_data()`](https://vctrs.r-lib.org/reference/vec_data.html) so [`format()`](https://rdrr.io/r/base/format.html) doesn’t get stuck in an infinite loop)
+
+
+## \>
+
+For optimal display, recommended to define an abbreviated type name. This is used in tibbles and in [`str()`](https://rdrr.io/r/utils/str.html):
+
+```{r}
+vec_ptype_abbr.vctrs_percent <- function(x, ...) {
+  "prcnt"
+}
+
+tibble::tibble(x)
+
+str(x)
+```
+
+## Casting and coercion 
+
+The next set of methods you are likely to need are those related to coercion and casting.
+
+-   When the change happens *implicitly* (e.g in [`c()`](https://rdrr.io/r/base/c.html)) we call it **coercion**; when the change happens *explicitly* (e.g. with `as.integer(x)`), we call it **casting**.
+
+-   One of the main goals of vctrs: to put coercion and casting on a robust theoretical footing so it’s possible to make accurate predictions about what (e.g.) `c(x, y)` should do when `x` and `y` have different prototypes.
+
+```{r}
+
+# vec_ptype2(x, y)
+# defines possible set of coercions. It returns a prototype if x and y can be safely coerced to the same prototype; otherwise it returns an error.
+
+vec_ptype2(percent(), NA)
+vec_ptype2(NA, percent())
+
+
+# vec_cast(x, to) defines the possible sets of casts. It returns x translated to have prototype to
+```
+
+## Coercion for the case of identical class
+ It is always a good idea to provide an explicit coercion method for the case of identical classes. So we’ll start by saying that a `vctrs_percent` combined with a `vctrs_percent` yields a `vctrs_percent`
+ 
+```{r}
+vec_ptype2.vctrs_percent.vctrs_percent <- function(x, y, ...) new_percent()
+```
+
+## Other methods 
+define methods that say that combining a percent and double should yield a double. 
+```{r}
+vec_ptype2.vctrs_percent.double <- function(x, y, ...) double()
+vec_ptype2.double.vctrs_percent <- function(x, y, ...) double()
+# double dispatch to check
+
+# check what we've implemented
+vec_ptype_show(percent(), double(), percent())
+```
+
+## Actual conversion: `vec_cast`  {. smaller}
+
+```{r}
+# provide a method to cast a percent to a percent
+vec_cast.vctrs_percent.vctrs_percent <- function(x, to, ...) x
+
+# And then for converting back and forth between doubles.
+vec_cast.vctrs_percent.double <- function(x, to, ...) percent(x)  # use helper
+vec_cast.double.vctrs_percent <- function(x, to, ...) vec_data(x) # strip the attributes 
+
+# check it works
+vec_cast(0.5, percent())
+vec_cast(percent(0.5), double())
+```
+
+## `vec_c` `[<-` and `[[<-` MAYBE SKIP THIS SLIDE
+```{r}
+vec_c(percent(0.5), 1)
+vec_c(NA, percent(0.5))
+# but
+vec_c(TRUE, percent(0.5))
+
+x <- percent(c(0.5, 1, 2))
+x[1:2] <- 2:1
+x[[3]] <- 0.5
+x
+```
+
+For convenience, define
+```{r}
+as_percent <- function(x) {
+  vec_cast(x, new_percent())
+}
+```
+
+## Additional methods
+Occasionally, it is useful to provide conversions that go beyond what’s allowed in casting.In this case, `as_percent()` should be generic, the default method should cast, and then additional methods should implement more flexible conversion:
+```{r}
+as_percent <- function(x, ...) {
+  UseMethod("as_percent")
+}
+
+as_percent.default <- function(x, ...) {
+  vec_cast(x, new_percent())
+}
+
+as_percent.character <- function(x) {
+  value <- as.numeric(gsub(" *% *$", "", x)) / 100
+  new_percent(value)
+}
+```
+
+## THINK ABOUT INHERITANCE AND EXAMPLES
+
