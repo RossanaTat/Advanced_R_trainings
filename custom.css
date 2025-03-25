@@ -1,0 +1,27 @@
+/* Adjust the title font size */
+.reveal h1 {
+    font-size: 36px !important;  /* Change to your preferred size */
+    font-weight: bold;
+    text-align: center;
+}
+
+.reveal h2 {
+    font-size: 32px !important;
+    font-weight: bold;
+}
+
+.reveal h3 {
+    font-size: 26px !important;
+    font-weight: bold;
+}
+
+/* Ensure regular text is readable */
+.reveal p, .reveal li, .reveal pre {
+    font-size: 24px;
+}
+
+/* Reduce code block size if needed */
+.reveal pre code {
+    font-size: 22px !important;
+    line-height: 1.4;
+}

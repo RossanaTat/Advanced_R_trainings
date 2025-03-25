@@ -10,6 +10,8 @@
 <link href="index_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
   <meta name="generator" content="quarto-1.3.450">
 
+  <meta name="author" content="Rossana Tatulli">
+  <meta name="dcterms.date" content="2025-03-25">
   <title>S3 Methods in R - Part 1</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -55,49 +57,52 @@
         -khtml-user-select: none; -moz-user-select: none;
         -ms-user-select: none; user-select: none;
         padding: 0 4px; width: 4em;
-        color: #aaaaaa;
       }
-    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    pre.numberSource { margin-left: 3em;  padding-left: 4px; }
     div.sourceCode
-      { color: #003b4f; background-color: #f1f3f5; }
+      { color: #24292e;  }
     @media screen {
     pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
     }
-    code span { color: #003b4f; } /* Normal */
-    code span.al { color: #ad0000; } /* Alert */
-    code span.an { color: #5e5e5e; } /* Annotation */
-    code span.at { color: #657422; } /* Attribute */
-    code span.bn { color: #ad0000; } /* BaseN */
-    code span.bu { } /* BuiltIn */
-    code span.cf { color: #003b4f; } /* ControlFlow */
-    code span.ch { color: #20794d; } /* Char */
-    code span.cn { color: #8f5902; } /* Constant */
-    code span.co { color: #5e5e5e; } /* Comment */
-    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
-    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
-    code span.dt { color: #ad0000; } /* DataType */
-    code span.dv { color: #ad0000; } /* DecVal */
-    code span.er { color: #ad0000; } /* Error */
-    code span.ex { } /* Extension */
-    code span.fl { color: #ad0000; } /* Float */
-    code span.fu { color: #4758ab; } /* Function */
-    code span.im { color: #00769e; } /* Import */
-    code span.in { color: #5e5e5e; } /* Information */
-    code span.kw { color: #003b4f; } /* Keyword */
-    code span.op { color: #5e5e5e; } /* Operator */
-    code span.ot { color: #003b4f; } /* Other */
-    code span.pp { color: #ad0000; } /* Preprocessor */
-    code span.sc { color: #5e5e5e; } /* SpecialChar */
-    code span.ss { color: #20794d; } /* SpecialString */
-    code span.st { color: #20794d; } /* String */
-    code span.va { color: #111111; } /* Variable */
-    code span.vs { color: #20794d; } /* VerbatimString */
-    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
+    code span { color: #24292e; } /* Normal */
+    code span.al { color: #ff5555; font-weight: bold; } /* Alert */
+    code span.an { color: #6a737d; } /* Annotation */
+    code span.at { color: #d73a49; } /* Attribute */
+    code span.bn { color: #005cc5; } /* BaseN */
+    code span.bu { color: #d73a49; } /* BuiltIn */
+    code span.cf { color: #d73a49; } /* ControlFlow */
+    code span.ch { color: #032f62; } /* Char */
+    code span.cn { color: #005cc5; } /* Constant */
+    code span.co { color: #6a737d; } /* Comment */
+    code span.cv { color: #6a737d; } /* CommentVar */
+    code span.do { color: #6a737d; } /* Documentation */
+    code span.dt { color: #d73a49; } /* DataType */
+    code span.dv { color: #005cc5; } /* DecVal */
+    code span.er { color: #ff5555; text-decoration: underline; } /* Error */
+    code span.ex { color: #d73a49; font-weight: bold; } /* Extension */
+    code span.fl { color: #005cc5; } /* Float */
+    code span.fu { color: #6f42c1; } /* Function */
+    code span.im { color: #032f62; } /* Import */
+    code span.in { color: #6a737d; } /* Information */
+    code span.kw { color: #d73a49; } /* Keyword */
+    code span.op { color: #24292e; } /* Operator */
+    code span.ot { color: #6f42c1; } /* Other */
+    code span.pp { color: #d73a49; } /* Preprocessor */
+    code span.re { color: #6a737d; } /* RegionMarker */
+    code span.sc { color: #005cc5; } /* SpecialChar */
+    code span.ss { color: #032f62; } /* SpecialString */
+    code span.st { color: #032f62; } /* String */
+    code span.va { color: #e36209; } /* Variable */
+    code span.vs { color: #032f62; } /* VerbatimString */
+    code span.wa { color: #ff5555; } /* Warning */
   </style>
   <link rel="stylesheet" href="index_files/libs/revealjs/dist/theme/quarto.css">
+  <link rel="stylesheet" href="custom.css">
   <link href="index_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="index_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="index_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="index_files/libs/revealjs/plugin/reveal-chalkboard/font-awesome/css/all.css" rel="stylesheet">
+  <link href="index_files/libs/revealjs/plugin/reveal-chalkboard/style.css" rel="stylesheet">
   <link href="index_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
   <style type="text/css">
 
@@ -392,10 +397,16 @@
   <h1 class="title">S3 Methods in R - Part 1</h1>
 
 <div class="quarto-title-authors">
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Rossana Tatulli 
+</div>
+</div>
 </div>
 
+  <p class="date">2025-03-25</p>
 </section>
-<section id="intro-on-oop-and-s3-methods" class="slide level2">
+<section id="intro-on-oop-and-s3-methods" class="slide level2 center">
 <h2>Intro on OOP and S3 methods</h2>
 <ul>
 <li><strong>OOP</strong>: based on objects, which have a class, - <em>what the object is</em> -, and a method - <em>what the object does</em></li>
@@ -408,7 +419,7 @@
 </ul></li>
 </ul>
 </section>
-<section id="the-basics" class="slide level2">
+<section id="the-basics" class="slide level2 center">
 <h2>The basics</h2>
 <ul>
 <li><p>An S3 object is a base type with at least a <code>class</code> attribute(e.g., factor)</p></li>
@@ -429,7 +440,7 @@
 </div>
 </div>
 </section>
-<section id="classes" class="slide level2">
+<section id="classes" class="slide level2 center">
 <h2>Classes</h2>
 <ul>
 <li>no formal definition of a class, to make an object an instance of a class, you simply set the <strong>class attribute</strong></li>
@@ -460,14 +471,14 @@
 </div>
 </div>
 </section>
-<section id="class-name-guidelines" class="slide level2 smaller">
+<section id="class-name-guidelines" class="slide level2 smaller center">
 <h2><strong>Class name guidelines</strong>:</h2>
 <ul>
 <li><p><strong>Any string can be a class name</strong>, but it’s advised to keep it simple by using only <strong>letters</strong> and <strong>underscores</strong> (<code>_</code>). Avoid using periods (<code>.</code>) in the class name because it could be confused with the period separator used between a generic name and a class name in R (e.g., <code>generic.class</code>).</p></li>
 <li><p>When using classes within a package, it’s a good idea to <strong>include the package name in the class name</strong> (e.g., <code>mypackage_myclass</code>). This reduces the risk of class name collisions</p></li>
 </ul>
 </section>
-<section id="three-recommended-functions-for-class-management" class="slide level2 smaller">
+<section id="three-recommended-functions-for-class-management" class="slide level2 smaller center">
 <h2><strong>Three recommended functions for class management</strong>:</h2>
 <p>1. <strong>Constructor: <code>new_myclass()</code></strong></p>
 <ul>
@@ -483,7 +494,7 @@
 <li><strong>Purpose</strong>: The helper function is a <strong>convenience function</strong> for users to easily create objects of your class. It is typically a wrapper around the constructor function.</li>
 </ul>
 </section>
-<section id="example" class="slide level2">
+<section id="example" class="slide level2 center">
 <h2>Example</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="co"># Constructor</span></span>
@@ -526,7 +537,7 @@ attr(,"class")
 </div>
 </div>
 </section>
-<section id="generics-and-methods---method-dispatch" class="slide level2 smaller">
+<section id="generics-and-methods---method-dispatch" class="slide level2 smaller center">
 <h2>Generics and methods - method dispatch</h2>
 <ul>
 <li>every generic calls <code>UseMethod</code> to perform method dispatch. <code>UseMethod()</code> takes two arguments: the name of the generic function (required), and the argument to use for method dispatch (optional)</li>
@@ -539,12 +550,12 @@ attr(,"class")
 <div class="cell-output cell-output-stdout">
 <pre><code>function (x, ...) 
 UseMethod("mean")
-&lt;bytecode: 0x000002484e586e50&gt;
+&lt;bytecode: 0x000001bd1db4de90&gt;
 &lt;environment: namespace:base&gt;</code></pre>
 </div>
 </div>
 </section>
-<section id="finding-methods" class="slide level2 smaller">
+<section id="finding-methods" class="slide level2 smaller center">
 <h2>Finding methods</h2>
 <p>To find all methods defined for a generic or associated with a class, use <code>sloop::s3_methods_generic()</code> and <code>sloop::s3_methods_class()</code></p>
 <div class="cell">
@@ -573,7 +584,7 @@ UseMethod("mean")
 </div>
 </div>
 </section>
-<section id="creating-methods" class="slide level2 smaller">
+<section id="creating-methods" class="slide level2 smaller center">
 <h2>Creating methods</h2>
 <ul>
 <li><strong>Best Practice</strong>: Only create methods for generics or classes that you own (or collaborate with the author of the package/class to add your method).</li>
@@ -582,14 +593,14 @@ UseMethod("mean")
 </ul>
 <p>–&gt; we will see more of this in the practical session next time</p>
 </section>
-<section id="inheritance" class="slide level2 smaller">
+<section id="inheritance" class="slide level2 smaller center">
 <h2>Inheritance</h2>
 <p>Mechanism through which <strong>different classes</strong> can <strong>share behavior</strong>, powered by 3 ideas:</p>
 <p>1. Class can be a character vector</p>
 <p>2. If method not found for the first class, R looks to method for the second class</p>
 <p>3. A method can delegate work by calling <code>NextMethod()</code>, “-&gt;”</p>
 </section>
-<section class="slide level2">
+<section class="slide level2 center">
 
 <div class="cell">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a><span class="co"># Example with ordered </span></span>
@@ -625,7 +636,7 @@ Levels: 1 &lt; 2 &lt; 3 &lt; 4</code></pre>
 </div>
 </div>
 </section>
-<section class="slide level2">
+<section class="slide level2 center">
 
 <p><strong><em>Output takeaways</em></strong></p>
 <p><u><em>Step 1: Printing</em></u></p>
@@ -635,17 +646,17 @@ Levels: 1 &lt; 2 &lt; 3 &lt; 4</code></pre>
 <p>- The * before <code>print.default</code> means it was skipped, because <code>print.factor</code> was found.</p>
 <p>–&gt; Since an ordered factor is also a factor, R uses print.factor to display it</p>
 </section>
-<section class="slide level2">
+<section class="slide level2 center">
 
 <p><u><em>Step 2: Subsetting</em></u></p>
 <p>- When <code>ordered("x")[1]</code> is evaluated, R looks for a <code>[.ordered</code> method (a special method for subsetting ordered factors).</p>
 <p>- No =&gt; appears next to <code>[.ordered</code>, meaning it was not found.</p>
 <p>- R then falls back to <code>[.factor</code>, which exists and is used (=&gt; means this method was applied)</p>
-<p>- <code>-&gt; [ (internal)</code> means that the base “‘\\[’” operator was used at the lowest level</p>
+<p>- <code>-&gt; [ (internal)</code> means that the base “‘\[’” operator was used at the lowest level</p>
 <p>–&gt; Ordered factors don’t have a specialized <code>[.ordered</code> method, so they rely on <code>[.factor</code>.</p>
 <p>–&gt; The actual subsetting operation is ultimately handled by the internal <code>[</code> function.</p>
 </section>
-<section class="slide level2">
+<section class="slide level2 center">
 
 <div class="callout callout-caution callout-titled callout-style-default">
 <div class="callout-body">
@@ -672,7 +683,7 @@ Levels: 1 &lt; 2 &lt; 3 &lt; 4</code></pre>
 </div>
 </div>
 </section>
-<section id="relationship-between-the-classes-that-appear-together-in-a-class-vector" class="slide level2 smaller">
+<section id="relationship-between-the-classes-that-appear-together-in-a-class-vector" class="slide level2 smaller center">
 <h2>Relationship between the classes that appear together in a class vector</h2>
 <p>In our example, <code>ordered</code> is a <strong>subclass</strong> of <code>factor</code> and <code>factor</code>is a <strong>superclass</strong> of <code>ordered</code>.</p>
 <p>It is recommend that you adhere to two principles when creating a subclass:</p>
@@ -681,7 +692,7 @@ Levels: 1 &lt; 2 &lt; 3 &lt; 4</code></pre>
 <li><strong>Attributes</strong> of the subclass should be a <strong>superset</strong> of the attributes of the <strong>superclass</strong>.</li>
 </ol>
 </section>
-<section class="slide level2">
+<section class="slide level2 center">
 
 <p><strong>Example</strong></p>
 <div class="cell">
@@ -708,7 +719,7 @@ Levels: 1 &lt; 2 &lt; 3 &lt; 4</code></pre>
 </div>
 </div>
 </section>
-<section id="nextmethod" class="slide level2 smaller">
+<section id="nextmethod" class="slide level2 smaller center">
 <h2><code>NextMethod()</code></h2>
 <p>Let’s start with an example</p>
 <div class="cell">
@@ -729,7 +740,7 @@ Levels: 1 &lt; 2 &lt; 3 &lt; 4</code></pre>
 </div>
 </div>
 </section>
-<section class="slide level2">
+<section class="slide level2 center">
 
 <p>However, the default <code>[</code> method does not preserve the class</p>
 <div class="cell">
@@ -745,7 +756,7 @@ Levels: 1 &lt; 2 &lt; 3 &lt; 4</code></pre>
 </div>
 </div>
 </section>
-<section class="slide level2">
+<section class="slide level2 center">
 
 <p>Need to define a <code>[.secret</code> method:</p>
 <p>Option 1:</p>
@@ -782,7 +793,7 @@ Levels: 1 &lt; 2 &lt; 3 &lt; 4</code></pre>
 </div>
 </div>
 </section>
-<section class="slide level2">
+<section class="slide level2 center">
 
 <p>With <code>NextMethod()</code> instead</p>
 <div class="cell">
@@ -805,7 +816,7 @@ Levels: 1 &lt; 2 &lt; 3 &lt; 4</code></pre>
 <li><p>When a method is called, R checks the class of the object and finds the corresponding method. If the method defines a call to <code>NextMethod()</code>, R will <strong>continue searching for the next method in the chain</strong>, considering the inheritance hierarchy and class structure</p></li>
 </ul>
 </section>
-<section id="allowing-sub-classes" class="slide level2 smaller">
+<section id="allowing-sub-classes" class="slide level2 smaller center">
 <h2>Allowing sub-classes</h2>
 <p><strong>Subclassing</strong> might allows for more flexible and extensible code. To allow subclasses, the parent constructor needs to have<code>...</code>and <code>class</code> arguments:</p>
 <div class="cell">
@@ -821,7 +832,7 @@ Levels: 1 &lt; 2 &lt; 3 &lt; 4</code></pre>
 <span id="cb41-10"><a href="#cb41-10"></a><span class="co">#note that the class argument is used to attach the class to the object, and "secret" is added to the class chain.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section class="slide level2">
+<section class="slide level2 center">
 
 <ul>
 <li>Subclasses (like <code>supersecret</code>) can be created by simply calling the parent constructor with the <code>class</code> argument modified to the subclass name.</li>
@@ -832,7 +843,7 @@ Levels: 1 &lt; 2 &lt; 3 &lt; 4</code></pre>
 <span id="cb42-3"><a href="#cb42-3"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section class="slide level2">
+<section class="slide level2 center">
 
 <p>To allow inheritance, you need to think about your methods, as you can no longer use the constructor. See the example below:</p>
 <div class="cell">
@@ -856,7 +867,7 @@ Levels: 1 &lt; 2 &lt; 3 &lt; 4</code></pre>
 <li><p>general idea: using <code>vctrs::vec_restore()</code> helps manage subclassing: when an object loses its subclass information (e.g., after subsetting), it can be restored to the correct class.</p></li>
 </ul>
 </section>
-<section id="more-on-usemethod-nextmethod-and-default-method-in-s3" class="slide level2 smaller">
+<section id="more-on-usemethod-nextmethod-and-default-method-in-s3" class="slide level2 smaller center">
 <h2>More on <code>UseMethod</code>, <code>NextMethod</code>, and <code>default</code> method in S3</h2>
 <p><code>UseMethod()</code>:</p>
 <ul>
@@ -888,7 +899,7 @@ Levels: 1 &lt; 2 &lt; 3 &lt; 4</code></pre>
 </div>
 </div>
 </section>
-<section id="comments" class="slide level2 smaller">
+<section id="comments" class="slide level2 smaller center">
 <h2>Comments</h2>
 <ul>
 <li>x remains 1 because arguments are passed unchanged to methods.</li>
@@ -906,7 +917,7 @@ Levels: 1 &lt; 2 &lt; 3 &lt; 4</code></pre>
 <li>If a method is called for a subclass, the <code>NextMethod()</code> function is used to call the corresponding method of the superclass, keeping the method dispatch chain intact</li>
 </ul>
 </section>
-<section class="slide level2">
+<section class="slide level2 center">
 
 <p><code>default</code> methods:</p>
 <ul>
@@ -916,7 +927,7 @@ Levels: 1 &lt; 2 &lt; 3 &lt; 4</code></pre>
 <li><strong>unnecessary</strong> when you want to ensure specific behavior for each subclass or class in a way that does not fall back on a generic implementation</li>
 </ul>
 </section>
-<section class="slide level2">
+<section class="slide level2 center">
 
 <p>Example:</p>
 <div class="cell">
@@ -945,7 +956,7 @@ Levels: 1 &lt; 2 &lt; 3 &lt; 4</code></pre>
 <span id="cb51-23"><a href="#cb51-23"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section class="slide level2">
+<section class="slide level2 center">
 
 <div class="cell">
 <div class="sourceCode cell-code" id="cb52"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1"></a><span class="co"># Create some objects and call the function</span></span>
@@ -987,8 +998,8 @@ Levels: 1 &lt; 2 &lt; 3 &lt; 4</code></pre>
 </div>
 </div>
 </section>
-<section id="s3-methods---application-with-vctrs" class="slide level2">
-<h2>S3 methods - application with {vctrs}</h2>
+<section id="s3-methods---application-with-vctrs---intro" class="slide level2 center">
+<h2>S3 methods - application with {vctrs} - intro</h2>
 <p><strong>Overview</strong></p>
 <ul>
 <li><p>Main goals of {vctrs}</p></li>
@@ -997,7 +1008,7 @@ Levels: 1 &lt; 2 &lt; 3 &lt; 4</code></pre>
 <li><p>Method Dispatch and Generic Functions</p></li>
 </ul>
 </section>
-<section id="vctrs" class="slide level2 smaller">
+<section id="vctrs" class="slide level2 smaller center">
 <h2>{vctrs}</h2>
 <p>It provides tools to ensure that functions behave consistently with respect to inputs of varying length and type.</p>
 <p><strong>Goals of vctrs</strong>:</p>
@@ -1036,7 +1047,7 @@ Levels: 1 &lt; 2 &lt; 3 &lt; 4</code></pre>
 </div>
 <p>Instead of implicitly coercing to a type, we cast to a specific type</p>
 </section>
-<section id="example-with-factors" class="slide level2">
+<section id="example-with-factors" class="slide level2 center">
 <h2>Example with factors</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb70"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1"></a>fa <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="st">"a"</span>)</span>
@@ -1065,7 +1076,7 @@ Levels: b a</code></pre>
 </div>
 </div>
 </section>
-<section id="type-stability" class="slide level2 smaller">
+<section id="type-stability" class="slide level2 smaller center">
 <h2>1. TYPE STABILITY</h2>
 <ol type="1">
 <li>The output type should only depend on the types of the input (in base R, <code>ifelse</code> violates this)</li>
@@ -1117,7 +1128,7 @@ Levels: a</code></pre>
 <div class="sourceCode cell-code" id="cb93"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb93-1"><a href="#cb93-1"></a><span class="co"># hard to have a mental model to guess what the operation is going to return</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="size-stability" class="slide level2">
+<section id="size-stability" class="slide level2 center">
 <h2>2. SIZE STABILITY</h2>
 <p>Size-stability = consistent recycling rules. Given the sized of the inputs you should be able to predict the sizes of the output</p>
 <p>For example, when you combine two vectors of different sizes.</p>
@@ -1137,12 +1148,12 @@ Levels: a</code></pre>
 <span id="cb98-4"><a href="#cb98-4"></a><span class="co"># TO COMPLETE - SEE VIGNETTE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="easier-ways-of-creating-new-vectors-classes" class="slide level2">
+<section id="easier-ways-of-creating-new-vectors-classes" class="slide level2 center">
 <h2>3. EASIER WAYS OF CREATING NEW VECTORS CLASSES</h2>
 <p>For example, in R you might need to define methods for a lot of different generics. {vctrs}, instead, gives some documentation/support: e.g., which methods you need to define depending on what you want the vectors to do.</p>
-<p><strong>Basics:</strong> create a new vector class by calling <code>new_vctr()</code> , this creates an object of class <code>vctrs_vct</code> which has a number of methods ????</p>
+<p><strong>Basics:</strong> create a new vector class by calling <code>new_vctr()</code> , this creates an object of class <code>vctrs_vct</code> which has a number of methods</p>
 </section>
-<section id="percent-class" class="slide level2">
+<section id="percent-class" class="slide level2 center">
 <h2>Percent class</h2>
 <p>Let’s make a make a&nbsp;<code>percent</code>&nbsp;class, i.e., a double vector that is printed as a percentage. Start by defining a low-level&nbsp;<a href="https://adv-r.hadley.nz/s3.html#s3-constrcutor">constructor</a>&nbsp;to check types and/or sizes and call&nbsp;<a href="https://vctrs.r-lib.org/reference/new_vctr.html"><code>new_vctr()</code></a>. <code>percent</code>&nbsp;is built on a double vector of any length and doesn’t have any attributes.</p>
 <div class="cell">
@@ -1178,8 +1189,8 @@ Levels: a</code></pre>
 <span id="cb104-3"><a href="#cb104-3"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="format-method-.-smaller" class="slide level2">
-<h2><code>format</code> method {. smaller}</h2>
+<section id="format-method" class="slide level2 center">
+<h2><code>format</code> method</h2>
 <p>first method for every class should almost always be a&nbsp;<a href="https://rdrr.io/r/base/format.html"><code>format()</code></a>&nbsp;method. This should return a character vector the same length as&nbsp;<code>x</code> The easiest way to do this is to rely on one of R’s low-level formatting functions like&nbsp;<a href="https://rdrr.io/r/base/formatc.html"><code>formatC()</code></a>:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb105"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb105-1"><a href="#cb105-1"></a>format.vctrs_percent <span class="ot">&lt;-</span> <span class="cf">function</span>(x, ...) {</span>
@@ -1197,7 +1208,7 @@ Levels: a</code></pre>
 </div>
 <p>(Note the use of <a href="https://vctrs.r-lib.org/reference/vec_data.html"><code>vec_data()</code></a>&nbsp;so&nbsp;<a href="https://rdrr.io/r/base/format.html"><code>format()</code></a> doesn’t get stuck in an infinite loop)</p>
 </section>
-<section id="section" class="slide level2">
+<section id="section" class="slide level2 center">
 <h2>&gt;</h2>
 <p>For optimal display, recommended to define an abbreviated type name. This is used in tibbles and in&nbsp;<a href="https://rdrr.io/r/utils/str.html"><code>str()</code></a>:</p>
 <div class="cell">
@@ -1222,7 +1233,7 @@ Levels: a</code></pre>
 </div>
 </div>
 </section>
-<section id="casting-and-coercion" class="slide level2">
+<section id="casting-and-coercion" class="slide level2 center">
 <h2>Casting and coercion</h2>
 <p>The next set of methods you are likely to need are those related to coercion and casting.</p>
 <ul>
@@ -1244,14 +1255,14 @@ Levels: a</code></pre>
 <div class="sourceCode cell-code" id="cb115"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb115-1"><a href="#cb115-1"></a><span class="co"># vec_cast(x, to) defines the possible sets of casts. It returns x translated to have prototype to</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="coercion-for-the-case-of-identical-class" class="slide level2">
+<section id="coercion-for-the-case-of-identical-class" class="slide level2 center">
 <h2>Coercion for the case of identical class</h2>
 <p>It is always a good idea to provide an explicit coercion method for the case of identical classes. So we’ll start by saying that a <code>vctrs_percent</code> combined with a <code>vctrs_percent</code> yields a <code>vctrs_percent</code></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb116"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb116-1"><a href="#cb116-1"></a>vec_ptype2.vctrs_percent.vctrs_percent <span class="ot">&lt;-</span> <span class="cf">function</span>(x, y, ...) <span class="fu">new_percent</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="other-methods" class="slide level2">
+<section id="other-methods" class="slide level2 center">
 <h2>Other methods</h2>
 <p>define methods that say that combining a percent and double should yield a double.</p>
 <div class="cell">
@@ -1269,8 +1280,8 @@ Levels: a</code></pre>
 </div>
 </div>
 </section>
-<section id="actual-conversion-vec_cast-.-smaller" class="slide level2">
-<h2>Actual conversion: <code>vec_cast</code> {. smaller}</h2>
+<section id="actual-conversion-vec_cast" class="slide level2 smaller center">
+<h2>Actual conversion: <code>vec_cast</code></h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb119"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb119-1"><a href="#cb119-1"></a><span class="co"># provide a method to cast a percent to a percent</span></span>
 <span id="cb119-2"><a href="#cb119-2"></a>vec_cast.vctrs_percent.vctrs_percent <span class="ot">&lt;-</span> <span class="cf">function</span>(x, to, ...) x</span>
@@ -1291,8 +1302,8 @@ Levels: a</code></pre>
 </div>
 </div>
 </section>
-<section id="vec_c---and---maybe-skip-this-slide" class="slide level2">
-<h2><code>vec_c</code> <code>[&lt;-</code> and <code>[[&lt;-</code> MAYBE SKIP THIS SLIDE</h2>
+<section id="vec_c---and--" class="slide level2 center">
+<h2><code>vec_c</code> <code>[&lt;-</code> and <code>[[&lt;-</code></h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb123"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb123-1"><a href="#cb123-1"></a><span class="fu">vec_c</span>(<span class="fu">percent</span>(<span class="fl">0.5</span>), <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1329,7 +1340,7 @@ Levels: a</code></pre>
 <span id="cb133-3"><a href="#cb133-3"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="additional-methods" class="slide level2">
+<section id="additional-methods" class="slide level2 center">
 <h2>Additional methods</h2>
 <p>Occasionally, it is useful to provide conversions that go beyond what’s allowed in casting.In this case, <code>as_percent()</code> should be generic, the default method should cast, and then additional methods should implement more flexible conversion:</p>
 <div class="cell">
@@ -1347,8 +1358,226 @@ Levels: a</code></pre>
 <span id="cb134-12"><a href="#cb134-12"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="think-about-inheritance-and-examples" class="slide level2">
-<h2>THINK ABOUT INHERITANCE AND EXAMPLES</h2>
+<section id="building-s3-methods-with-vctrs" class="slide level2 center">
+<h2>Building S3 Methods with {vctrs}</h2>
+<ul>
+<li><p>Defining S3 classes and constructors</p></li>
+<li><p>Using <code>UseMethod()</code> for method dispatch</p></li>
+<li><p>Handling inheritance and <code>NextMethod()</code></p></li>
+<li><p>The role of default methods</p></li>
+<li><p>Preserving subclass information with {vctrs}</p></li>
+</ul>
+</section>
+<section id="defining-the-secret-s3-class" class="slide level2 center">
+<h2>1. Defining the secret S3 Class</h2>
+<p>We start by defining our <strong>base class</strong> secret.<br>
+It stores a numeric vector but hides the actual numbers when printed.<br>
+As a first step, define a low-level <strong>constructor</strong>. The vctrs package provides <code>new_vctr()</code> to simplify the creation of a custom vector class.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb135"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb135-1"><a href="#cb135-1"></a><span class="fu">library</span>(vctrs)</span>
+<span id="cb135-2"><a href="#cb135-2"></a></span>
+<span id="cb135-3"><a href="#cb135-3"></a>new_secret <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">x =</span> <span class="fu">double</span>()) {</span>
+<span id="cb135-4"><a href="#cb135-4"></a>  <span class="fu">stopifnot</span>(<span class="fu">is.double</span>(x))</span>
+<span id="cb135-5"><a href="#cb135-5"></a>  <span class="fu">structure</span>(x, <span class="at">class =</span> <span class="st">"secret"</span>)</span>
+<span id="cb135-6"><a href="#cb135-6"></a>}</span>
+<span id="cb135-7"><a href="#cb135-7"></a></span>
+<span id="cb135-8"><a href="#cb135-8"></a><span class="co"># Helper function to create a secret vector</span></span>
+<span id="cb135-9"><a href="#cb135-9"></a>secret <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb135-10"><a href="#cb135-10"></a>  <span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.double</span>(x)) <span class="fu">stop</span>(<span class="st">"`x` must be a numeric (double) vector"</span>)</span>
+<span id="cb135-11"><a href="#cb135-11"></a>  <span class="fu">new_secret</span>(x)</span>
+<span id="cb135-12"><a href="#cb135-12"></a>}</span>
+<span id="cb135-13"><a href="#cb135-13"></a></span>
+<span id="cb135-14"><a href="#cb135-14"></a>print.secret <span class="ot">&lt;-</span> <span class="cf">function</span>(x, ...) {</span>
+<span id="cb135-15"><a href="#cb135-15"></a>  <span class="fu">print</span>(<span class="fu">strrep</span>(<span class="st">"x"</span>, <span class="fu">nchar</span>(x)))  <span class="co"># Masks the numbers when printed</span></span>
+<span id="cb135-16"><a href="#cb135-16"></a>  <span class="fu">invisible</span>(x)</span>
+<span id="cb135-17"><a href="#cb135-17"></a>}</span>
+<span id="cb135-18"><a href="#cb135-18"></a></span>
+<span id="cb135-19"><a href="#cb135-19"></a><span class="co"># Example usage</span></span>
+<span id="cb135-20"><a href="#cb135-20"></a>x <span class="ot">&lt;-</span> <span class="fu">secret</span>(<span class="fu">c</span>(<span class="dv">15</span>, <span class="dv">1</span>, <span class="dv">456</span>))</span>
+<span id="cb135-21"><a href="#cb135-21"></a><span class="fu">print</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "xx"  "x"   "xxx"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb137"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb137-1"><a href="#cb137-1"></a><span class="fu">class</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "secret"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb139"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb139-1"><a href="#cb139-1"></a><span class="co"># </span><span class="al">TODO</span><span class="co">: ADD VALIDATOR, ADD MORE ATTRBUTES TO MAKE USE OF VCTRS NEW_VCTR</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="creating-an-s3-generic-function-with-usemethod" class="slide level2 center">
+<h2>2. Creating an S3 Generic Function with <code>UseMethod()</code></h2>
+<p>let’s create a generic function that will “reveal” the numbers hidden by the “x” representation.<br>
+* <code>UseMethod("reveal")</code> ensures that reveal.secret() is used when x is a “secret”.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb140"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb140-1"><a href="#cb140-1"></a><span class="co"># Define a generic function for revealing secrets</span></span>
+<span id="cb140-2"><a href="#cb140-2"></a>reveal <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb140-3"><a href="#cb140-3"></a>  <span class="fu">UseMethod</span>(<span class="st">"reveal"</span>)</span>
+<span id="cb140-4"><a href="#cb140-4"></a>}</span>
+<span id="cb140-5"><a href="#cb140-5"></a></span>
+<span id="cb140-6"><a href="#cb140-6"></a><span class="co"># Method for objects of class 'secret'</span></span>
+<span id="cb140-7"><a href="#cb140-7"></a>reveal.secret <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb140-8"><a href="#cb140-8"></a>  <span class="fu">as.numeric</span>(x)  <span class="co"># Reveal the original numeric values</span></span>
+<span id="cb140-9"><a href="#cb140-9"></a>}</span>
+<span id="cb140-10"><a href="#cb140-10"></a></span>
+<span id="cb140-11"><a href="#cb140-11"></a><span class="co"># Example usage</span></span>
+<span id="cb140-12"><a href="#cb140-12"></a>x <span class="ot">&lt;-</span> <span class="fu">secret</span>(<span class="fu">c</span>(<span class="dv">15</span>, <span class="dv">1</span>, <span class="dv">456</span>))</span>
+<span id="cb140-13"><a href="#cb140-13"></a><span class="fu">reveal</span>(x)  <span class="co"># Output: 15 1 456</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1]  15   1 456</code></pre>
+</div>
+</div>
+</section>
+<section id="default-method-for-other-classes" class="slide level2 center">
+<h2>Default method for other classes</h2>
+<p>If x is not a “secret”, <code>reveal.default()</code> is used instead.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb142"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb142-1"><a href="#cb142-1"></a><span class="co"># Default method (fallback for other classes)</span></span>
+<span id="cb142-2"><a href="#cb142-2"></a>reveal.default <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb142-3"><a href="#cb142-3"></a>  x  <span class="co"># Return as is</span></span>
+<span id="cb142-4"><a href="#cb142-4"></a>}</span>
+<span id="cb142-5"><a href="#cb142-5"></a></span>
+<span id="cb142-6"><a href="#cb142-6"></a>y <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">100</span>, <span class="dv">200</span>)</span>
+<span id="cb142-7"><a href="#cb142-7"></a><span class="fu">reveal</span>(y)  <span class="co"># Uses reveal.default(), returns unchanged</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 100 200</code></pre>
+</div>
+</div>
+</section>
+<section id="inheritance-and-nextmethod" class="slide level2 center">
+<h2>3. Inheritance and NextMethod()</h2>
+<p>When we define a subclass like <code>supersecret</code>, it <strong>inherits</strong> all properties and behaviors of its parent class secret. However, it can also introduce <strong>additional attributes or behaviors</strong>.</p>
+<p><strong>Why use NextMethod()?</strong> * It ensures that the superclass method is properly called. * It allows supersecret to inherit behavior from secret.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb144"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb144-1"><a href="#cb144-1"></a>new_supersecret <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">x =</span> <span class="fu">double</span>(), <span class="at">level =</span> <span class="st">"high"</span>) {</span>
+<span id="cb144-2"><a href="#cb144-2"></a>  <span class="fu">stopifnot</span>(<span class="fu">is.double</span>(x))</span>
+<span id="cb144-3"><a href="#cb144-3"></a>  <span class="fu">structure</span>(x, <span class="at">class =</span> <span class="fu">c</span>(<span class="st">"supersecret"</span>, <span class="st">"secret"</span>), <span class="at">level =</span> level)</span>
+<span id="cb144-4"><a href="#cb144-4"></a>}</span>
+<span id="cb144-5"><a href="#cb144-5"></a></span>
+<span id="cb144-6"><a href="#cb144-6"></a>y <span class="ot">&lt;-</span> <span class="fu">new_supersecret</span>(<span class="fu">c</span>(<span class="dv">99</span>, <span class="dv">1000</span>))</span>
+<span id="cb144-7"><a href="#cb144-7"></a></span>
+<span id="cb144-8"><a href="#cb144-8"></a><span class="fu">attributes</span>(y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$class
+[1] "supersecret" "secret"     
+
+$level
+[1] "high"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb146"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb146-1"><a href="#cb146-1"></a><span class="co"># todo: modify to use constructor of original class</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now, <code>supersecret</code> has an extra attribute (level).</p>
+</section>
+<section id="how-method-dispatch-work-in-this-case" class="slide level2 center">
+<h2>How method dispatch work in this case</h2>
+<p>Let’s define a method for printing <code>supersecret</code> objects:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb147"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb147-1"><a href="#cb147-1"></a>print.supersecret <span class="ot">&lt;-</span> <span class="cf">function</span>(x, ...) {</span>
+<span id="cb147-2"><a href="#cb147-2"></a>  <span class="fu">cat</span>(<span class="st">"Super Secret! Hidden level:"</span>, <span class="fu">attr</span>(x, <span class="st">"level"</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb147-3"><a href="#cb147-3"></a>  <span class="fu">NextMethod</span>()  <span class="co"># Calls the parent print method (print.secret)</span></span>
+<span id="cb147-4"><a href="#cb147-4"></a>}</span>
+<span id="cb147-5"><a href="#cb147-5"></a></span>
+<span id="cb147-6"><a href="#cb147-6"></a>y <span class="ot">&lt;-</span> <span class="fu">new_supersecret</span>(<span class="fu">c</span>(<span class="dv">99</span>, <span class="dv">1000</span>), <span class="at">level =</span> <span class="st">"top"</span>)</span>
+<span id="cb147-7"><a href="#cb147-7"></a><span class="fu">print</span>(y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Super Secret! Hidden level: top 
+[1] "xx"   "xxxx"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb149"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb149-1"><a href="#cb149-1"></a><span class="fu">class</span>(y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "supersecret" "secret"     </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb151"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb151-1"><a href="#cb151-1"></a><span class="co"># </span><span class="al">TODO</span><span class="co">: show method dispatch</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>First, <code>print.supersecret()</code> is called (specific to <code>supersecret</code>).<br>
+Then, <code>NextMethod()</code> ensures that <code>print.secret()</code> still runs.</p>
+</section>
+<section id="additional-methods-1" class="slide level2 center">
+<h2>Additional methods</h2>
+<p>Let’s define an S3 generic function that behaves differently based on the class.<br>
+Example: Masking Numbers More for <code>supersecret</code> objects</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb152"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb152-1"><a href="#cb152-1"></a>mask_number <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb152-2"><a href="#cb152-2"></a>  <span class="fu">UseMethod</span>(<span class="st">"mask_number"</span>)</span>
+<span id="cb152-3"><a href="#cb152-3"></a>}</span>
+<span id="cb152-4"><a href="#cb152-4"></a></span>
+<span id="cb152-5"><a href="#cb152-5"></a>mask_number.secret <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb152-6"><a href="#cb152-6"></a>  <span class="fu">strrep</span>(<span class="st">"x"</span>, <span class="fu">nchar</span>(x))</span>
+<span id="cb152-7"><a href="#cb152-7"></a>}</span>
+<span id="cb152-8"><a href="#cb152-8"></a></span>
+<span id="cb152-9"><a href="#cb152-9"></a>mask_number.supersecret <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb152-10"><a href="#cb152-10"></a>  <span class="fu">strrep</span>(<span class="st">"*"</span>, <span class="fu">nchar</span>(x))  <span class="co"># Stronger masking for supersecret</span></span>
+<span id="cb152-11"><a href="#cb152-11"></a>}</span>
+<span id="cb152-12"><a href="#cb152-12"></a></span>
+<span id="cb152-13"><a href="#cb152-13"></a><span class="fu">mask_number</span>(s)   <span class="co"># "xx"  "x"   "xxx"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-error">
+<pre><code>Error: object 's' not found</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb154"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb154-1"><a href="#cb154-1"></a><span class="fu">mask_number</span>(ss)  <span class="co"># "**"  "*"   "***"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-error">
+<pre><code>Error: object 'ss' not found</code></pre>
+</div>
+</div>
+<p>If an object doesn’t match any specific method, R falls back to <strong>default methods</strong>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb156"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb156-1"><a href="#cb156-1"></a>mask_number.default <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb156-2"><a href="#cb156-2"></a>  <span class="fu">stop</span>(<span class="st">"mask_number() is not implemented for this object type."</span>)</span>
+<span id="cb156-3"><a href="#cb156-3"></a>}</span>
+<span id="cb156-4"><a href="#cb156-4"></a><span class="fu">mask_number</span>(<span class="st">"hello"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-error">
+<pre><code>Error in mask_number.default("hello"): mask_number() is not implemented for this object type.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb158"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb158-1"><a href="#cb158-1"></a><span class="co"># Error: mask_number() is not implemented for this object type.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>This prevents unexpected errors for unsupported types.</p>
+</section>
+<section id="subsetting-and-keeping-the-subclass" class="slide level2 center">
+<h2>4. Subsetting and Keeping the Subclass</h2>
+<p>When we define a subclass (supersecret) of secret, it inherits all methods of secret. However, if we subset the object, the subclass information gets lost.</p>
+<p>Let’s consider the current situation:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb159"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb159-1"><a href="#cb159-1"></a>x <span class="ot">&lt;-</span> <span class="fu">new_supersecret</span>(<span class="fu">c</span>(<span class="dv">15</span>, <span class="dv">1</span>, <span class="dv">456</span>))</span>
+<span id="cb159-2"><a href="#cb159-2"></a><span class="fu">class</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "supersecret" "secret"     </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb161"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb161-1"><a href="#cb161-1"></a>x_subset <span class="ot">&lt;-</span> x[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>]</span>
+<span id="cb161-2"><a href="#cb161-2"></a><span class="fu">class</span>(x_subset)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "secret"</code></pre>
+</div>
+</div>
+<p><strong>Why does this happen?</strong> * By default, the subsetting operator <code>([)</code> from base R drops attributes<br>
+* The class vector is an attribute, so unless we manually reapply it, subsetting a supersecret object returns just a secret object</p>
+</section>
+<section id="using-vctrsvec_restore" class="slide level2 center">
+<h2>Using <code>vctrs::vec_restore()</code></h2>
+<p>Instead of manually setting the class, we can use:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb163"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb163-1"><a href="#cb163-1"></a><span class="st">`</span><span class="at">[.secret</span><span class="st">`</span> <span class="ot">&lt;-</span> <span class="cf">function</span>(x, ...) {</span>
+<span id="cb163-2"><a href="#cb163-2"></a>  out <span class="ot">&lt;-</span> <span class="fu">NextMethod</span>()  <span class="co"># Perform subsetting</span></span>
+<span id="cb163-3"><a href="#cb163-3"></a>  vctrs<span class="sc">::</span><span class="fu">vec_restore</span>(out, x)  <span class="co"># Restore subclass information</span></span>
+<span id="cb163-4"><a href="#cb163-4"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>It automatically restores all attributes</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb164"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb164-1"><a href="#cb164-1"></a>x_subset <span class="ot">&lt;-</span> x[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>]</span>
+<span id="cb164-2"><a href="#cb164-2"></a><span class="fu">class</span>(x_subset)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "supersecret" "secret"     </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb166"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb166-1"><a href="#cb166-1"></a><span class="fu">attributes</span>(x_subset)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$level
+[1] "high"
+
+$class
+[1] "supersecret" "secret"     </code></pre>
+</div>
+</div>
+</section>
+<section id="handling-concatenation" class="slide level2 center">
+<h2>5. Handling concatenation</h2>
 <div class="footer footer-default">
 
 </div>
@@ -1363,6 +1592,7 @@ Levels: a</code></pre>
   <script src="index_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
   <script src="index_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
   <script src="index_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="index_files/libs/revealjs/plugin/reveal-chalkboard/plugin.js"></script>
   <script src="index_files/libs/revealjs/plugin/quarto-support/support.js"></script>
   
 
@@ -1377,18 +1607,19 @@ Levels: a</code></pre>
       // Full list of configuration options available at:
       // https://revealjs.com/config/
       Reveal.initialize({
-'controlsAuto': true,
+'controlsAuto': false,
 'previewLinksAuto': false,
 'smaller': false,
 'pdfSeparateFragments': false,
 'autoAnimateEasing': "ease",
 'autoAnimateDuration': 1,
 'autoAnimateUnmatched': true,
-'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleChalkboard(event)\"><kbd>b</kbd> Toggle Chalkboard</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleNotesCanvas(event)\"><kbd>c</kbd> Toggle Notes Canvas</a></li>\n<li class=\"slide-tool-item\" data-item=\"6\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.downloadDrawings(event)\"><kbd>d</kbd> Download Drawings</a></li>\n<li class=\"slide-tool-item\" data-item=\"7\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'chalkboard': {"buttons":true},
 'smaller': false,
  
         // Display controls in the bottom right corner
-        controls: false,
+        controls: true,
 
         // Help the user learn the controls by providing hints, for example by
         // bouncing the down arrow when they first encounter a vertical slide
@@ -1434,7 +1665,7 @@ Levels: a</code></pre>
         disableLayout: false,
 
         // Vertical centering of slides
-        center: false,
+        center: true,
 
         // Enables touch navigation on devices with touch input
         touch: true,
@@ -1513,7 +1744,7 @@ Levels: a</code></pre>
         transition: 'fade',
 
         // Transition speed (default/fast/slow)
-        transitionSpeed: 'default',
+        transitionSpeed: 'fast',
 
         // Transition style for full page slide backgrounds
         // (none/fade/slide/convex/concave/zoom)
@@ -1530,9 +1761,9 @@ Levels: a</code></pre>
         // The "normal" size of the presentation, aspect ratio will be preserved
         // when the presentation is scaled to fit different resolutions. Can be
         // specified using percentage units.
-        width: 1050,
+        width: 1200,
 
-        height: 700,
+        height: 800,
 
         // Factor of the display size that should remain empty around the content
         margin: 0.1,
@@ -1555,7 +1786,7 @@ Levels: a</code></pre>
         },
 
         // reveal.js plugins
-        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, QuartoSupport,
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, RevealChalkboard, QuartoSupport,
 
           RevealMath,
           RevealNotes,
