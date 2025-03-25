@@ -222,7 +222,7 @@ s3_dispatch(ordered("x")[1])
 
 \- R then falls back to `[.factor`, which exists and is used (=\> means this method was applied)
 
-\- `-> [ (internal)` means that the base "'\\\\['" operator was used at the lowest level
+\- `-> [ (internal)` means that the base "'\\['" operator was used at the lowest level
 
 --\> Ordered factors don’t have a specialized `[.ordered` method, so they rely on `[.factor`.
 
@@ -811,10 +811,15 @@ as_percent.character <- function(x) {
 
 ```{r}
 library(vctrs)
+# 
+# new_secret <- function(x = double()) {
+#   stopifnot(is.double(x))
+#   structure(x, class = "secret")
+# }
 
 new_secret <- function(x = double()) {
-  stopifnot(is.double(x))
-  structure(x, class = "secret")
+  vec_assert(x, ptype = double())  # Ensures x is a double vector
+  vctrs::new_vctr(x, class = "secret")
 }
 
 # Helper function to create a secret vector
@@ -832,15 +837,12 @@ print.secret <- function(x, ...) {
 x <- secret(c(15, 1, 456))
 print(x)
 class(x)
-
-# TODO: ADD VALIDATOR, ADD MORE ATTRBUTES TO MAKE USE OF VCTRS NEW_VCTR
-
 ```
 
 ## 2. Creating an S3 Generic Function with `UseMethod()`
 
 let's create a generic function that will "reveal" the numbers hidden by the "x" representation.\
-`UseMethod("reveal")` ensures that reveal.secret() is used when x is a "secret".
+`UseMethod("reveal")` ensures that `reveal.secret()` is used when x is a "secret".
 
 ```{r}
 
@@ -1021,14 +1023,15 @@ vec_c.secret <- function(...) {
 }
 
 vec_ptype2(new_secret(), new_secret())        
-# Returns a new_secret object ✅
+# Returns a new_secret object 
 
 vec_ptype2(new_supersecret(), new_secret())  
-# Returns a new_supersecret object ✅
+# Returns a new_supersecret object 
 
 ```
 
 ## Implement Safe Concatenation with `vec_c()`
+
 Now that we’ve defined type rules, we need to tell {vctrs} how to concatenate objects while preserving class attributes.
 
 ```{r}
@@ -1045,7 +1048,9 @@ vec_c(x, y)
 ```
 
 ## What if we combine numeric and secret?
+
 We can also define what happens if a base numeric value is concatenated with a secret object
+
 ```{r}
 vec_ptype2.secret.double <- function(x, y, ...) new_secret()
 vec_ptype2.double.secret <- function(x, y, ...) new_secret()
@@ -1053,12 +1058,13 @@ vec_ptype2.double.secret <- function(x, y, ...) new_secret()
 ```
 
 This ensures that even if a raw number is added, the output remains a secret!
+
 ```{r}
 vec_c(new_secret(1:3), 4)
 # Returns new_secret object ✅
 ```
 
-## 6. Handling arithmetic operations 
+## 6. Handling arithmetic operations
 
 We can define how these operations should behave for our custom objects. This is done using the `vec_arith` method provided by the {vctrs} package. For example, if you want to add two secret objects, you need to tell R how to perform the addition.
 
@@ -1094,4 +1100,3 @@ result <- x + y  # This triggers `vec_arith.supersecret`
 print(result)
 
 ```
-

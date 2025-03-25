@@ -6,22 +6,22 @@
 }
 
 .reveal h2 {
-    font-size: 32px !important;
+    font-size: 40px !important;
     font-weight: bold;
 }
 
 .reveal h3 {
-    font-size: 26px !important;
+    font-size: 30px !important;
     font-weight: bold;
 }
 
 /* Ensure regular text is readable */
 .reveal p, .reveal li, .reveal pre {
-    font-size: 24px;
+    font-size: 26px;
 }
 
 /* Reduce code block size if needed */
 .reveal pre code {
-    font-size: 22px !important;
+    font-size: 26px !important;
     line-height: 1.4;
 }
