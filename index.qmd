@@ -790,6 +790,7 @@ as_percent.character <- function(x) {
 }
 ```
 
+## S3 METHODS PART 2 - 27 MARCH 
 # Building S3 Methods with {vctrs}
 
 -   Defining S3 classes and constructors
@@ -807,20 +808,20 @@ as_percent.character <- function(x) {
 -   We start by defining our **base class** secret.\
     It stores a numeric vector but hides the actual numbers when printed.
 
--   As a first step, define a low-level **constructor**. The vctrs package provides `new_vctr()` to simplify the creation of a custom vector class.
+-   As a first step, define a low-level **constructor**. The vctrs package provides `new_vctr()` to simplify the creation of a custom vector class, even if for simple objects base R is enough.
 
 ```{r}
 library(vctrs)
 # 
-# new_secret <- function(x = double()) {
-#   stopifnot(is.double(x))
-#   structure(x, class = "secret")
-# }
-
 new_secret <- function(x = double()) {
-  vec_assert(x, ptype = double())  # Ensures x is a double vector
-  vctrs::new_vctr(x, class = "secret")
+  stopifnot(is.double(x))
+  structure(x, class = "secret")
 }
+
+# new_secret <- function(x = double()) {
+#   vec_assert(x, ptype = double())  # Ensures x is a double vector
+#   vctrs::new_vctr(x, class = "secret")
+# }
 
 # Helper function to create a secret vector
 secret <- function(x) {
@@ -853,13 +854,13 @@ reveal <- function(x) {
 
 # Method for objects of class 'secret'
 reveal.secret <- function(x) {
-  as.numeric(x)  # Reveal the original numeric values
+  cat(x)  # Reveal the original numeric values
 }
 
 # Example usage
 x <- secret(c(15, 1, 456))
 reveal(x)  # Output: 15 1 456
-
+s3_dispatch(reveal(x))
 
 ```
 
@@ -881,26 +882,39 @@ reveal(y)  # Uses reveal.default(), returns unchanged
 
 When we define a subclass like `supersecret`, it **inherits** all properties and behaviors of its parent class secret. However, it can also introduce **additional attributes or behaviors**.
 
-**Why use NextMethod()?** \* It ensures that the superclass method is properly called. \* It allows supersecret to inherit behavior from secret.
 
 ```{r}
-new_supersecret <- function(x = double(), level = "high") {
+
+# Modify constructor for `secret`
+new_secret <- function(x = double(), ..., class = character()) {
   stopifnot(is.double(x))
-  structure(x, class = c("supersecret", "secret"), level = level)
+  structure(x, 
+            class = c(class, "secret"), ...)
 }
+
+# Subclass constructor for `supersecret`
+new_supersecret <- function(x = double(), level = "high") {
+  new_secret(x, 
+             level = level, 
+             class = "supersecret")
+}
+
 
 y <- new_supersecret(c(99, 1000))
 
 attributes(y)
+print(y)
+s3_dispatch(print(y))
 
-# todo: modify to use constructor of original class
 ```
 
 Now, `supersecret` has an extra attribute (level).
 
 ## How method dispatch work in this case
 
-Let’s define a method for printing `supersecret` objects:
+Let’s define a method for printing `supersecret` objects.
+
+**Why use NextMethod()?** \* It ensures that the superclass method is properly called. \* It allows supersecret to inherit behavior from secret.
 
 ```{r}
 print.supersecret <- function(x, ...) {
@@ -910,9 +924,8 @@ print.supersecret <- function(x, ...) {
 
 y <- new_supersecret(c(99, 1000), level = "top")
 print(y)
+s3_dispatch(print(y))
 class(y)
-
-# TODO: show method dispatch
 ```
 
 First, `print.supersecret()` is called (specific to `supersecret`).\
@@ -936,8 +949,8 @@ mask_number.supersecret <- function(x) {
   strrep("*", nchar(x))  # Stronger masking for supersecret
 }
 
-mask_number(s)   # "xx"  "x"   "xxx"
-mask_number(ss)  # "**"  "*"   "***"
+mask_number(x)   
+mask_number(y)  
 
 
 ```
@@ -966,6 +979,8 @@ x <- new_supersecret(c(15, 1, 456))
 class(x)
 
 x_subset <- x[1:2]
+s3_dispatch(x[1:2])
+
 class(x_subset)
 
 ```
@@ -1004,57 +1019,66 @@ When combining different objects, we need to ensure type consistency. When worki
 
 ```{r}
 x <- new_secret(c(1, 2))
-y <- new_supersecret(c(3, 4))
+z <- new_secret(c(30, 450, 6666))
 
 c(x, y)  
-# [1] 1 2 3 4  (Lost class attribute! Just a numeric vector now)
+c(x, z)
+
+vec_c(x, z)
+vec_c(x, y)
+#(Lost class attribute! Just a numeric vector now)
 
 ```
 
 You can **define type behavior** with `vec_ptype2()`. basically, define rules for mixing `secret` and `supersecret`
 
 ```{r}
-vec_ptype2.secret.secret <- function(x, y, ...) new_secret()
-vec_ptype2.supersecret.secret <- function(x, y, ...) new_supersecret()
-vec_ptype2.secret.supersecret <- function(x, y, ...) new_supersecret()
+# vec_ptype2.secret.secret <- function(x, y, ...) secret(x)
+# vec_ptype2.double.secret <- function(x, y, ...) secret(x)
+vec_ptype2.secret.supersecret <- function(x, y, ...) secret(x)
 
-vec_c.secret <- function(...) {
-  new_secret(vec_c(!!!list(...)))
-}
+# vec_cast.secret.secret <- function(x, to, ...) x
+# vec_cast.double.secret <- function(x, to, ...) secret(x)
+# vec_cast.secret.double <- function(x, to, ...) cat(x)
 
-vec_ptype2(new_secret(), new_secret())        
-# Returns a new_secret object 
-
-vec_ptype2(new_supersecret(), new_secret())  
-# Returns a new_supersecret object 
-
+# Try it out
+vec_c(x, z)
+s3_dispatch(vec_c(x, z))
+class(vec_c(x, z))
 ```
+## TAKEAWAYS TO CONCLUDE
 
-## Implement Safe Concatenation with `vec_c()`
+## Implementing a vctrs S3 class in a package
 
-Now that we’ve defined type rules, we need to tell {vctrs} how to concatenate objects while preserving class attributes.
 
-```{r}
-vec_c.secret <- function(...) {
-  new_secret(vec_c(!!!list(...)))
-}
+* Register the S3 methods by listing them in the `NAMESPACE` file
 
-vec_c.supersecret <- function(...) {
-  new_supersecret(vec_c(!!!list(...)))
-}
+* Create **documentation** around your methods
 
-c(x, y)  
-vec_c(x, y)
-```
+* include vctrs in the Imports section of its `DESCRIPTION`
 
-## What if we combine numeric and secret?
+* Build Low-level and user-friendly **constructors**
+
+* Implement, **export**, and document a user-friendly **helper**
+
+* Provide the key **methods** to make **printing** work (they're S3 methods, so they don’t need to be documented, but they do need to be exported.)
+
+* Additionally build methods for concatenation and arithmetic ops
+
+## ADDITIONAL - TO WOK ON FURTHER
+## What if we combine numeric and secret? - DOES NOT WORK
 
 We can also define what happens if a base numeric value is concatenated with a secret object
 
 ```{r}
-vec_ptype2.secret.double <- function(x, y, ...) new_secret()
-vec_ptype2.double.secret <- function(x, y, ...) new_secret()
+# Method to combine secret and double
+vec_ptype2.secret.double <- function(x, y, ...) {
+  new_secret()  # Ensures the output is a secret object
+}
 
+vec_ptype2.double.secret <- function(x, y, ...) {
+  new_secret()  # Ensures the output is a secret object
+}
 ```
 
 This ensures that even if a raw number is added, the output remains a secret!
@@ -1064,39 +1088,46 @@ vec_c(new_secret(1:3), 4)
 # Returns new_secret object ✅
 ```
 
-## 6. Handling arithmetic operations
+## 6. Handling arithmetic operations - TO CHECK
 
 We can define how these operations should behave for our custom objects. This is done using the `vec_arith` method provided by the {vctrs} package. For example, if you want to add two secret objects, you need to tell R how to perform the addition.
 
 ```{r}
 # Defining vec_arith() for secret and supersecret
+
 vec_arith.secret <- function(op, x, y, ...) {
-  # Ensure y is numeric
-  if (!is.numeric(y)) stop("Arithmetic is only supported with numeric types")
-  
-  # Perform the arithmetic using base function and wrap it in `new_secret`
-  new_secret(vec_arith_base(op, x, y))
+  UseMethod("vec_arith.secret", y)
 }
 
-vec_arith.supersecret <- function(op, x, y, ...) {
-  # Ensure y is numeric
-  if (!is.numeric(y)) stop("Arithmetic is only supported with numeric types")
-  
-  # Perform the arithmetic using base function and wrap it in `new_supersecret`
-  new_supersecret(vec_arith_base(op, x, y))
-}
 
-# Example
-x <- new_secret(c(5, 10, 15))
-y <- new_secret(c(1, 2, 3))
+# vec_arith.secret <- function(op, x, y, ...) {
+#   # Ensure y is numeric
+#   if (!is.numeric(y)) stop("Arithmetic is only supported with numeric types")
+#   
+#   # Perform the arithmetic using base function and wrap it in `new_secret`
+#   new_secret(vec_arith_base(op, x, y))
+# }
+# 
+# vec_arith.supersecret <- function(op, x, y, ...) {
+#   # Ensure y is numeric
+#   if (!is.numeric(y)) stop("Arithmetic is only supported with numeric types")
+#   
+#   # Perform the arithmetic using base function and wrap it in `new_supersecret`
+#   new_supersecret(vec_arith_base(op, x, y))
+# }
 
-result <- x + y  # This triggers `vec_arith.secret`
-print(result)
-
-x <- new_secret(c(5, 10, 15))
-y <- new_supersecret(c(1, 2, 3))
-
-result <- x + y  # This triggers `vec_arith.supersecret`
-print(result)
+# # Example
+# x <- new_secret(c(5, 10, 15))
+# y <- new_secret(c(1, 2, 3))
+# 
+# result <- x + y  # This triggers `vec_arith.secret`
+# print(result)
+# 
+# x <- new_secret(c(5, 10, 15))
+# y <- new_supersecret(c(1, 2, 3))
+# 
+# result <- x + y  # This triggers `vec_arith.supersecret`
+# print(result)
+# class(result)
 
 ```

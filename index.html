@@ -11,7 +11,7 @@
   <meta name="generator" content="quarto-1.3.450">
 
   <meta name="author" content="Rossana Tatulli">
-  <meta name="dcterms.date" content="2025-03-25">
+  <meta name="dcterms.date" content="2025-03-26">
   <title>S3 Methods in R - Part 1</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -404,7 +404,7 @@ Rossana Tatulli
 </div>
 </div>
 
-  <p class="date">2025-03-25</p>
+  <p class="date">2025-03-26</p>
 </section>
 <section id="intro-on-oop-and-s3-methods" class="slide level2 center">
 <h2>Intro on OOP and S3 methods</h2>
@@ -550,7 +550,7 @@ attr(,"class")
 <div class="cell-output cell-output-stdout">
 <pre><code>function (x, ...) 
 UseMethod("mean")
-&lt;bytecode: 0x00000213f2a6b010&gt;
+&lt;bytecode: 0x000001a2c4a4fea0&gt;
 &lt;environment: namespace:base&gt;</code></pre>
 </div>
 </div>
@@ -1358,6 +1358,9 @@ Levels: a</code></pre>
 <span id="cb134-12"><a href="#cb134-12"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
+<section id="s3-methods-part-2---27-march" class="slide level2 center">
+<h2>S3 METHODS PART 2 - 27 MARCH</h2>
+</section>
 <section>
 <section id="building-s3-methods-with-vctrs" class="title-slide slide level1 center">
 <h1>Building S3 Methods with {vctrs}</h1>
@@ -1374,30 +1377,35 @@ Levels: a</code></pre>
 <ul>
 <li><p>We start by defining our <strong>base class</strong> secret.<br>
 It stores a numeric vector but hides the actual numbers when printed.</p></li>
-<li><p>As a first step, define a low-level <strong>constructor</strong>. The vctrs package provides <code>new_vctr()</code> to simplify the creation of a custom vector class.</p></li>
+<li><p>As a first step, define a low-level <strong>constructor</strong>. The vctrs package provides <code>new_vctr()</code> to simplify the creation of a custom vector class, even if for simple objects base R is enough.</p></li>
 </ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb135"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb135-1"><a href="#cb135-1"></a><span class="fu">library</span>(vctrs)</span>
-<span id="cb135-2"><a href="#cb135-2"></a></span>
+<span id="cb135-2"><a href="#cb135-2"></a><span class="co"># </span></span>
 <span id="cb135-3"><a href="#cb135-3"></a>new_secret <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">x =</span> <span class="fu">double</span>()) {</span>
 <span id="cb135-4"><a href="#cb135-4"></a>  <span class="fu">stopifnot</span>(<span class="fu">is.double</span>(x))</span>
 <span id="cb135-5"><a href="#cb135-5"></a>  <span class="fu">structure</span>(x, <span class="at">class =</span> <span class="st">"secret"</span>)</span>
 <span id="cb135-6"><a href="#cb135-6"></a>}</span>
 <span id="cb135-7"><a href="#cb135-7"></a></span>
-<span id="cb135-8"><a href="#cb135-8"></a><span class="co"># Helper function to create a secret vector</span></span>
-<span id="cb135-9"><a href="#cb135-9"></a>secret <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
-<span id="cb135-10"><a href="#cb135-10"></a>  <span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.double</span>(x)) <span class="fu">stop</span>(<span class="st">"`x` must be a numeric (double) vector"</span>)</span>
-<span id="cb135-11"><a href="#cb135-11"></a>  <span class="fu">new_secret</span>(x)</span>
-<span id="cb135-12"><a href="#cb135-12"></a>}</span>
-<span id="cb135-13"><a href="#cb135-13"></a></span>
-<span id="cb135-14"><a href="#cb135-14"></a>print.secret <span class="ot">&lt;-</span> <span class="cf">function</span>(x, ...) {</span>
-<span id="cb135-15"><a href="#cb135-15"></a>  <span class="fu">print</span>(<span class="fu">strrep</span>(<span class="st">"x"</span>, <span class="fu">nchar</span>(x)))  <span class="co"># Masks the numbers when printed</span></span>
-<span id="cb135-16"><a href="#cb135-16"></a>  <span class="fu">invisible</span>(x)</span>
+<span id="cb135-8"><a href="#cb135-8"></a><span class="co"># new_secret &lt;- function(x = double()) {</span></span>
+<span id="cb135-9"><a href="#cb135-9"></a><span class="co">#   vec_assert(x, ptype = double())  # Ensures x is a double vector</span></span>
+<span id="cb135-10"><a href="#cb135-10"></a><span class="co">#   vctrs::new_vctr(x, class = "secret")</span></span>
+<span id="cb135-11"><a href="#cb135-11"></a><span class="co"># }</span></span>
+<span id="cb135-12"><a href="#cb135-12"></a></span>
+<span id="cb135-13"><a href="#cb135-13"></a><span class="co"># Helper function to create a secret vector</span></span>
+<span id="cb135-14"><a href="#cb135-14"></a>secret <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb135-15"><a href="#cb135-15"></a>  <span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.double</span>(x)) <span class="fu">stop</span>(<span class="st">"`x` must be a numeric (double) vector"</span>)</span>
+<span id="cb135-16"><a href="#cb135-16"></a>  <span class="fu">new_secret</span>(x)</span>
 <span id="cb135-17"><a href="#cb135-17"></a>}</span>
 <span id="cb135-18"><a href="#cb135-18"></a></span>
-<span id="cb135-19"><a href="#cb135-19"></a><span class="co"># Example usage</span></span>
-<span id="cb135-20"><a href="#cb135-20"></a>x <span class="ot">&lt;-</span> <span class="fu">secret</span>(<span class="fu">c</span>(<span class="dv">15</span>, <span class="dv">1</span>, <span class="dv">456</span>))</span>
-<span id="cb135-21"><a href="#cb135-21"></a><span class="fu">print</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb135-19"><a href="#cb135-19"></a>print.secret <span class="ot">&lt;-</span> <span class="cf">function</span>(x, ...) {</span>
+<span id="cb135-20"><a href="#cb135-20"></a>  <span class="fu">print</span>(<span class="fu">strrep</span>(<span class="st">"x"</span>, <span class="fu">nchar</span>(x)))  <span class="co"># Masks the numbers when printed</span></span>
+<span id="cb135-21"><a href="#cb135-21"></a>  <span class="fu">invisible</span>(x)</span>
+<span id="cb135-22"><a href="#cb135-22"></a>}</span>
+<span id="cb135-23"><a href="#cb135-23"></a></span>
+<span id="cb135-24"><a href="#cb135-24"></a><span class="co"># Example usage</span></span>
+<span id="cb135-25"><a href="#cb135-25"></a>x <span class="ot">&lt;-</span> <span class="fu">secret</span>(<span class="fu">c</span>(<span class="dv">15</span>, <span class="dv">1</span>, <span class="dv">456</span>))</span>
+<span id="cb135-26"><a href="#cb135-26"></a><span class="fu">print</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "xx"  "x"   "xxx"</code></pre>
 </div>
@@ -1405,29 +1413,33 @@ It stores a numeric vector but hides the actual numbers when printed.</p></li>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "secret"</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb139"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb139-1"><a href="#cb139-1"></a><span class="co"># </span><span class="al">TODO</span><span class="co">: ADD VALIDATOR, ADD MORE ATTRBUTES TO MAKE USE OF VCTRS NEW_VCTR</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="creating-an-s3-generic-function-with-usemethod" class="slide level2 center">
 <h2>2. Creating an S3 Generic Function with <code>UseMethod()</code></h2>
 <p>let’s create a generic function that will “reveal” the numbers hidden by the “x” representation.<br>
-<code>UseMethod("reveal")</code> ensures that reveal.secret() is used when x is a “secret”.</p>
+<code>UseMethod("reveal")</code> ensures that <code>reveal.secret()</code> is used when x is a “secret”.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb140"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb140-1"><a href="#cb140-1"></a><span class="co"># Define a generic function for revealing secrets</span></span>
-<span id="cb140-2"><a href="#cb140-2"></a>reveal <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
-<span id="cb140-3"><a href="#cb140-3"></a>  <span class="fu">UseMethod</span>(<span class="st">"reveal"</span>)</span>
-<span id="cb140-4"><a href="#cb140-4"></a>}</span>
-<span id="cb140-5"><a href="#cb140-5"></a></span>
-<span id="cb140-6"><a href="#cb140-6"></a><span class="co"># Method for objects of class 'secret'</span></span>
-<span id="cb140-7"><a href="#cb140-7"></a>reveal.secret <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
-<span id="cb140-8"><a href="#cb140-8"></a>  <span class="fu">as.numeric</span>(x)  <span class="co"># Reveal the original numeric values</span></span>
-<span id="cb140-9"><a href="#cb140-9"></a>}</span>
-<span id="cb140-10"><a href="#cb140-10"></a></span>
-<span id="cb140-11"><a href="#cb140-11"></a><span class="co"># Example usage</span></span>
-<span id="cb140-12"><a href="#cb140-12"></a>x <span class="ot">&lt;-</span> <span class="fu">secret</span>(<span class="fu">c</span>(<span class="dv">15</span>, <span class="dv">1</span>, <span class="dv">456</span>))</span>
-<span id="cb140-13"><a href="#cb140-13"></a><span class="fu">reveal</span>(x)  <span class="co"># Output: 15 1 456</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb139"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb139-1"><a href="#cb139-1"></a><span class="co"># Define a generic function for revealing secrets</span></span>
+<span id="cb139-2"><a href="#cb139-2"></a>reveal <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb139-3"><a href="#cb139-3"></a>  <span class="fu">UseMethod</span>(<span class="st">"reveal"</span>)</span>
+<span id="cb139-4"><a href="#cb139-4"></a>}</span>
+<span id="cb139-5"><a href="#cb139-5"></a></span>
+<span id="cb139-6"><a href="#cb139-6"></a><span class="co"># Method for objects of class 'secret'</span></span>
+<span id="cb139-7"><a href="#cb139-7"></a>reveal.secret <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb139-8"><a href="#cb139-8"></a>  <span class="fu">cat</span>(x)  <span class="co"># Reveal the original numeric values</span></span>
+<span id="cb139-9"><a href="#cb139-9"></a>}</span>
+<span id="cb139-10"><a href="#cb139-10"></a></span>
+<span id="cb139-11"><a href="#cb139-11"></a><span class="co"># Example usage</span></span>
+<span id="cb139-12"><a href="#cb139-12"></a>x <span class="ot">&lt;-</span> <span class="fu">secret</span>(<span class="fu">c</span>(<span class="dv">15</span>, <span class="dv">1</span>, <span class="dv">456</span>))</span>
+<span id="cb139-13"><a href="#cb139-13"></a><span class="fu">reveal</span>(x)  <span class="co"># Output: 15 1 456</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1]  15   1 456</code></pre>
+<pre><code>15 1 456</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb141"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb141-1"><a href="#cb141-1"></a><span class="fu">s3_dispatch</span>(<span class="fu">reveal</span>(x))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>=&gt; reveal.secret
+   reveal.default</code></pre>
 </div>
 </div>
 </section>
@@ -1435,13 +1447,13 @@ It stores a numeric vector but hides the actual numbers when printed.</p></li>
 <h2>Default method for other classes</h2>
 <p>If x is not a “secret”, <code>reveal.default()</code> is used instead.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb142"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb142-1"><a href="#cb142-1"></a><span class="co"># Default method (fallback for other classes)</span></span>
-<span id="cb142-2"><a href="#cb142-2"></a>reveal.default <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
-<span id="cb142-3"><a href="#cb142-3"></a>  x  <span class="co"># Return as is</span></span>
-<span id="cb142-4"><a href="#cb142-4"></a>}</span>
-<span id="cb142-5"><a href="#cb142-5"></a></span>
-<span id="cb142-6"><a href="#cb142-6"></a>y <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">100</span>, <span class="dv">200</span>)</span>
-<span id="cb142-7"><a href="#cb142-7"></a><span class="fu">reveal</span>(y)  <span class="co"># Uses reveal.default(), returns unchanged</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb143"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb143-1"><a href="#cb143-1"></a><span class="co"># Default method (fallback for other classes)</span></span>
+<span id="cb143-2"><a href="#cb143-2"></a>reveal.default <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb143-3"><a href="#cb143-3"></a>  x  <span class="co"># Return as is</span></span>
+<span id="cb143-4"><a href="#cb143-4"></a>}</span>
+<span id="cb143-5"><a href="#cb143-5"></a></span>
+<span id="cb143-6"><a href="#cb143-6"></a>y <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">100</span>, <span class="dv">200</span>)</span>
+<span id="cb143-7"><a href="#cb143-7"></a><span class="fu">reveal</span>(y)  <span class="co"># Uses reveal.default(), returns unchanged</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 100 200</code></pre>
 </div>
@@ -1450,16 +1462,25 @@ It stores a numeric vector but hides the actual numbers when printed.</p></li>
 <section id="inheritance-and-nextmethod" class="slide level2 center">
 <h2>3. Inheritance and NextMethod()</h2>
 <p>When we define a subclass like <code>supersecret</code>, it <strong>inherits</strong> all properties and behaviors of its parent class secret. However, it can also introduce <strong>additional attributes or behaviors</strong>.</p>
-<p><strong>Why use NextMethod()?</strong> * It ensures that the superclass method is properly called. * It allows supersecret to inherit behavior from secret.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb144"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb144-1"><a href="#cb144-1"></a>new_supersecret <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">x =</span> <span class="fu">double</span>(), <span class="at">level =</span> <span class="st">"high"</span>) {</span>
-<span id="cb144-2"><a href="#cb144-2"></a>  <span class="fu">stopifnot</span>(<span class="fu">is.double</span>(x))</span>
-<span id="cb144-3"><a href="#cb144-3"></a>  <span class="fu">structure</span>(x, <span class="at">class =</span> <span class="fu">c</span>(<span class="st">"supersecret"</span>, <span class="st">"secret"</span>), <span class="at">level =</span> level)</span>
-<span id="cb144-4"><a href="#cb144-4"></a>}</span>
-<span id="cb144-5"><a href="#cb144-5"></a></span>
-<span id="cb144-6"><a href="#cb144-6"></a>y <span class="ot">&lt;-</span> <span class="fu">new_supersecret</span>(<span class="fu">c</span>(<span class="dv">99</span>, <span class="dv">1000</span>))</span>
-<span id="cb144-7"><a href="#cb144-7"></a></span>
-<span id="cb144-8"><a href="#cb144-8"></a><span class="fu">attributes</span>(y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb145"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb145-1"><a href="#cb145-1"></a><span class="co"># Modify constructor for `secret`</span></span>
+<span id="cb145-2"><a href="#cb145-2"></a>new_secret <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">x =</span> <span class="fu">double</span>(), ..., <span class="at">class =</span> <span class="fu">character</span>()) {</span>
+<span id="cb145-3"><a href="#cb145-3"></a>  <span class="fu">stopifnot</span>(<span class="fu">is.double</span>(x))</span>
+<span id="cb145-4"><a href="#cb145-4"></a>  <span class="fu">structure</span>(x, </span>
+<span id="cb145-5"><a href="#cb145-5"></a>            <span class="at">class =</span> <span class="fu">c</span>(class, <span class="st">"secret"</span>), ...)</span>
+<span id="cb145-6"><a href="#cb145-6"></a>}</span>
+<span id="cb145-7"><a href="#cb145-7"></a></span>
+<span id="cb145-8"><a href="#cb145-8"></a><span class="co"># Subclass constructor for `supersecret`</span></span>
+<span id="cb145-9"><a href="#cb145-9"></a>new_supersecret <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">x =</span> <span class="fu">double</span>(), <span class="at">level =</span> <span class="st">"high"</span>) {</span>
+<span id="cb145-10"><a href="#cb145-10"></a>  <span class="fu">new_secret</span>(x, </span>
+<span id="cb145-11"><a href="#cb145-11"></a>             <span class="at">level =</span> level, </span>
+<span id="cb145-12"><a href="#cb145-12"></a>             <span class="at">class =</span> <span class="st">"supersecret"</span>)</span>
+<span id="cb145-13"><a href="#cb145-13"></a>}</span>
+<span id="cb145-14"><a href="#cb145-14"></a></span>
+<span id="cb145-15"><a href="#cb145-15"></a></span>
+<span id="cb145-16"><a href="#cb145-16"></a>y <span class="ot">&lt;-</span> <span class="fu">new_supersecret</span>(<span class="fu">c</span>(<span class="dv">99</span>, <span class="dv">1000</span>))</span>
+<span id="cb145-17"><a href="#cb145-17"></a></span>
+<span id="cb145-18"><a href="#cb145-18"></a><span class="fu">attributes</span>(y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$class
 [1] "supersecret" "secret"     
@@ -1467,30 +1488,45 @@ It stores a numeric vector but hides the actual numbers when printed.</p></li>
 $level
 [1] "high"</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb146"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb146-1"><a href="#cb146-1"></a><span class="co"># todo: modify to use constructor of original class</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb147"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb147-1"><a href="#cb147-1"></a><span class="fu">print</span>(y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "xx"   "xxxx"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb149"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb149-1"><a href="#cb149-1"></a><span class="fu">s3_dispatch</span>(<span class="fu">print</span>(y))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   print.supersecret
+=&gt; print.secret
+ * print.default</code></pre>
+</div>
 </div>
 <p>Now, <code>supersecret</code> has an extra attribute (level).</p>
 </section>
 <section id="how-method-dispatch-work-in-this-case" class="slide level2 center">
 <h2>How method dispatch work in this case</h2>
-<p>Let’s define a method for printing <code>supersecret</code> objects:</p>
+<p>Let’s define a method for printing <code>supersecret</code> objects.</p>
+<p><strong>Why use NextMethod()?</strong> * It ensures that the superclass method is properly called. * It allows supersecret to inherit behavior from secret.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb147"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb147-1"><a href="#cb147-1"></a>print.supersecret <span class="ot">&lt;-</span> <span class="cf">function</span>(x, ...) {</span>
-<span id="cb147-2"><a href="#cb147-2"></a>  <span class="fu">cat</span>(<span class="st">"Super Secret! Hidden level:"</span>, <span class="fu">attr</span>(x, <span class="st">"level"</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb147-3"><a href="#cb147-3"></a>  <span class="fu">NextMethod</span>()  <span class="co"># Calls the parent print method (print.secret)</span></span>
-<span id="cb147-4"><a href="#cb147-4"></a>}</span>
-<span id="cb147-5"><a href="#cb147-5"></a></span>
-<span id="cb147-6"><a href="#cb147-6"></a>y <span class="ot">&lt;-</span> <span class="fu">new_supersecret</span>(<span class="fu">c</span>(<span class="dv">99</span>, <span class="dv">1000</span>), <span class="at">level =</span> <span class="st">"top"</span>)</span>
-<span id="cb147-7"><a href="#cb147-7"></a><span class="fu">print</span>(y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb151"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb151-1"><a href="#cb151-1"></a>print.supersecret <span class="ot">&lt;-</span> <span class="cf">function</span>(x, ...) {</span>
+<span id="cb151-2"><a href="#cb151-2"></a>  <span class="fu">cat</span>(<span class="st">"Super Secret! Hidden level:"</span>, <span class="fu">attr</span>(x, <span class="st">"level"</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb151-3"><a href="#cb151-3"></a>  <span class="fu">NextMethod</span>()  <span class="co"># Calls the parent print method (print.secret)</span></span>
+<span id="cb151-4"><a href="#cb151-4"></a>}</span>
+<span id="cb151-5"><a href="#cb151-5"></a></span>
+<span id="cb151-6"><a href="#cb151-6"></a>y <span class="ot">&lt;-</span> <span class="fu">new_supersecret</span>(<span class="fu">c</span>(<span class="dv">99</span>, <span class="dv">1000</span>), <span class="at">level =</span> <span class="st">"top"</span>)</span>
+<span id="cb151-7"><a href="#cb151-7"></a><span class="fu">print</span>(y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Super Secret! Hidden level: top 
 [1] "xx"   "xxxx"</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb149"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb149-1"><a href="#cb149-1"></a><span class="fu">class</span>(y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb153"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb153-1"><a href="#cb153-1"></a><span class="fu">s3_dispatch</span>(<span class="fu">print</span>(y))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>=&gt; print.supersecret
+-&gt; print.secret
+ * print.default</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb155"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb155-1"><a href="#cb155-1"></a><span class="fu">class</span>(y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "supersecret" "secret"     </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb151"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb151-1"><a href="#cb151-1"></a><span class="co"># </span><span class="al">TODO</span><span class="co">: show method dispatch</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>First, <code>print.supersecret()</code> is called (specific to <code>supersecret</code>).<br>
 Then, <code>NextMethod()</code> ensures that <code>print.secret()</code> still runs.</p>
@@ -1500,37 +1536,37 @@ Then, <code>NextMethod()</code> ensures that <code>print.secret()</code> still r
 <p>Let’s define an S3 generic function that behaves differently based on the class.<br>
 Example: Masking Numbers More for <code>supersecret</code> objects</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb152"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb152-1"><a href="#cb152-1"></a>mask_number <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
-<span id="cb152-2"><a href="#cb152-2"></a>  <span class="fu">UseMethod</span>(<span class="st">"mask_number"</span>)</span>
-<span id="cb152-3"><a href="#cb152-3"></a>}</span>
-<span id="cb152-4"><a href="#cb152-4"></a></span>
-<span id="cb152-5"><a href="#cb152-5"></a>mask_number.secret <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
-<span id="cb152-6"><a href="#cb152-6"></a>  <span class="fu">strrep</span>(<span class="st">"x"</span>, <span class="fu">nchar</span>(x))</span>
-<span id="cb152-7"><a href="#cb152-7"></a>}</span>
-<span id="cb152-8"><a href="#cb152-8"></a></span>
-<span id="cb152-9"><a href="#cb152-9"></a>mask_number.supersecret <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
-<span id="cb152-10"><a href="#cb152-10"></a>  <span class="fu">strrep</span>(<span class="st">"*"</span>, <span class="fu">nchar</span>(x))  <span class="co"># Stronger masking for supersecret</span></span>
-<span id="cb152-11"><a href="#cb152-11"></a>}</span>
-<span id="cb152-12"><a href="#cb152-12"></a></span>
-<span id="cb152-13"><a href="#cb152-13"></a><span class="fu">mask_number</span>(s)   <span class="co"># "xx"  "x"   "xxx"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-error">
-<pre><code>Error: object 's' not found</code></pre>
+<div class="sourceCode cell-code" id="cb157"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb157-1"><a href="#cb157-1"></a>mask_number <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb157-2"><a href="#cb157-2"></a>  <span class="fu">UseMethod</span>(<span class="st">"mask_number"</span>)</span>
+<span id="cb157-3"><a href="#cb157-3"></a>}</span>
+<span id="cb157-4"><a href="#cb157-4"></a></span>
+<span id="cb157-5"><a href="#cb157-5"></a>mask_number.secret <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb157-6"><a href="#cb157-6"></a>  <span class="fu">strrep</span>(<span class="st">"x"</span>, <span class="fu">nchar</span>(x))</span>
+<span id="cb157-7"><a href="#cb157-7"></a>}</span>
+<span id="cb157-8"><a href="#cb157-8"></a></span>
+<span id="cb157-9"><a href="#cb157-9"></a>mask_number.supersecret <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb157-10"><a href="#cb157-10"></a>  <span class="fu">strrep</span>(<span class="st">"*"</span>, <span class="fu">nchar</span>(x))  <span class="co"># Stronger masking for supersecret</span></span>
+<span id="cb157-11"><a href="#cb157-11"></a>}</span>
+<span id="cb157-12"><a href="#cb157-12"></a></span>
+<span id="cb157-13"><a href="#cb157-13"></a><span class="fu">mask_number</span>(x)   </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "xx"  "x"   "xxx"</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb154"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb154-1"><a href="#cb154-1"></a><span class="fu">mask_number</span>(ss)  <span class="co"># "**"  "*"   "***"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-error">
-<pre><code>Error: object 'ss' not found</code></pre>
+<div class="sourceCode cell-code" id="cb159"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb159-1"><a href="#cb159-1"></a><span class="fu">mask_number</span>(y)  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "**"   "****"</code></pre>
 </div>
 </div>
 <p>If an object doesn’t match any specific method, R falls back to <strong>default methods</strong>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb156"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb156-1"><a href="#cb156-1"></a>mask_number.default <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
-<span id="cb156-2"><a href="#cb156-2"></a>  <span class="fu">stop</span>(<span class="st">"mask_number() is not implemented for this object type."</span>)</span>
-<span id="cb156-3"><a href="#cb156-3"></a>}</span>
-<span id="cb156-4"><a href="#cb156-4"></a><span class="fu">mask_number</span>(<span class="st">"hello"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb161"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb161-1"><a href="#cb161-1"></a>mask_number.default <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb161-2"><a href="#cb161-2"></a>  <span class="fu">stop</span>(<span class="st">"mask_number() is not implemented for this object type."</span>)</span>
+<span id="cb161-3"><a href="#cb161-3"></a>}</span>
+<span id="cb161-4"><a href="#cb161-4"></a><span class="fu">mask_number</span>(<span class="st">"hello"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-error">
 <pre><code>Error in mask_number.default("hello"): mask_number() is not implemented for this object type.</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb158"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb158-1"><a href="#cb158-1"></a><span class="co"># Error: mask_number() is not implemented for this object type.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb163"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb163-1"><a href="#cb163-1"></a><span class="co"># Error: mask_number() is not implemented for this object type.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>This prevents unexpected errors for unsupported types.</p>
 </section>
@@ -1539,13 +1575,20 @@ Example: Masking Numbers More for <code>supersecret</code> objects</p>
 <p>When we define a subclass (<code>supersecret</code>) of secret, it inherits all methods of secret. However, if we subset the object, the subclass information gets lost.</p>
 <p>Let’s consider the current situation:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb159"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb159-1"><a href="#cb159-1"></a>x <span class="ot">&lt;-</span> <span class="fu">new_supersecret</span>(<span class="fu">c</span>(<span class="dv">15</span>, <span class="dv">1</span>, <span class="dv">456</span>))</span>
-<span id="cb159-2"><a href="#cb159-2"></a><span class="fu">class</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb164"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb164-1"><a href="#cb164-1"></a>x <span class="ot">&lt;-</span> <span class="fu">new_supersecret</span>(<span class="fu">c</span>(<span class="dv">15</span>, <span class="dv">1</span>, <span class="dv">456</span>))</span>
+<span id="cb164-2"><a href="#cb164-2"></a><span class="fu">class</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "supersecret" "secret"     </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb161"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb161-1"><a href="#cb161-1"></a>x_subset <span class="ot">&lt;-</span> x[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>]</span>
-<span id="cb161-2"><a href="#cb161-2"></a><span class="fu">class</span>(x_subset)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb166"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb166-1"><a href="#cb166-1"></a>x_subset <span class="ot">&lt;-</span> x[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>]</span>
+<span id="cb166-2"><a href="#cb166-2"></a><span class="fu">s3_dispatch</span>(x[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   [.supersecret
+=&gt; [.secret
+   [.default
+-&gt; [ (internal)</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb168"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb168-1"><a href="#cb168-1"></a><span class="fu">class</span>(x_subset)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "secret"</code></pre>
 </div>
@@ -1560,19 +1603,19 @@ Example: Masking Numbers More for <code>supersecret</code> objects</p>
 <h2>Using <code>vctrs::vec_restore()</code></h2>
 <p>Instead of manually setting the class, we can use:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb163"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb163-1"><a href="#cb163-1"></a><span class="st">`</span><span class="at">[.secret</span><span class="st">`</span> <span class="ot">&lt;-</span> <span class="cf">function</span>(x, ...) {</span>
-<span id="cb163-2"><a href="#cb163-2"></a>  out <span class="ot">&lt;-</span> <span class="fu">NextMethod</span>()  <span class="co"># Perform subsetting</span></span>
-<span id="cb163-3"><a href="#cb163-3"></a>  vctrs<span class="sc">::</span><span class="fu">vec_restore</span>(out, x)  <span class="co"># Restore subclass information</span></span>
-<span id="cb163-4"><a href="#cb163-4"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb170"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb170-1"><a href="#cb170-1"></a><span class="st">`</span><span class="at">[.secret</span><span class="st">`</span> <span class="ot">&lt;-</span> <span class="cf">function</span>(x, ...) {</span>
+<span id="cb170-2"><a href="#cb170-2"></a>  out <span class="ot">&lt;-</span> <span class="fu">NextMethod</span>()  <span class="co"># Perform subsetting</span></span>
+<span id="cb170-3"><a href="#cb170-3"></a>  vctrs<span class="sc">::</span><span class="fu">vec_restore</span>(out, x)  <span class="co"># Restore subclass information</span></span>
+<span id="cb170-4"><a href="#cb170-4"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>It automatically restores all attributes</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb164"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb164-1"><a href="#cb164-1"></a>x_subset <span class="ot">&lt;-</span> x[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>]</span>
-<span id="cb164-2"><a href="#cb164-2"></a><span class="fu">class</span>(x_subset)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb171"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb171-1"><a href="#cb171-1"></a>x_subset <span class="ot">&lt;-</span> x[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>]</span>
+<span id="cb171-2"><a href="#cb171-2"></a><span class="fu">class</span>(x_subset)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "supersecret" "secret"     </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb166"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb166-1"><a href="#cb166-1"></a><span class="fu">attributes</span>(x_subset)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb173"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb173-1"><a href="#cb173-1"></a><span class="fu">attributes</span>(x_subset)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$level
 [1] "high"
@@ -1586,116 +1629,134 @@ $class
 <h2>5. Handling concatenation</h2>
 <p>When combining different objects, we need to ensure type consistency. When working with custom S3 classes, you might need to combine objects (e.g., using c() in R). However, standard concatenation strips the class attributes, which can break subclass behavior.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb168"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb168-1"><a href="#cb168-1"></a>x <span class="ot">&lt;-</span> <span class="fu">new_secret</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span>
-<span id="cb168-2"><a href="#cb168-2"></a>y <span class="ot">&lt;-</span> <span class="fu">new_supersecret</span>(<span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">4</span>))</span>
-<span id="cb168-3"><a href="#cb168-3"></a></span>
-<span id="cb168-4"><a href="#cb168-4"></a><span class="fu">c</span>(x, y)  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb175"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb175-1"><a href="#cb175-1"></a>x <span class="ot">&lt;-</span> <span class="fu">new_secret</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span>
+<span id="cb175-2"><a href="#cb175-2"></a>z <span class="ot">&lt;-</span> <span class="fu">new_secret</span>(<span class="fu">c</span>(<span class="dv">30</span>, <span class="dv">450</span>, <span class="dv">6666</span>))</span>
+<span id="cb175-3"><a href="#cb175-3"></a></span>
+<span id="cb175-4"><a href="#cb175-4"></a><span class="fu">c</span>(x, y)  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 1 2 3 4</code></pre>
+<pre><code>[1]    1    2   99 1000</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb170"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb170-1"><a href="#cb170-1"></a><span class="co"># [1] 1 2 3 4  (Lost class attribute! Just a numeric vector now)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb177"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb177-1"><a href="#cb177-1"></a><span class="fu">c</span>(x, z)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1]    1    2   30  450 6666</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb179"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb179-1"><a href="#cb179-1"></a><span class="fu">vec_c</span>(x, z)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "x"    "x"    "xx"   "xxx"  "xxxx"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb181"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb181-1"><a href="#cb181-1"></a><span class="fu">vec_c</span>(x, y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-error">
+<pre><code>Error in `vec_c()`:
+! Can't combine `..1` &lt;secret&gt; and `..2` &lt;supersecret&gt;.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb183"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb183-1"><a href="#cb183-1"></a><span class="co">#(Lost class attribute! Just a numeric vector now)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>You can <strong>define type behavior</strong> with <code>vec_ptype2()</code>. basically, define rules for mixing <code>secret</code> and <code>supersecret</code></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb171"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb171-1"><a href="#cb171-1"></a>vec_ptype2.secret.secret <span class="ot">&lt;-</span> <span class="cf">function</span>(x, y, ...) <span class="fu">new_secret</span>()</span>
-<span id="cb171-2"><a href="#cb171-2"></a>vec_ptype2.supersecret.secret <span class="ot">&lt;-</span> <span class="cf">function</span>(x, y, ...) <span class="fu">new_supersecret</span>()</span>
-<span id="cb171-3"><a href="#cb171-3"></a>vec_ptype2.secret.supersecret <span class="ot">&lt;-</span> <span class="cf">function</span>(x, y, ...) <span class="fu">new_supersecret</span>()</span>
-<span id="cb171-4"><a href="#cb171-4"></a></span>
-<span id="cb171-5"><a href="#cb171-5"></a>vec_c.secret <span class="ot">&lt;-</span> <span class="cf">function</span>(...) {</span>
-<span id="cb171-6"><a href="#cb171-6"></a>  <span class="fu">new_secret</span>(<span class="fu">vec_c</span>(<span class="sc">!!!</span><span class="fu">list</span>(...)))</span>
-<span id="cb171-7"><a href="#cb171-7"></a>}</span>
-<span id="cb171-8"><a href="#cb171-8"></a></span>
-<span id="cb171-9"><a href="#cb171-9"></a><span class="fu">vec_ptype2</span>(<span class="fu">new_secret</span>(), <span class="fu">new_secret</span>())        </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb184"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb184-1"><a href="#cb184-1"></a><span class="co"># vec_ptype2.secret.secret &lt;- function(x, y, ...) secret(x)</span></span>
+<span id="cb184-2"><a href="#cb184-2"></a><span class="co"># vec_ptype2.double.secret &lt;- function(x, y, ...) secret(x)</span></span>
+<span id="cb184-3"><a href="#cb184-3"></a>vec_ptype2.secret.supersecret <span class="ot">&lt;-</span> <span class="cf">function</span>(x, y, ...) <span class="fu">secret</span>(x)</span>
+<span id="cb184-4"><a href="#cb184-4"></a></span>
+<span id="cb184-5"><a href="#cb184-5"></a><span class="co"># vec_cast.secret.secret &lt;- function(x, to, ...) x</span></span>
+<span id="cb184-6"><a href="#cb184-6"></a><span class="co"># vec_cast.double.secret &lt;- function(x, to, ...) secret(x)</span></span>
+<span id="cb184-7"><a href="#cb184-7"></a><span class="co"># vec_cast.secret.double &lt;- function(x, to, ...) cat(x)</span></span>
+<span id="cb184-8"><a href="#cb184-8"></a></span>
+<span id="cb184-9"><a href="#cb184-9"></a><span class="co"># Try it out</span></span>
+<span id="cb184-10"><a href="#cb184-10"></a><span class="fu">vec_c</span>(x, z)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>character(0)</code></pre>
+<pre><code>[1] "x"    "x"    "xx"   "xxx"  "xxxx"</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb173"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb173-1"><a href="#cb173-1"></a><span class="co"># Returns a new_secret object ✅</span></span>
-<span id="cb173-2"><a href="#cb173-2"></a></span>
-<span id="cb173-3"><a href="#cb173-3"></a><span class="fu">vec_ptype2</span>(<span class="fu">new_supersecret</span>(), <span class="fu">new_secret</span>())  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb186"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb186-1"><a href="#cb186-1"></a><span class="fu">s3_dispatch</span>(<span class="fu">vec_c</span>(x, z))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Super Secret! Hidden level: high 
-character(0)</code></pre>
+<pre><code>   vec_c.secret
+   vec_c.default</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb175"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb175-1"><a href="#cb175-1"></a><span class="co"># Returns a new_supersecret object ✅</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section>
-<section id="implement-safe-concatenation-with-vec_c" class="slide level2 center">
-<h2>Implement Safe Concatenation with <code>vec_c()</code></h2>
-<p>Now that we’ve defined type rules, we need to tell {vctrs} how to concatenate objects while preserving class attributes.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb176"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb176-1"><a href="#cb176-1"></a>vec_c.secret <span class="ot">&lt;-</span> <span class="cf">function</span>(...) {</span>
-<span id="cb176-2"><a href="#cb176-2"></a>  <span class="fu">new_secret</span>(<span class="fu">vec_c</span>(<span class="sc">!!!</span><span class="fu">list</span>(...)))</span>
-<span id="cb176-3"><a href="#cb176-3"></a>}</span>
-<span id="cb176-4"><a href="#cb176-4"></a></span>
-<span id="cb176-5"><a href="#cb176-5"></a>vec_c.supersecret <span class="ot">&lt;-</span> <span class="cf">function</span>(...) {</span>
-<span id="cb176-6"><a href="#cb176-6"></a>  <span class="fu">new_supersecret</span>(<span class="fu">vec_c</span>(<span class="sc">!!!</span><span class="fu">list</span>(...)))</span>
-<span id="cb176-7"><a href="#cb176-7"></a>}</span>
-<span id="cb176-8"><a href="#cb176-8"></a></span>
-<span id="cb176-9"><a href="#cb176-9"></a><span class="fu">c</span>(x, y)  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb188"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb188-1"><a href="#cb188-1"></a><span class="fu">class</span>(<span class="fu">vec_c</span>(x, z))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 1 2 3 4</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb178"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb178-1"><a href="#cb178-1"></a><span class="fu">vec_c</span>(x, y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-error">
-<pre><code>Error in `vec_c()`:
-! Can't convert `..1` &lt;secret&gt; to &lt;supersecret&gt;.</code></pre>
+<pre><code>[1] "secret"</code></pre>
 </div>
 </div>
 </section>
-<section id="what-if-we-combine-numeric-and-secret" class="slide level2 center">
-<h2>What if we combine numeric and secret?</h2>
+<section id="takeaways-to-conclude" class="slide level2 center">
+<h2>TAKEAWAYS TO CONCLUDE</h2>
+</section>
+<section id="implementing-a-vctrs-s3-class-in-a-package" class="slide level2 center">
+<h2>Implementing a vctrs S3 class in a package</h2>
+<ul>
+<li><p>Register the S3 methods by listing them in the <code>NAMESPACE</code> file</p></li>
+<li><p>Create <strong>documentation</strong> around your methods</p></li>
+<li><p>include vctrs in the Imports section of its <code>DESCRIPTION</code></p></li>
+<li><p>Build Low-level and user-friendly <strong>constructors</strong></p></li>
+<li><p>Implement, <strong>export</strong>, and document a user-friendly <strong>helper</strong></p></li>
+<li><p>Provide the key <strong>methods</strong> to make <strong>printing</strong> work (they’re S3 methods, so they don’t need to be documented, but they do need to be exported.)</p></li>
+<li><p>Additionally build methods for concatenation and arithmetic ops</p></li>
+</ul>
+</section>
+<section id="additional---to-wok-on-further" class="slide level2 center">
+<h2>ADDITIONAL - TO WOK ON FURTHER</h2>
+</section>
+<section id="what-if-we-combine-numeric-and-secret---does-not-work" class="slide level2 center">
+<h2>What if we combine numeric and secret? - DOES NOT WORK</h2>
 <p>We can also define what happens if a base numeric value is concatenated with a secret object</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb180"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb180-1"><a href="#cb180-1"></a>vec_ptype2.secret.double <span class="ot">&lt;-</span> <span class="cf">function</span>(x, y, ...) <span class="fu">new_secret</span>()</span>
-<span id="cb180-2"><a href="#cb180-2"></a>vec_ptype2.double.secret <span class="ot">&lt;-</span> <span class="cf">function</span>(x, y, ...) <span class="fu">new_secret</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb190"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb190-1"><a href="#cb190-1"></a><span class="co"># Method to combine secret and double</span></span>
+<span id="cb190-2"><a href="#cb190-2"></a>vec_ptype2.secret.double <span class="ot">&lt;-</span> <span class="cf">function</span>(x, y, ...) {</span>
+<span id="cb190-3"><a href="#cb190-3"></a>  <span class="fu">new_secret</span>()  <span class="co"># Ensures the output is a secret object</span></span>
+<span id="cb190-4"><a href="#cb190-4"></a>}</span>
+<span id="cb190-5"><a href="#cb190-5"></a></span>
+<span id="cb190-6"><a href="#cb190-6"></a>vec_ptype2.double.secret <span class="ot">&lt;-</span> <span class="cf">function</span>(x, y, ...) {</span>
+<span id="cb190-7"><a href="#cb190-7"></a>  <span class="fu">new_secret</span>()  <span class="co"># Ensures the output is a secret object</span></span>
+<span id="cb190-8"><a href="#cb190-8"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>This ensures that even if a raw number is added, the output remains a secret!</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb181"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb181-1"><a href="#cb181-1"></a><span class="fu">vec_c</span>(<span class="fu">new_secret</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>), <span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb191"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb191-1"><a href="#cb191-1"></a><span class="fu">vec_c</span>(<span class="fu">new_secret</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>), <span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-error">
 <pre><code>Error in new_secret(1:3): is.double(x) is not TRUE</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb183"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb183-1"><a href="#cb183-1"></a><span class="co"># Returns new_secret object ✅</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb193"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb193-1"><a href="#cb193-1"></a><span class="co"># Returns new_secret object ✅</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="handling-arithmetic-operations" class="slide level2 center">
-<h2>6. Handling arithmetic operations</h2>
+<section id="handling-arithmetic-operations---to-check" class="slide level2 center">
+<h2>6. Handling arithmetic operations - TO CHECK</h2>
 <p>We can define how these operations should behave for our custom objects. This is done using the <code>vec_arith</code> method provided by the {vctrs} package. For example, if you want to add two secret objects, you need to tell R how to perform the addition.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb184"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb184-1"><a href="#cb184-1"></a><span class="co"># Defining vec_arith() for secret and supersecret</span></span>
-<span id="cb184-2"><a href="#cb184-2"></a>vec_arith.secret <span class="ot">&lt;-</span> <span class="cf">function</span>(op, x, y, ...) {</span>
-<span id="cb184-3"><a href="#cb184-3"></a>  <span class="co"># Ensure y is numeric</span></span>
-<span id="cb184-4"><a href="#cb184-4"></a>  <span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.numeric</span>(y)) <span class="fu">stop</span>(<span class="st">"Arithmetic is only supported with numeric types"</span>)</span>
-<span id="cb184-5"><a href="#cb184-5"></a>  </span>
-<span id="cb184-6"><a href="#cb184-6"></a>  <span class="co"># Perform the arithmetic using base function and wrap it in `new_secret`</span></span>
-<span id="cb184-7"><a href="#cb184-7"></a>  <span class="fu">new_secret</span>(<span class="fu">vec_arith_base</span>(op, x, y))</span>
-<span id="cb184-8"><a href="#cb184-8"></a>}</span>
-<span id="cb184-9"><a href="#cb184-9"></a></span>
-<span id="cb184-10"><a href="#cb184-10"></a>vec_arith.supersecret <span class="ot">&lt;-</span> <span class="cf">function</span>(op, x, y, ...) {</span>
-<span id="cb184-11"><a href="#cb184-11"></a>  <span class="co"># Ensure y is numeric</span></span>
-<span id="cb184-12"><a href="#cb184-12"></a>  <span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.numeric</span>(y)) <span class="fu">stop</span>(<span class="st">"Arithmetic is only supported with numeric types"</span>)</span>
-<span id="cb184-13"><a href="#cb184-13"></a>  </span>
-<span id="cb184-14"><a href="#cb184-14"></a>  <span class="co"># Perform the arithmetic using base function and wrap it in `new_supersecret`</span></span>
-<span id="cb184-15"><a href="#cb184-15"></a>  <span class="fu">new_supersecret</span>(<span class="fu">vec_arith_base</span>(op, x, y))</span>
-<span id="cb184-16"><a href="#cb184-16"></a>}</span>
-<span id="cb184-17"><a href="#cb184-17"></a></span>
-<span id="cb184-18"><a href="#cb184-18"></a><span class="co"># Example</span></span>
-<span id="cb184-19"><a href="#cb184-19"></a>x <span class="ot">&lt;-</span> <span class="fu">new_secret</span>(<span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">15</span>))</span>
-<span id="cb184-20"><a href="#cb184-20"></a>y <span class="ot">&lt;-</span> <span class="fu">new_secret</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>))</span>
-<span id="cb184-21"><a href="#cb184-21"></a></span>
-<span id="cb184-22"><a href="#cb184-22"></a>result <span class="ot">&lt;-</span> x <span class="sc">+</span> y  <span class="co"># This triggers `vec_arith.secret`</span></span>
-<span id="cb184-23"><a href="#cb184-23"></a><span class="fu">print</span>(result)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] "x"  "xx" "xx"</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb186"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb186-1"><a href="#cb186-1"></a>x <span class="ot">&lt;-</span> <span class="fu">new_secret</span>(<span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">15</span>))</span>
-<span id="cb186-2"><a href="#cb186-2"></a>y <span class="ot">&lt;-</span> <span class="fu">new_supersecret</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>))</span>
-<span id="cb186-3"><a href="#cb186-3"></a></span>
-<span id="cb186-4"><a href="#cb186-4"></a>result <span class="ot">&lt;-</span> x <span class="sc">+</span> y  <span class="co"># This triggers `vec_arith.supersecret`</span></span>
-<span id="cb186-5"><a href="#cb186-5"></a><span class="fu">print</span>(result)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] "x"  "xx" "xx"</code></pre>
-</div>
+<div class="sourceCode cell-code" id="cb194"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb194-1"><a href="#cb194-1"></a><span class="co"># Defining vec_arith() for secret and supersecret</span></span>
+<span id="cb194-2"><a href="#cb194-2"></a></span>
+<span id="cb194-3"><a href="#cb194-3"></a>vec_arith.secret <span class="ot">&lt;-</span> <span class="cf">function</span>(op, x, y, ...) {</span>
+<span id="cb194-4"><a href="#cb194-4"></a>  <span class="fu">UseMethod</span>(<span class="st">"vec_arith.secret"</span>, y)</span>
+<span id="cb194-5"><a href="#cb194-5"></a>}</span>
+<span id="cb194-6"><a href="#cb194-6"></a></span>
+<span id="cb194-7"><a href="#cb194-7"></a></span>
+<span id="cb194-8"><a href="#cb194-8"></a><span class="co"># vec_arith.secret &lt;- function(op, x, y, ...) {</span></span>
+<span id="cb194-9"><a href="#cb194-9"></a><span class="co">#   # Ensure y is numeric</span></span>
+<span id="cb194-10"><a href="#cb194-10"></a><span class="co">#   if (!is.numeric(y)) stop("Arithmetic is only supported with numeric types")</span></span>
+<span id="cb194-11"><a href="#cb194-11"></a><span class="co">#   </span></span>
+<span id="cb194-12"><a href="#cb194-12"></a><span class="co">#   # Perform the arithmetic using base function and wrap it in `new_secret`</span></span>
+<span id="cb194-13"><a href="#cb194-13"></a><span class="co">#   new_secret(vec_arith_base(op, x, y))</span></span>
+<span id="cb194-14"><a href="#cb194-14"></a><span class="co"># }</span></span>
+<span id="cb194-15"><a href="#cb194-15"></a><span class="co"># </span></span>
+<span id="cb194-16"><a href="#cb194-16"></a><span class="co"># vec_arith.supersecret &lt;- function(op, x, y, ...) {</span></span>
+<span id="cb194-17"><a href="#cb194-17"></a><span class="co">#   # Ensure y is numeric</span></span>
+<span id="cb194-18"><a href="#cb194-18"></a><span class="co">#   if (!is.numeric(y)) stop("Arithmetic is only supported with numeric types")</span></span>
+<span id="cb194-19"><a href="#cb194-19"></a><span class="co">#   </span></span>
+<span id="cb194-20"><a href="#cb194-20"></a><span class="co">#   # Perform the arithmetic using base function and wrap it in `new_supersecret`</span></span>
+<span id="cb194-21"><a href="#cb194-21"></a><span class="co">#   new_supersecret(vec_arith_base(op, x, y))</span></span>
+<span id="cb194-22"><a href="#cb194-22"></a><span class="co"># }</span></span>
+<span id="cb194-23"><a href="#cb194-23"></a></span>
+<span id="cb194-24"><a href="#cb194-24"></a><span class="co"># # Example</span></span>
+<span id="cb194-25"><a href="#cb194-25"></a><span class="co"># x &lt;- new_secret(c(5, 10, 15))</span></span>
+<span id="cb194-26"><a href="#cb194-26"></a><span class="co"># y &lt;- new_secret(c(1, 2, 3))</span></span>
+<span id="cb194-27"><a href="#cb194-27"></a><span class="co"># </span></span>
+<span id="cb194-28"><a href="#cb194-28"></a><span class="co"># result &lt;- x + y  # This triggers `vec_arith.secret`</span></span>
+<span id="cb194-29"><a href="#cb194-29"></a><span class="co"># print(result)</span></span>
+<span id="cb194-30"><a href="#cb194-30"></a><span class="co"># </span></span>
+<span id="cb194-31"><a href="#cb194-31"></a><span class="co"># x &lt;- new_secret(c(5, 10, 15))</span></span>
+<span id="cb194-32"><a href="#cb194-32"></a><span class="co"># y &lt;- new_supersecret(c(1, 2, 3))</span></span>
+<span id="cb194-33"><a href="#cb194-33"></a><span class="co"># </span></span>
+<span id="cb194-34"><a href="#cb194-34"></a><span class="co"># result &lt;- x + y  # This triggers `vec_arith.supersecret`</span></span>
+<span id="cb194-35"><a href="#cb194-35"></a><span class="co"># print(result)</span></span>
+<span id="cb194-36"><a href="#cb194-36"></a><span class="co"># class(result)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="footer footer-default">
 
