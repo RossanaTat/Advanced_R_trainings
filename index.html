@@ -550,7 +550,7 @@ attr(,"class")
 <div class="cell-output cell-output-stdout">
 <pre><code>function (x, ...) 
 UseMethod("mean")
-&lt;bytecode: 0x000001a2c4a4fea0&gt;
+&lt;bytecode: 0x0000020312567e60&gt;
 &lt;environment: namespace:base&gt;</code></pre>
 </div>
 </div>
@@ -1087,13 +1087,13 @@ Levels: b a</code></pre>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "logical"</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb80"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1"></a><span class="fu">typeof</span>(<span class="fu">ifelse</span>(<span class="cn">NA</span>, <span class="dv">1</span>, <span class="st">"a"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb80"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1"></a><span class="fu">typeof</span>(<span class="fu">ifelse</span>(<span class="cn">TRUE</span>, <span class="dv">1</span>, <span class="st">"a"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "logical"</code></pre>
+<pre><code>[1] "double"</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb82"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1"></a><span class="fu">typeof</span>(<span class="fu">ifelse</span>(<span class="cn">NA</span>, <span class="dv">1</span>, <span class="st">"a"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb82"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1"></a><span class="fu">typeof</span>(<span class="fu">ifelse</span>(<span class="cn">FALSE</span>, <span class="dv">1</span>, <span class="st">"a"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "logical"</code></pre>
+<pre><code>[1] "character"</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb84"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb84-1"><a href="#cb84-1"></a><span class="co"># undesirable bevause you don't know what type of output to expect</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -1501,7 +1501,7 @@ $level
 </div>
 <p>Now, <code>supersecret</code> has an extra attribute (level).</p>
 </section>
-<section id="how-method-dispatch-work-in-this-case" class="slide level2 center">
+<section id="how-method-dispatch-work-in-this-case" class="slide level2 smaller center">
 <h2>How method dispatch work in this case</h2>
 <p>Let’s define a method for printing <code>supersecret</code> objects.</p>
 <p><strong>Why use NextMethod()?</strong> * It ensures that the superclass method is properly called. * It allows supersecret to inherit behavior from secret.</p>
@@ -1531,7 +1531,7 @@ $level
 <p>First, <code>print.supersecret()</code> is called (specific to <code>supersecret</code>).<br>
 Then, <code>NextMethod()</code> ensures that <code>print.secret()</code> still runs.</p>
 </section>
-<section id="additional-methods-1" class="slide level2 center">
+<section id="additional-methods-1" class="slide level2 smaller center">
 <h2>Additional methods</h2>
 <p>Let’s define an S3 generic function that behaves differently based on the class.<br>
 Example: Masking Numbers More for <code>supersecret</code> objects</p>
@@ -1625,9 +1625,9 @@ $class
 </div>
 </div>
 </section>
-<section id="handling-concatenation" class="slide level2 center">
+<section id="handling-concatenation" class="slide level2 smaller center">
 <h2>5. Handling concatenation</h2>
-<p>When combining different objects, we need to ensure type consistency. When working with custom S3 classes, you might need to combine objects (e.g., using c() in R). However, standard concatenation strips the class attributes, which can break subclass behavior.</p>
+<p>When working with custom S3 classes, you might need to combine objects (e.g., using c() in R). However, standard concatenation strips the class attributes, which can break subclass behavior.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb175"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb175-1"><a href="#cb175-1"></a>x <span class="ot">&lt;-</span> <span class="fu">new_secret</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span>
 <span id="cb175-2"><a href="#cb175-2"></a>z <span class="ot">&lt;-</span> <span class="fu">new_secret</span>(<span class="fu">c</span>(<span class="dv">30</span>, <span class="dv">450</span>, <span class="dv">6666</span>))</span>

@@ -583,8 +583,8 @@ vec_c(fa, oa, .ptype = character())
 ```{r}
 # Output changes depending on type of logical element 
 typeof(ifelse(NA, 1, "a"))
-typeof(ifelse(NA, 1, "a"))
-typeof(ifelse(NA, 1, "a"))
+typeof(ifelse(TRUE, 1, "a"))
+typeof(ifelse(FALSE, 1, "a"))
 # undesirable bevause you don't know what type of output to expect
 ```
 
@@ -910,7 +910,7 @@ s3_dispatch(print(y))
 
 Now, `supersecret` has an extra attribute (level).
 
-## How method dispatch work in this case
+## How method dispatch work in this case {.smaller}
 
 Let’s define a method for printing `supersecret` objects.
 
@@ -931,7 +931,7 @@ class(y)
 First, `print.supersecret()` is called (specific to `supersecret`).\
 Then, `NextMethod()` ensures that `print.secret()` still runs.
 
-## Additional methods
+## Additional methods {.smaller}
 
 Let's define an S3 generic function that behaves differently based on the class.\
 Example: Masking Numbers More for `supersecret` objects
@@ -980,7 +980,6 @@ class(x)
 
 x_subset <- x[1:2]
 s3_dispatch(x[1:2])
-
 class(x_subset)
 
 ```
@@ -1013,9 +1012,9 @@ class(x_subset)
 attributes(x_subset)
 ```
 
-## 5. Handling concatenation
+## 5. Handling concatenation {.smaller}
 
-When combining different objects, we need to ensure type consistency. When working with custom S3 classes, you might need to combine objects (e.g., using c() in R). However, standard concatenation strips the class attributes, which can break subclass behavior.
+When working with custom S3 classes, you might need to combine objects (e.g., using c() in R). However, standard concatenation strips the class attributes, which can break subclass behavior.
 
 ```{r}
 x <- new_secret(c(1, 2))
